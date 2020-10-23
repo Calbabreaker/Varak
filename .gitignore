@@ -1,0 +1,6 @@
+# build output
+/build
+
+# vs stuff
+CMakeSettings.json
+.vs
