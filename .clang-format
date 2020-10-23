@@ -1,0 +1,12 @@
+Language: Cpp
+
+BreakBeforeBraces: Allman 
+PointerAlignment: Left
+IndentWidth: 4
+IndentPPDirectives: BeforeHash 
+AccessModifierOffset: -4
+FixNamespaceComments: true
+NamespaceIndentation: All 
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakTemplateDeclarations: Yes 
+AllowShortFunctionsOnASingleLine: InlineOnly
