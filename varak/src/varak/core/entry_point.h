@@ -3,7 +3,7 @@
 #include "log.h"
 #include "platform_detection.h"
 
-#ifdef VR_PLATFORM_WINDOWS 
+#ifdef VR_PLATFORM_WINDOWS
 
 extern Varak::Application* Varak::createApplication();
 

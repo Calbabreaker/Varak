@@ -4,10 +4,9 @@ BreakBeforeBraces: Allman
 PointerAlignment: Left
 IndentWidth: 4
 IndentPPDirectives: BeforeHash 
-ColumnLimit: 100
+ColumnLimit: 80
 AccessModifierOffset: -4
 FixNamespaceComments: true
 NamespaceIndentation: All 
-AllowShortFunctionsOnASingleLine: None
 AlwaysBreakTemplateDeclarations: Yes 
 AllowShortFunctionsOnASingleLine: InlineOnly
