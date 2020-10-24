@@ -1,7 +1,8 @@
 #pragma once
 
-// for client to include to include everything 
+// for client to include everything 
 
+#include "varak/core/base.h"
 #include "varak/core/application.h"
 #include "varak/core/log.h"
 

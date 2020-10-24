@@ -1,4 +1,4 @@
-#include <varak/varak.h>
+#include <varak.h>
 
 class Sandbox : public Varak::Application
 {
