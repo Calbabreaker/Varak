@@ -1,0 +1,3 @@
+[submodule "varak/vendor/spdlog"]
+	path = varak/vendor/spdlog
+	url = https://github.com/gabime/spdlog

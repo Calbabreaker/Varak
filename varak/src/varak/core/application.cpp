@@ -1,9 +1,8 @@
-#include <iostream>
-
 #include "application.h"
 
 namespace Varak
 {
+
     Application::Application() {}
     Application::~Application() {}
 
@@ -11,7 +10,7 @@ namespace Varak
     {
         while (true)
         {
-            std::cout << "hello" << std::endl;
         }
     }
+
 } // namespace Varak

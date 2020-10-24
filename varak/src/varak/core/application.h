@@ -2,6 +2,7 @@
 
 namespace Varak
 {
+
     class Application
     {
     public:
@@ -13,4 +14,5 @@ namespace Varak
 
     // client will define
     Application* createApplication();
+
 } // namespace Varak

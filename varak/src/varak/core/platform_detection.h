@@ -9,7 +9,7 @@
     #ifdef _WIN64
         #define VR_PLATFORM_WINDOWS
     #else
-        #error "Varak does not support 32-bit windows!"
+        #error "Varak does not support 32-bit Windows!"
     #endif
 #elif __APPLE__
     #include <TargetConditionals.h>
@@ -23,7 +23,7 @@
         #define VR_PLATFORM_MACOS
         #error "Varak does not support MacOS!"
     #else
-        #error "Unknown Apple platform"
+        #error "Unknown Apple platform!"
     #endif
 
 #elif defined(__ANDROID__)
@@ -31,7 +31,7 @@
     #error "Varak does not support Android!"
 #elif __linux__
     #define VR_PLATFORM_LINUX
-    #error "Varak does not support linux!"
+    #error "Varak does not support Linux!"
 #else
-    #error "Unknown platform"
+    #error "Unknown platform!"
 #endif
