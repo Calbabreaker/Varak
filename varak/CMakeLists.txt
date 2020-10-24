@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp" "src/*.h")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
 
 add_library(Varak STATIC ${SOURCES})
 
