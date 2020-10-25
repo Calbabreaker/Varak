@@ -5,7 +5,7 @@
 
 namespace Varak
 {
-    static bool s_glfwInitialized = false;
+    static uint8_t s_glfwWindowCount = 0;
 
     static void GLFWErrorCallback(int error, const char* description)
     {
@@ -42,14 +42,13 @@ namespace Varak
         m_data.width = props.width;
         m_data.height = props.height;
 
-        VR_CORE_INFO("Creating window: {0} ({1} by {2})", m_data.title,
-                     m_data.width, m_data.height);
+        VR_CORE_INFO("Creating window: {0} ({1} by {2}). Count: {3}", m_data.title,
+                     m_data.width, m_data.height, s_glfwWindowCount + 1);
 
-        if (!s_glfwInitialized)
+        if (s_glfwWindowCount == 0)
         {
             int success = glfwInit();
             VR_CORE_ASSERT(success, "Could not initialize GLFW");
-            s_glfwInitialized = true;
         }
 
         m_window = glfwCreateWindow(static_cast<int>(m_data.width),
@@ -58,6 +57,7 @@ namespace Varak
         glfwMakeContextCurrent(m_window);
         glfwSetWindowUserPointer(m_window, &m_data);
         setVSync(true);
+        s_glfwWindowCount++;
 
         // clang-format off
 

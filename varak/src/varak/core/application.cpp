@@ -29,7 +29,7 @@ namespace Varak
         dispatcher.dispatch<WindowClosedEvent>(
             VR_BIND_EVENT_FUNC(Application::onWindowClosed));
 
-        for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it)
+        for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); it++)
         {
             if (event.handled)
                 break;
@@ -40,11 +40,13 @@ namespace Varak
     void Application::pushLayer(Layer* layer)
     {
         m_layerStack.pushLayer(layer); //
+        layer->onAttach();
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
         m_layerStack.pushOverlay(overlay); //
+        overlay->onAttach();
     }
 
     bool Application::onWindowClosed(WindowClosedEvent& event)

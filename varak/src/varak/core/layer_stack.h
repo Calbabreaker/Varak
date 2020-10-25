@@ -7,7 +7,7 @@ namespace Varak
     class LayerStack
     {
     public:
-        LayerStack();
+        LayerStack() = default;
         ~LayerStack();
 
         void pushLayer(Layer* layer);
@@ -29,7 +29,7 @@ namespace Varak
 
     private:
         std::vector<Layer*> m_layers;
-        std::vector<Layer*>::iterator m_layersInsert;
+        uint32_t m_layersInsertIndex = 0;
     };
 
 } // namespace Varak
