@@ -1,11 +1,12 @@
 #include "application.h"
-#include "varak/events/key_event.h"
+#include "base.h"
 
 namespace Varak
 {
     Application::Application()
     {
         m_window = Window::create();
+        m_window->setEventCallback(VR_BIND_EVENT_FUNC(Application::onEvent));
         m_running = true;
     }
 
@@ -17,6 +18,20 @@ namespace Varak
         {
             m_window->onUpdate();
         }
+    }
+
+    void Application::onEvent(Event& event)
+    {
+        EventDispatcher dispatcher(event);
+        dispatcher.dispatch<WindowClosedEvent>(VR_BIND_EVENT_FUNC(Application::onWindowClosed));
+
+        VR_CORE_TRACE("{0}", event);
+    }
+
+    bool Application::onWindowClosed(WindowClosedEvent& event)
+    {
+        m_running = false;
+        return true;
     }
 
 } // namespace Varak

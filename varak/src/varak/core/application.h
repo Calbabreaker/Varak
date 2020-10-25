@@ -1,6 +1,7 @@
 #pragma once
 
 #include "window.h"
+#include "varak/events/window_event.h"
 
 namespace Varak
 {
@@ -11,6 +12,11 @@ namespace Varak
         virtual ~Application();
 
         void run();
+
+        void onEvent(Event& event);
+
+    private:
+        bool onWindowClosed(WindowClosedEvent& event);
 
     private:
         std::unique_ptr<Window> m_window;

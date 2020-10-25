@@ -18,7 +18,7 @@ namespace Varak
         int m_button;
     };
 
-    class MouseButtonPressedEvent : public Event
+    class MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
@@ -33,7 +33,7 @@ namespace Varak
         MAKE_EVENT_CLASS_TYPE(MouseButtonPressed);
     };
 
-    class MouseButtonReleasedEvent : public Event
+    class MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
@@ -54,7 +54,7 @@ namespace Varak
         MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {}
 
         float getX() const { return m_mouseX; }
-        float getX() const { return m_mouseY; }
+        float getY() const { return m_mouseY; }
 
         std::string toString() const override
         {

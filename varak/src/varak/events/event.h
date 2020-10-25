@@ -16,11 +16,11 @@ namespace Varak
     enum EventCategory 
     {
         EventCategoryNone = 0,
-        EventCategoryWindow =      BIT(0),
-        EventCategoryInput =       BIT(1),
-        EventCategoryKeyboard =    BIT(2),
-        EventCategoryMouse =       BIT(3),
-        EventCategoryMouseButton = BIT(4)
+        EventCategoryWindow =      VR_BIT(0),
+        EventCategoryInput =       VR_BIT(1),
+        EventCategoryKeyboard =    VR_BIT(2),
+        EventCategoryMouse =       VR_BIT(3),
+        EventCategoryMouseButton = VR_BIT(4)
     };
 
     // clang-format on
@@ -31,7 +31,7 @@ namespace Varak
     const char* getName() const override { return #type; }
 
 #define MAKE_EVENT_CLASS_CATEGORY(category)                                    \
-    int getCategoryFlags() const override { return (category); }
+    int getCategoryFlags() const override { return category; }
 
     class Event
     {
@@ -46,8 +46,7 @@ namespace Varak
             return getCategoryFlags() & category;
         }
 
-    protected:
-        bool m_handled = false;
+        bool handled = false;
     };
 
     class EventDispatcher
@@ -58,9 +57,9 @@ namespace Varak
         template <typename T, typename F>
         bool dispatch(const F& func)
         {
-            if (m_event.getEventType() == T::getStaticType)
+            if (m_event.getEventType() == T::getStaticType())
             {
-                m_event.m_handled |= func(static_cast<T&>(m_event));
+                m_event.handled |= func(static_cast<T&>(m_event));
                 return true;
             }
             return false;
