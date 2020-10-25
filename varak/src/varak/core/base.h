@@ -3,12 +3,14 @@
 #include "log.h"
 
 #ifdef VR_DEBUG
+    // TODO: cross compiler/ide debug break  https://github.com/nemequ/portable-snippets/blob/master/debug-trap/debug-trap.h
     #ifdef _MSC_VER
         #define VR_DEBUGBREAK() __debugbreak()
     #else
         #error "Compiler/IDE does not support DebugBreak!"
     #endif
 
+    // TODO: optional message param https://stackoverflow.com/questions/3046889/optional-parameters-with-c-macros
     #define VR_CORE_ASSERT(expr, ...)                                          \
         if (!(expr))                                                           \
         VR_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__), VR_DEBUGBREAK()

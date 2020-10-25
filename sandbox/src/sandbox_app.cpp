@@ -1,9 +1,15 @@
-#include <varak.h>
+#include "example_layer.h"
+
+#include "varak/core/entry_point.h" 
 
 class Sandbox : public Varak::Application
 {
 public:
-    Sandbox(){};
+    Sandbox()
+    {
+        pushLayer(new ExampleLayer()); //
+    };
+
     ~Sandbox(){};
 };
 

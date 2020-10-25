@@ -1,5 +1,7 @@
 #pragma once
 
+// include this only in your main sandbox app cpp file
+
 #include "base.h"
 #include "platform_detection.h"
 
