@@ -3,6 +3,8 @@
 #include "varak/events/mouse_event.h"
 #include "varak/events/window_event.h"
 
+#include <glad/glad.h>
+
 namespace Varak
 {
     static uint8_t s_glfwWindowCount = 0;
@@ -42,8 +44,9 @@ namespace Varak
         m_data.width = props.width;
         m_data.height = props.height;
 
-        VR_CORE_INFO("Creating window: {0} ({1} by {2}). Count: {3}", m_data.title,
-                     m_data.width, m_data.height, s_glfwWindowCount + 1);
+        VR_CORE_INFO("Creating window: {0} ({1} by {2}). Count: {3}",
+                     m_data.title, m_data.width, m_data.height,
+                     s_glfwWindowCount + 1);
 
         if (s_glfwWindowCount == 0)
         {
@@ -55,9 +58,12 @@ namespace Varak
                                     static_cast<int>(m_data.height),
                                     m_data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_window);
+        s_glfwWindowCount++;
+        int status = gladLoadGLLoader(
+            reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+        VR_CORE_ASSERT(status, "Failed to initialize glad");
         glfwSetWindowUserPointer(m_window, &m_data);
         setVSync(true);
-        s_glfwWindowCount++;
 
         // clang-format off
 

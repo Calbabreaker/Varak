@@ -1,6 +1,8 @@
 #include "application.h"
 #include "base.h"
 
+#include <glad/glad.h>
+
 namespace Varak
 {
     Application::Application()
@@ -8,6 +10,9 @@ namespace Varak
         m_window = Window::create();
         m_window->setEventCallback(VR_BIND_EVENT_FUNC(Application::onEvent));
         m_running = true;
+
+        uint32_t id;
+        glGenVertexArrays(1, &id);
     }
 
     Application::~Application() {}
@@ -16,6 +21,9 @@ namespace Varak
     {
         while (m_running)
         {
+            glClearColor(1.0f, 0.0f, 1.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             for (Layer* layer : m_layerStack)
                 layer->onUpdate();
 

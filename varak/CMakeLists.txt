@@ -1,3 +1,5 @@
+project(Varak VERSION 1.0.0)
+
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
 
 add_library(Varak STATIC ${SOURCES})
@@ -18,6 +20,10 @@ add_subdirectory("vendor/glfw")
 target_include_directories(Varak PUBLIC "vendor/glfw/include")
 target_compile_definitions(Varak PUBLIC "GLFW_INCLUDE_NONE")
 target_link_libraries(Varak "glfw" "${GLFW_LIBRARIES}")
+
+# glad
+add_subdirectory("vendor/glad")
+target_link_libraries(Varak Glad)
 
 # configurations
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Dist" CACHE STRING "" FORCE) 
