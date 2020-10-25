@@ -9,7 +9,7 @@ namespace Varak
     public:
         int getKeyCode() const { return m_keyCode; }
 
-        MAKE_EVENT_CLASS_CATEGORY(Keyboard, Input)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
     protected:
         KeyEvent(int keyCode) : m_keyCode(keyCode){};
@@ -54,5 +54,5 @@ namespace Varak
         }
 
         MAKE_EVENT_CLASS_TYPE(KeyReleased)
-    }
+    };
 } // namespace Varak

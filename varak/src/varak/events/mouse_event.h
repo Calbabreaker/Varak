@@ -9,7 +9,8 @@ namespace Varak
     public:
         int getMouseButton() const { return m_button; }
 
-        MAKE_EVENT_CLASS_CATEGORY(Mouse | Input | MouseButton)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput |
+                                  EventCategoryMouseButton)
 
     protected:
         MouseButtonEvent(int button) : m_button(button) {}
@@ -63,7 +64,7 @@ namespace Varak
         }
 
         MAKE_EVENT_CLASS_TYPE(MouseMoved)
-        MAKE_EVENT_CLASS_CATEGORY(Mouse | Input)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
         float m_mouseX, m_mouseY;
@@ -88,7 +89,7 @@ namespace Varak
         }
 
         MAKE_EVENT_CLASS_TYPE(MouseScrolled)
-        MAKE_EVENT_CLASS_CATEGORY(Mouse | Input)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
         float m_xOffSet, m_yOffset;

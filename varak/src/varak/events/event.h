@@ -13,14 +13,14 @@ namespace Varak
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 
-    enum EventCategory
+    enum EventCategory 
     {
-        None = 0,
-        Window =      BIT(0),
-        Input =       BIT(1),
-        Keyboard =    BIT(2),
-        Mouse =       BIT(3),
-        MouseButton = BIT(4)
+        EventCategoryNone = 0,
+        EventCategoryWindow =      BIT(0),
+        EventCategoryInput =       BIT(1),
+        EventCategoryKeyboard =    BIT(2),
+        EventCategoryMouse =       BIT(3),
+        EventCategoryMouseButton = BIT(4)
     };
 
     // clang-format on
@@ -31,7 +31,7 @@ namespace Varak
     const char* getName() const override { return #type; }
 
 #define MAKE_EVENT_CLASS_CATEGORY(category)                                    \
-    int getCategoryFlags() const override { return category; }
+    int getCategoryFlags() const override { return (category); }
 
     class Event
     {

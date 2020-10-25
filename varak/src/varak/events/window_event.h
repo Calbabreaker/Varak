@@ -10,7 +10,7 @@ namespace Varak
         WindowClosedEvent() = default;
 
         MAKE_EVENT_CLASS_TYPE(WindowClosed)
-        MAKE_EVENT_CLASS_CATEGORY(Window)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryWindow)
     };
 
     class WindowResizedEvent : public Event
@@ -29,7 +29,7 @@ namespace Varak
         }
 
         MAKE_EVENT_CLASS_TYPE(WindowResized)
-        MAKE_EVENT_CLASS_CATEGORY(Window)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryWindow)
 
     private:
         uint32_t m_width, m_height;
@@ -38,13 +38,13 @@ namespace Varak
     class WindowFocusEvent : public Event
     {
         MAKE_EVENT_CLASS_TYPE(WindowFocus)
-        MAKE_EVENT_CLASS_CATEGORY(Window)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryWindow)
     };
 
     class WindowLostFocusEvent : public Event
     {
         MAKE_EVENT_CLASS_TYPE(WindowLostFocus)
-        MAKE_EVENT_CLASS_CATEGORY(Window)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryWindow)
     };
 
     class WindowMovedEvent : public Event
@@ -63,7 +63,7 @@ namespace Varak
         }
 
         MAKE_EVENT_CLASS_TYPE(WindowMoved)
-        MAKE_EVENT_CLASS_CATEGORY(Window)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryWindow)
 
     private:
         float m_windowX, m_windowY;

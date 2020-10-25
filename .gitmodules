@@ -1,3 +1,6 @@
 [submodule "varak/vendor/spdlog"]
 	path = varak/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "varak/vendor/glfw"]
+	path = varak/vendor/glfw
+	url = https://github.com/glfw/glfw
