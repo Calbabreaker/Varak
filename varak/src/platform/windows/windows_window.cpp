@@ -136,6 +136,14 @@ namespace Varak
             }
         });
 
+        glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+			KeyTypedEvent event(keycode);
+			data.eventCallback(event);
+		});
+
         glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) 
         {
             WindowData& data = *reinterpret_cast<WindowData*>(

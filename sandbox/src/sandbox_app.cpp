@@ -7,7 +7,8 @@ class Sandbox : public Varak::Application
 public:
     Sandbox()
     {
-        pushLayer(new ExampleLayer()); //
+        pushLayer(new ExampleLayer()); 
+        pushOverlay(new Varak::ImGuiLayer());
     };
 
     ~Sandbox(){};

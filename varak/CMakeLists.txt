@@ -25,6 +25,10 @@ target_link_libraries(Varak "glfw" "${GLFW_LIBRARIES}")
 add_subdirectory("vendor/glad")
 target_link_libraries(Varak Glad)
 
+# imgui
+add_subdirectory("vendor/imgui")
+target_link_libraries(Varak ImGui)
+
 # configurations
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Dist" CACHE STRING "" FORCE) 
 target_compile_definitions(Varak PUBLIC "$<$<CONFIG:DEBUG>:VR_DEBUG>")

@@ -4,3 +4,6 @@
 [submodule "varak/vendor/glfw"]
 	path = varak/vendor/glfw
 	url = https://github.com/glfw/glfw
+[submodule "varak/vendor/imgui"]
+	path = varak/vendor/imgui
+	url = https://github.com/Calbabreaker/imgui/

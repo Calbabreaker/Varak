@@ -55,4 +55,19 @@ namespace Varak
 
         MAKE_EVENT_CLASS_TYPE(KeyReleased)
     };
+
+    class KeyTypedEvent : public KeyEvent
+    {
+    public:
+        KeyTypedEvent(int keyCode) : KeyEvent(keyCode) {}
+
+        std::string toString() const override
+        {
+            std::stringstream ss;
+            ss << "KeyTypedEvent: " << m_keyCode;
+            return ss.str();
+        }
+
+        MAKE_EVENT_CLASS_TYPE(KeyTyped)
+    };
 } // namespace Varak

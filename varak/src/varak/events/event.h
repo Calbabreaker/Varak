@@ -9,7 +9,7 @@ namespace Varak
     {
         None = 0,
         WindowClosed, WindowResized, WindowFocus, WindowLostFocus, WindowMoved,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 

@@ -6,6 +6,7 @@
 
 namespace Varak
 {
+
     class Application
     {
     public:
@@ -19,6 +20,9 @@ namespace Varak
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* overlay);
 
+        static Application& get() { return *s_instance; }
+        Window& getWindow() { return *m_window; }
+
     private:
         bool onWindowClosed(WindowClosedEvent& event);
 
@@ -26,6 +30,7 @@ namespace Varak
         std::unique_ptr<Window> m_window;
         bool m_running = false;
         LayerStack m_layerStack;
+        static Application* s_instance;
     };
 
     // client will define
