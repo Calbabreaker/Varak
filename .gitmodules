@@ -7,3 +7,6 @@
 [submodule "varak/vendor/imgui"]
 	path = varak/vendor/imgui
 	url = https://github.com/Calbabreaker/imgui/
+[submodule "varak/vendor/glm"]
+	path = varak/vendor/glm
+	url = https://github.com/g-truc/glm
