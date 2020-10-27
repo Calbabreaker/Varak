@@ -101,21 +101,21 @@ namespace Varak
     bool ImGuiLayer::onMouseButtonPressed(MouseButtonPressedEvent& event)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.MouseDown[event.getMouseButton()] = true;
+        io.MouseDown[static_cast<uint8_t>(event.getMouseButton())] = true;
         return false;
     }
 
     bool ImGuiLayer::onMouseButtonReleased(MouseButtonReleasedEvent& event)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.MouseDown[event.getMouseButton()] = false;
+        io.MouseDown[static_cast<uint8_t>(event.getMouseButton())] = false;
         return false;
     }
 
     bool ImGuiLayer::onKeyPressed(KeyPressedEvent& event)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.KeysDown[event.getKeyCode()] = true;
+        io.KeysDown[static_cast<uint16_t>(event.getKeyCode())] = true;
         io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] ||
                      io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
         io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] ||
@@ -134,14 +134,14 @@ namespace Varak
     bool ImGuiLayer::onKeyReleased(KeyReleasedEvent& event)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.KeysDown[event.getKeyCode()] = false;
+        io.KeysDown[static_cast<uint16_t>(event.getKeyCode())] = false;
         return false;
     }
 
     bool ImGuiLayer::onKeyTyped(KeyTypedEvent& event)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.AddInputCharacter(event.getKeyCode());
+        io.AddInputCharacter(static_cast<uint16_t>(event.getKeyCode()));
         return false;
     }
 

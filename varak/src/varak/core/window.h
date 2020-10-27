@@ -34,6 +34,8 @@ namespace Varak
         virtual bool isVSync() const = 0;
 
         static std::unique_ptr<Window> create(const WindowProps& props = WindowProps());
+
+        virtual void* getNativeWindow() const = 0;
     };
 
 } // namespace Varak

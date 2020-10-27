@@ -1,26 +1,27 @@
 #pragma once
 
 #include "event.h"
+#include "varak/core/key_codes.h"
 
 namespace Varak
 {
     class KeyEvent : public Event
     {
     public:
-        int getKeyCode() const { return m_keyCode; }
+        KeyCode getKeyCode() const { return m_keyCode; }
 
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
     protected:
-        KeyEvent(int keyCode) : m_keyCode(keyCode){};
+        KeyEvent(KeyCode keyCode) : m_keyCode(keyCode){};
 
-        int m_keyCode;
+        KeyCode m_keyCode;
     };
 
     class KeyPressedEvent : public KeyEvent
     {
     public:
-        KeyPressedEvent(int keyCode, uint16_t repeatCount)
+        KeyPressedEvent(KeyCode keyCode, uint16_t repeatCount)
             : KeyEvent(keyCode), m_repeatCount(repeatCount)
         {
         }
@@ -30,26 +31,26 @@ namespace Varak
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "KeyPressedEvent: " << m_keyCode << " (" << m_repeatCount
-               << " repeats)";
+            ss << "KeyPressedEvent: " << static_cast<uint16_t>(m_keyCode)
+               << " (" << m_repeatCount << " repeats)";
             return ss.str();
         }
 
         MAKE_EVENT_CLASS_TYPE(KeyPressed)
 
     private:
-        int m_repeatCount;
+        uint16_t m_repeatCount;
     };
 
     class KeyReleasedEvent : public KeyEvent
     {
     public:
-        KeyReleasedEvent(int keyCode) : KeyEvent(keyCode) {}
+        KeyReleasedEvent(KeyCode keyCode) : KeyEvent(keyCode) {}
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "KeyReleasedEvent: " << m_keyCode;
+            ss << "KeyReleasedEvent: " << static_cast<uint16_t>(m_keyCode);
             return ss.str();
         }
 
@@ -59,12 +60,12 @@ namespace Varak
     class KeyTypedEvent : public KeyEvent
     {
     public:
-        KeyTypedEvent(int keyCode) : KeyEvent(keyCode) {}
+        KeyTypedEvent(KeyCode keyCode) : KeyEvent(keyCode) {}
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "KeyTypedEvent: " << m_keyCode;
+            ss << "KeyTypedEvent: " << static_cast<uint16_t>(m_keyCode);
             return ss.str();
         }
 

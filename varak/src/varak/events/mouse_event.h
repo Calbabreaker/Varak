@@ -1,32 +1,33 @@
 #pragma once
 
 #include "event.h"
+#include "varak/core/mouse_codes.h"
 
 namespace Varak
 {
     class MouseButtonEvent : public Event
     {
     public:
-        int getMouseButton() const { return m_button; }
+        MouseCode getMouseButton() const { return m_button; }
 
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput |
                                   EventCategoryMouseButton)
 
     protected:
-        MouseButtonEvent(int button) : m_button(button) {}
+        MouseButtonEvent(MouseCode button) : m_button(button) {}
 
-        int m_button;
+        MouseCode m_button;
     };
 
     class MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
-        MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
+        MouseButtonPressedEvent(MouseCode button) : MouseButtonEvent(button) {}
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseButtonPressedEvent: " << m_button;
+            ss << "MouseButtonPressedEvent: " << static_cast<uint8_t>(m_button);
             return ss.str();
         }
 
@@ -36,12 +37,12 @@ namespace Varak
     class MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
-        MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
+        MouseButtonReleasedEvent(MouseCode button) : MouseButtonEvent(button) {}
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseButtonReleasedEvent: " << m_button;
+            ss << "MouseButtonReleasedEvent: " << static_cast<uint8_t>(m_button);
             return ss.str();
         }
 

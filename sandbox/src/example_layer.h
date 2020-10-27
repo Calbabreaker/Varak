@@ -9,4 +9,5 @@ public:
 
     void onUpdate() override;
     void onEvent(Varak::Event& event) override;
+    bool onKeyPressedEvent(Varak::KeyPressedEvent& event);
 };

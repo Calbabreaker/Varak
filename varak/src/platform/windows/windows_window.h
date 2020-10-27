@@ -24,6 +24,8 @@ namespace Varak
         void setVSync(bool enabled) override;
         bool isVSync() const override;
 
+        void* getNativeWindow() const override { return m_window; }
+
     private:
         void init(const WindowProps& props);
         void shutdown();
