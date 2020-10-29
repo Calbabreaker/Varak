@@ -8,15 +8,14 @@ ExampleLayer::ExampleLayer()
 
 void ExampleLayer::onUpdate()
 {
-    if (Input::isKeyPressed(KeyCode::Enter))
-    {
-        VR_INFO("Enter was pressed");
-    }
+    
+}
 
-    if (Input::isMouseButtonPressed(MouseCode::ButtonLeft))
-    {
-        VR_INFO("Mouse was pressed");
-    }
+void ExampleLayer::onImGuiRender()
+{
+    ImGui::Begin("test");
+    ImGui::Text("hi");
+    ImGui::End();
 }
 
 void ExampleLayer::onEvent(Event& event)

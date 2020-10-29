@@ -23,6 +23,16 @@ namespace Varak
         return state == GLFW_PRESS;
     }
 
+    glm::vec2 Input::getMousePosition()
+    {
+        GLFWwindow* window = reinterpret_cast<GLFWwindow*>(
+            Application::get().getWindow().getNativeWindow());
+
+        double xPos, yPos;
+        glfwGetCursorPos(window, &xPos, &yPos);
+        return {static_cast<float>(xPos), static_cast<float>(yPos)};
+    }
+
     float Input::getMouseX()
     {
         GLFWwindow* window = reinterpret_cast<GLFWwindow*>(

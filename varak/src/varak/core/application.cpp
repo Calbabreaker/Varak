@@ -14,6 +14,10 @@ namespace Varak
 
         m_window = Window::create();
         m_window->setEventCallback(VR_BIND_EVENT_FUNC(Application::onEvent));
+
+        m_imGuiLayer = new ImGuiLayer();
+        pushOverlay(m_imGuiLayer);
+
         m_running = true;
     }
 
@@ -28,6 +32,11 @@ namespace Varak
 
             for (Layer* layer : m_layerStack)
                 layer->onUpdate();
+
+            m_imGuiLayer->begin();
+            for (Layer* layer : m_layerStack)
+                layer->onImGuiRender();
+            m_imGuiLayer->end();
 
             m_window->onUpdate();
         }

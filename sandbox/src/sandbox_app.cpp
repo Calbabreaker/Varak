@@ -8,7 +8,6 @@ public:
     Sandbox()
     {
         pushLayer(new ExampleLayer()); 
-        pushOverlay(new Varak::ImGuiLayer());
     };
 
     ~Sandbox(){};
