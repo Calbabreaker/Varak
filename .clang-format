@@ -1,6 +1,5 @@
 Language: Cpp
 
-BreakBeforeBraces: Allman 
 PointerAlignment: Left
 IndentWidth: 4
 IndentPPDirectives: BeforeHash 
@@ -10,3 +9,15 @@ FixNamespaceComments: true
 NamespaceIndentation: All 
 AlwaysBreakTemplateDeclarations: Yes 
 AllowShortFunctionsOnASingleLine: InlineOnly
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterNamespace: false 
+    AfterControlStatement: true
+    AfterEnum: true
+    AfterClass: true
+    AfterStruct: true
+    AfterUnion: true
+    BeforeCatch: true
+    BeforeElse: true
+    AfterFunction: true

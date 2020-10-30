@@ -2,10 +2,10 @@
 
 #include "varak/core/window.h"
 
-#include <GLFW/glfw3.h>
+class GLFWwindow;
 
-namespace Varak
-{
+namespace Varak {
+
     class WindowsWindow : public Window
     {
     public:

@@ -1,12 +1,13 @@
 #pragma once
 
-#include "layer_stack.h"
+#include "varak/core/layer_stack.h"
+#include "varak/core/window.h"
+
 #include "varak/events/window_event.h"
-#include "window.h"
 #include "varak/imgui/imgui_layer.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class Application
     {
     public:
@@ -29,9 +30,10 @@ namespace Varak
     private:
         std::unique_ptr<Window> m_window;
         ImGuiLayer* m_imGuiLayer;
-        bool m_running = false;
         LayerStack m_layerStack;
         static Application* s_instance;
+
+        bool m_running = false;
     };
 
     // client will define

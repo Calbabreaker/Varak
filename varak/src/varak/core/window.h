@@ -2,8 +2,8 @@
 
 #include "varak/events/event.h"
 
-namespace Varak
-{
+namespace Varak {
+
     struct WindowProps
     {
         std::string title;
@@ -33,7 +33,8 @@ namespace Varak
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
 
-        static std::unique_ptr<Window> create(const WindowProps& props = WindowProps());
+        static std::unique_ptr<Window>
+        create(const WindowProps& props = WindowProps());
 
         virtual void* getNativeWindow() const = 0;
     };

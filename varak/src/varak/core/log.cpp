@@ -1,9 +1,9 @@
+#include "varak/core/log.h"
+
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-#include "log.h"
+namespace Varak {
 
-namespace Varak
-{
     std::shared_ptr<spdlog::logger> Log::s_coreLogger;
     std::shared_ptr<spdlog::logger> Log::s_clientLogger;
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "event.h"
+#include "varak/events/event.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class WindowClosedEvent : public Event
     {
     public:

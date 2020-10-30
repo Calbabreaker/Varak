@@ -1,10 +1,10 @@
-#include <GLFW/glfw3.h>
-
 #include "varak/core/application.h"
 #include "varak/core/input.h"
 
-namespace Varak
-{
+#include <GLFW/glfw3.h>
+
+namespace Varak {
+
     bool Input::isKeyPressed(KeyCode key)
     {
         GLFWwindow* window = reinterpret_cast<GLFWwindow*>(

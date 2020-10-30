@@ -1,10 +1,11 @@
-#include "application.h"
-#include "base.h"
+#include "varak/core/application.h"
+
+#include "varak/core/base.h"
 
 #include <glad/glad.h>
 
-namespace Varak
-{
+namespace Varak {
+
     Application* Application::s_instance = nullptr;
 
     Application::Application()

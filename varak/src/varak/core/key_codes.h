@@ -2,8 +2,8 @@
 
 // recommended type conversion uint16_t
 
-namespace Varak
-{
+namespace Varak {
+
     enum class KeyCode : uint16_t
     {
         // from glfw3.h

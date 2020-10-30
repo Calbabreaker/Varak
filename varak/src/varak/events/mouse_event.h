@@ -1,10 +1,10 @@
 #pragma once
 
-#include "event.h"
 #include "varak/core/mouse_codes.h"
+#include "varak/events/event.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class MouseButtonEvent : public Event
     {
     public:
@@ -42,7 +42,8 @@ namespace Varak
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseButtonReleasedEvent: " << static_cast<uint8_t>(m_button);
+            ss << "MouseButtonReleasedEvent: "
+               << static_cast<uint8_t>(m_button);
             return ss.str();
         }
 

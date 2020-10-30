@@ -2,11 +2,11 @@
 
 #include <glm/glm.hpp>
 
-#include "key_codes.h"
-#include "mouse_codes.h"
+#include "varak/core/key_codes.h"
+#include "varak/core/mouse_codes.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class Input
     {
     public:

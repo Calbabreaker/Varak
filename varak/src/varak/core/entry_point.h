@@ -2,14 +2,13 @@
 
 // include this only in your main sandbox app cpp file
 
-#include "base.h"
-#include "platform_detection.h"
+#include "varak/core/application.h"
+#include "varak/core/base.h"
+#include "varak/core/platform_detection.h"
 
 #ifdef VR_PLATFORM_WINDOWS
 
-extern Varak::Application* Varak::createApplication();
-
-int main(int argc, char** argv)
+int main(int argc, char* argv)
 {
     Varak::Log::init();
 

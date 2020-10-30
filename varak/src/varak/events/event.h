@@ -2,8 +2,8 @@
 
 #include "varak/core/base.h"
 
-namespace Varak
-{
+namespace Varak {
+
     // clang-format off
     enum class EventType
     {

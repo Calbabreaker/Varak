@@ -1,12 +1,14 @@
-#include "windows_window.h"
+#include "platform/windows/windows_window.h"
+
 #include "varak/events/key_event.h"
 #include "varak/events/mouse_event.h"
 #include "varak/events/window_event.h"
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-namespace Varak
-{
+namespace Varak {
+
     static uint8_t s_glfwWindowCount = 0;
 
     static void GLFWErrorCallback(int error, const char* description)
@@ -36,7 +38,10 @@ namespace Varak
         m_data.vSyncEnabled = enabled;
     }
 
-    bool WindowsWindow::isVSync() const { return m_data.vSyncEnabled; }
+    bool WindowsWindow::isVSync() const
+    {
+        return m_data.vSyncEnabled; //
+    }
 
     void WindowsWindow::init(const WindowProps& props)
     {

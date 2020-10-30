@@ -1,12 +1,13 @@
-#include "imgui_layer.h"
+#include "varak/imgui/imgui_layer.h"
+
 #include "varak/core/application.h"
 
 #include <GLFW/glfw3.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-namespace Varak
-{
+namespace Varak {
+
     ImGuiLayer::ImGuiLayer() {}
 
     ImGuiLayer::~ImGuiLayer() {}
@@ -42,9 +43,8 @@ namespace Varak
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
-        Window& window = Application::get().getWindow();
-        GLFWwindow* nativeWindow =
-            reinterpret_cast<GLFWwindow*>(window.getNativeWindow());
+        GLFWwindow* nativeWindow = reinterpret_cast<GLFWwindow*>(
+            Application::get().getWindow().getNativeWindow());
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(nativeWindow, true);

@@ -1,7 +1,7 @@
-#include "layer_stack.h"
+#include "varak/core/layer_stack.h"
 
-namespace Varak
-{
+namespace Varak {
+
     LayerStack::~LayerStack()
     {
         for (Layer* layer : m_layers)
@@ -24,7 +24,8 @@ namespace Varak
 
     void LayerStack::popLayer(Layer* layer)
     {
-        auto it = std::find(m_layers.begin(), m_layers.begin() + m_layersInsertIndex, layer);
+        auto it = std::find(m_layers.begin(),
+                            m_layers.begin() + m_layersInsertIndex, layer);
         if (it != m_layers.begin() + m_layersInsertIndex)
         {
             layer->onDetach();
@@ -35,7 +36,8 @@ namespace Varak
 
     void LayerStack::popOverlay(Layer* overlay)
     {
-        auto it = std::find(m_layers.begin() + m_layersInsertIndex, m_layers.end(), overlay);
+        auto it = std::find(m_layers.begin() + m_layersInsertIndex,
+                            m_layers.end(), overlay);
         if (it != m_layers.end())
         {
             overlay->onDetach();

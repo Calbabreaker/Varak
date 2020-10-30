@@ -1,13 +1,14 @@
 #pragma once
 
-#include "imgui.h"
 #include "varak/core/layer.h"
 
 #include "varak/events/key_event.h"
 #include "varak/events/mouse_event.h"
 
-namespace Varak
-{
+#include <imgui.h>
+
+namespace Varak {
+
     class ImGuiLayer : public Layer
     {
     public:

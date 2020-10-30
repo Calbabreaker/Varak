@@ -24,7 +24,7 @@ void ExampleLayer::onEvent(Event& event)
     dispatcher.dispatch<KeyPressedEvent>(VR_BIND_EVENT_FUNC(ExampleLayer::onKeyPressedEvent));
 }
 
-bool ExampleLayer::onKeyPressedEvent(Varak::KeyPressedEvent& event)
+bool ExampleLayer::onKeyPressedEvent(KeyPressedEvent& event)
 {
     VR_TRACE("Key Pressed: {0}", static_cast<char>(event.getKeyCode()));
     return false;

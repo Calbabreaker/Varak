@@ -1,9 +1,9 @@
 #pragma once
 
-#include "layer.h"
+#include "varak/core/layer.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class LayerStack
     {
     public:

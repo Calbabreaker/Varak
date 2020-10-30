@@ -2,8 +2,8 @@
 
 #include "varak/events/event.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class Layer
     {
     public:

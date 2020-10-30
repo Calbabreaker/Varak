@@ -2,8 +2,8 @@
 
 // recommended type conversion uint8_t
 
-namespace Varak
-{
+namespace Varak {
+
     enum class MouseCode : uint8_t
     {
         // from glfw3.h

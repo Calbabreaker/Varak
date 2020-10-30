@@ -1,10 +1,10 @@
 #pragma once
 
-#include "event.h"
 #include "varak/core/key_codes.h"
+#include "varak/events/event.h"
 
-namespace Varak
-{
+namespace Varak {
+
     class KeyEvent : public Event
     {
     public:
