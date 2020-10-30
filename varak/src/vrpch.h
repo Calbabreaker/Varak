@@ -21,4 +21,5 @@
 #include <unordered_set>
 #include <vector>
 
+#include "varak/core/base.h"
 #include "varak/core/log.h"

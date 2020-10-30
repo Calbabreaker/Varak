@@ -5,7 +5,6 @@
 #include "varak/events/window_event.h"
 
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 namespace Varak {
 
@@ -29,7 +28,7 @@ namespace Varak {
     void WindowsWindow::onUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(m_window);
+        m_context->swapBuffers();
     }
 
     void WindowsWindow::setVSync(bool enabled)
@@ -62,11 +61,11 @@ namespace Varak {
         m_window = glfwCreateWindow(static_cast<int>(m_data.width),
                                     static_cast<int>(m_data.height),
                                     m_data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_window);
         s_glfwWindowCount++;
-        int status = gladLoadGLLoader(
-            reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-        VR_CORE_ASSERT(status, "Failed to initialize glad");
+
+        m_context = GraphicsContext::create(m_window);
+        m_context->init();
+
         glfwSetWindowUserPointer(m_window, &m_data);
         setVSync(true);
 
@@ -197,7 +196,13 @@ namespace Varak {
 
     void WindowsWindow::shutdown()
     {
-        glfwDestroyWindow(m_window); //
+        glfwDestroyWindow(m_window);
+        s_glfwWindowCount--;
+
+        if (s_glfwWindowCount == 0)
+        {
+            glfwTerminate();
+        }
     }
 
 } // namespace Varak
