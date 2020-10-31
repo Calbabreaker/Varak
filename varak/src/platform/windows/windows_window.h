@@ -1,7 +1,7 @@
 #pragma once
 
 #include "varak/core/window.h"
-#include "varak/renderer/graphics_context.h"
+#include "varak/renderer/rendering_context.h"
 
 struct GLFWwindow;
 
@@ -44,7 +44,7 @@ namespace Varak {
         };
 
         WindowData m_data;
-        std::unique_ptr<GraphicsContext> m_context;
+        std::unique_ptr<RenderingContext> m_context;
     };
 
 } // namespace Varak

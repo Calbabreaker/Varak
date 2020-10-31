@@ -1,17 +1,17 @@
-#include "platform/opengl/opengl_graphics_context.h"
+#include "platform/opengl/opengl_rendering_context.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace Varak {
 
-    OpenGLGraphicsContext::OpenGLGraphicsContext(GLFWwindow* windowHandle)
+    OpenGLRenderingContext::OpenGLRenderingContext(GLFWwindow* windowHandle)
         : m_windowHandle(windowHandle)
     {
         VR_CORE_ASSERT(windowHandle, "Window handle is null!");
     }
 
-    void OpenGLGraphicsContext::init()
+    void OpenGLRenderingContext::init()
     {
         glfwMakeContextCurrent(m_windowHandle);
         int status = gladLoadGLLoader(
@@ -28,7 +28,7 @@ namespace Varak {
                        "Varak requires at least OpenGL version 4.5!");
     }
 
-    void OpenGLGraphicsContext::swapBuffers()
+    void OpenGLRenderingContext::swapBuffers()
     {
         glfwSwapBuffers(m_windowHandle); //
     }

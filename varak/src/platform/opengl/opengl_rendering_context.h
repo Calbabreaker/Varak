@@ -1,15 +1,15 @@
 #pragma once
 
-#include "varak/renderer/graphics_context.h"
+#include "varak/renderer/rendering_context.h"
 
 struct GLFWwindow;
 
 namespace Varak {
 
-    class OpenGLGraphicsContext : public GraphicsContext
+    class OpenGLRenderingContext : public RenderingContext
     {
     public:
-        OpenGLGraphicsContext(GLFWwindow* windowHandle);
+        OpenGLRenderingContext(GLFWwindow* windowHandle);
 
         void init() override;
         void swapBuffers() override;

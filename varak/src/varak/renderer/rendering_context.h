@@ -2,13 +2,13 @@
 
 namespace Varak {
 
-    class GraphicsContext
+    class RenderingContext
     {
     public:
         virtual void init() = 0;
         virtual void swapBuffers() = 0;
 
-        static std::unique_ptr<GraphicsContext> create(void* window);
+        static std::unique_ptr<RenderingContext> create(void* window);
     };
 
 } // namespace Varak

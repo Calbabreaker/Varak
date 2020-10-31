@@ -63,7 +63,7 @@ namespace Varak {
                                     m_data.title.c_str(), nullptr, nullptr);
         s_glfwWindowCount++;
 
-        m_context = GraphicsContext::create(m_window);
+        m_context = RenderingContext::create(m_window);
         m_context->init();
 
         glfwSetWindowUserPointer(m_window, &m_data);
@@ -74,19 +74,17 @@ namespace Varak {
         // set glfw callbacks
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) 
         {
-                WindowData& data = *reinterpret_cast<WindowData*>(
-                    glfwGetWindowUserPointer(window));
-                data.width = width;
-                data.height = height;
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            data.width = width;
+            data.height = height;
 
-                WindowResizedEvent event(width, height);
-                data.eventCallback(event);
-            });
+            WindowResizedEvent event(width, height);
+            data.eventCallback(event);
+        });
 
         glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
             WindowClosedEvent event;
             data.eventCallback(event);
@@ -94,8 +92,7 @@ namespace Varak {
 
         glfwSetWindowFocusCallback(m_window, [](GLFWwindow* window, int focus) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
             if (focus)
             {
@@ -112,8 +109,7 @@ namespace Varak {
 
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
             switch (action)
             {
@@ -150,8 +146,7 @@ namespace Varak {
 
         glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
             switch (action)
             {
@@ -173,21 +168,17 @@ namespace Varak {
 
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-            MouseScrolledEvent event(static_cast<float>(xOffset),
-                                        static_cast<float>(yOffset));
+            MouseScrolledEvent event(static_cast<float>(xOffset), static_cast<float>(yOffset));
             data.eventCallback(event);
         });
 
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) 
         {
-            WindowData& data = *reinterpret_cast<WindowData*>(
-                glfwGetWindowUserPointer(window));
+            WindowData& data = *reinterpret_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-            MouseMovedEvent event(static_cast<float>(xPos),
-                                static_cast<float>(yPos));
+            MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
             data.eventCallback(event);
         });
 
