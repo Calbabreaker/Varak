@@ -13,6 +13,9 @@ public:
     bool onKeyPressedEvent(Varak::KeyPressedEvent& event);
 
 private:
-    uint32_t m_vertexArray, m_vertexBuffer, m_indexBuffer;
+    uint32_t m_vertexArray;
+
     std::shared_ptr<Varak::Shader> m_shader;
+    std::shared_ptr<Varak::VertexBuffer> m_vertexBuffer;
+    std::shared_ptr<Varak::IndexBuffer> m_indexBuffer;
 };
