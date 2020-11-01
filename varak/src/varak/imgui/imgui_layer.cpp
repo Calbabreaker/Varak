@@ -43,7 +43,7 @@ namespace Varak {
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
-        GLFWwindow* nativeWindow = reinterpret_cast<GLFWwindow*>(
+        GLFWwindow* nativeWindow = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 
         // Setup Platform/Renderer backends

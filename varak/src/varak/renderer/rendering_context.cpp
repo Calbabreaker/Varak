@@ -12,10 +12,11 @@ namespace Varak {
         {
         case RendererAPI::OpenGL:
             return std::make_unique<OpenGLRenderingContext>(
-                reinterpret_cast<GLFWwindow*>(window));
+                static_cast<GLFWwindow*>(window));
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI");
+        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        return nullptr;
     }
 
 } // namespace Varak

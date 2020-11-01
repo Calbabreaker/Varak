@@ -3,11 +3,8 @@
 // temporary
 #include <glad/glad.h>
 
-using namespace Varak;
-
 ExampleLayer::ExampleLayer()
 {
-
     // clang-format off
     std::vector<float> positions = {
         -0.5f, -0.5f,
@@ -40,6 +37,35 @@ ExampleLayer::ExampleLayer()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t),
                  indices.data(), GL_STATIC_DRAW);
+
+    std::string vertexSrc = R"(
+        #version 330 core
+
+        layout(location = 0) in vec2 a_position;
+
+        out vec2 v_position;
+
+        void main() 
+        {
+            v_position = a_position;
+            gl_Position = vec4(a_position, 0.0, 1.0);
+        }
+    )";
+
+    std::string framentSrc = R"(
+        #version 330 core
+
+        layout(location = 0) out vec4 color;
+
+        in vec2 v_position;
+
+        void main() 
+        {
+            color = vec4(v_position * 0.5 + 0.5, 0.0, 1.0);
+        }
+    )";
+
+    m_shader = Varak::Shader::create(vertexSrc, framentSrc);
 }
 
 void ExampleLayer::onUpdate()
@@ -47,6 +73,9 @@ void ExampleLayer::onUpdate()
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    m_shader->bind();
+
+    glBindVertexArray(m_vertexArray);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
@@ -57,14 +86,14 @@ void ExampleLayer::onImGuiRender()
     ImGui::End();
 }
 
-void ExampleLayer::onEvent(Event& event)
+void ExampleLayer::onEvent(Varak::Event& event)
 {
-    EventDispatcher dispatcher(event);
-    dispatcher.dispatch<KeyPressedEvent>(
+    Varak::EventDispatcher dispatcher(event);
+    dispatcher.dispatch<Varak::KeyPressedEvent>(
         VR_BIND_EVENT_FUNC(ExampleLayer::onKeyPressedEvent));
 }
 
-bool ExampleLayer::onKeyPressedEvent(KeyPressedEvent& event)
+bool ExampleLayer::onKeyPressedEvent(Varak::KeyPressedEvent& event)
 {
     VR_TRACE("Key Pressed: {0}", static_cast<char>(event.getKeyCode()));
     return false;
