@@ -4,7 +4,7 @@ namespace Varak {
 
     enum class RendererAPI
     {
-        OpenGL
+        None = 0, OpenGL
     };
 
     class Renderer

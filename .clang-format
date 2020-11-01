@@ -9,6 +9,7 @@ FixNamespaceComments: true
 NamespaceIndentation: All 
 AlwaysBreakTemplateDeclarations: Yes 
 AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortCaseLabelsOnASingleLine: true
 
 BreakBeforeBraces: Custom
 BraceWrapping:
