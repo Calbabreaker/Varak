@@ -5,7 +5,7 @@ namespace Varak {
     class Shader
     {
     public:
-        static std::shared_ptr<Shader> create(const std::string vertexSrc,
+        static Ref<Shader> create(const std::string vertexSrc,
                                               const std::string fragmentSrc);
 
         virtual ~Shader() = default;

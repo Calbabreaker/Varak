@@ -28,7 +28,7 @@ namespace Varak {
         bool onWindowClosed(WindowClosedEvent& event);
 
     private:
-        std::unique_ptr<Window> m_window;
+        Scope<Window> m_window;
         ImGuiLayer* m_imGuiLayer;
         LayerStack m_layerStack;
         static Application* s_instance;

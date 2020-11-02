@@ -6,13 +6,13 @@
 
 namespace Varak {
 
-    std::shared_ptr<Shader> Shader::create(const std::string vertexSrc,
+    Ref<Shader> Shader::create(const std::string vertexSrc,
                                            const std::string fragmentSrc)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::OpenGL:
-            return std::make_shared<OpenGLShader>(vertexSrc, fragmentSrc);
+            return makeRef<OpenGLShader>(vertexSrc, fragmentSrc);
         }
 
         VR_CORE_ASSERT(false, "Unknown RendererAPI!");

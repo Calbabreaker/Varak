@@ -44,7 +44,7 @@ namespace Varak {
         };
 
         WindowData m_data;
-        std::unique_ptr<RenderingContext> m_context;
+        Scope<RenderingContext> m_context;
     };
 
 } // namespace Varak

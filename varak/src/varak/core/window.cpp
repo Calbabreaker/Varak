@@ -7,10 +7,10 @@
 
 namespace Varak {
 
-    std::unique_ptr<Window> Window::create(const WindowProps& props)
+    Scope<Window> Window::create(const WindowProps& props)
     {
 #ifdef VR_PLATFORM_WINDOWS
-        return std::make_unique<WindowsWindow>(props);
+        return makeScope<WindowsWindow>(props);
 #endif
     }
 

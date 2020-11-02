@@ -3,9 +3,7 @@
 // temporary
 #include <glad/glad.h>
 
-using namespace Varak;
-
-namespace {
+namespace Varak {
 
     GLenum shaderTypeOpenGL(ShaderDataType type)
     {
@@ -43,9 +41,9 @@ ExampleLayer::ExampleLayer()
         0, 1, 2
     };
 
-    BufferLayout layout = { 
-        { ShaderDataType::Float2, "a_position" }, 
-        { ShaderDataType::Float4, "a_color" } 
+    Varak::BufferLayout layout = { 
+        { Varak::ShaderDataType::Float2, "a_position" }, 
+        { Varak::ShaderDataType::Float4, "a_color" } 
     };
 
     // clang-format on
@@ -55,7 +53,8 @@ ExampleLayer::ExampleLayer()
     glBindVertexArray(m_vertexArray);
 
     // vertex buffer
-    m_vertexBuffer = VertexBuffer::create(positions.data(), sizeof(positions));
+    m_vertexBuffer =
+        Varak::VertexBuffer::create(positions.data(), sizeof(positions));
     m_vertexBuffer->bind();
     m_vertexBuffer->setLayout(layout);
 
@@ -64,14 +63,14 @@ ExampleLayer::ExampleLayer()
     {
         glEnableVertexAttribArray(index);
         glVertexAttribPointer(index, element.getComponentCount(),
-                              shaderTypeOpenGL(element.type),
+                              Varak::shaderTypeOpenGL(element.type),
                               element.normalized, layout.getStride(),
                               reinterpret_cast<const void*>(element.offset));
         index++;
     }
 
     // index buffer
-    m_indexBuffer = IndexBuffer::create(indices.data(), indices.size());
+    m_indexBuffer = Varak::IndexBuffer::create(indices.data(), indices.size());
     m_indexBuffer->bind();
 
     // shader
@@ -103,7 +102,7 @@ ExampleLayer::ExampleLayer()
         }
     )";
 
-    m_shader = Shader::create(vertexSrc, framentSrc);
+    m_shader = Varak::Shader::create(vertexSrc, framentSrc);
 }
 
 void ExampleLayer::onUpdate()
@@ -125,14 +124,14 @@ void ExampleLayer::onImGuiRender()
     ImGui::End();
 }
 
-void ExampleLayer::onEvent(Event& event)
+void ExampleLayer::onEvent(Varak::Event& event)
 {
-    EventDispatcher dispatcher(event);
-    dispatcher.dispatch<KeyPressedEvent>(
+    Varak::EventDispatcher dispatcher(event);
+    dispatcher.dispatch<Varak::KeyPressedEvent>(
         VR_BIND_EVENT_FUNC(ExampleLayer::onKeyPressedEvent));
 }
 
-bool ExampleLayer::onKeyPressedEvent(KeyPressedEvent& event)
+bool ExampleLayer::onKeyPressedEvent(Varak::KeyPressedEvent& event)
 {
     VR_TRACE("Key Pressed: {0}", static_cast<char>(event.getKeyCode()));
     return false;

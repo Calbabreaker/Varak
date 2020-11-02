@@ -15,7 +15,7 @@ public:
 private:
     uint32_t m_vertexArray;
 
-    std::shared_ptr<Varak::Shader> m_shader;
-    std::shared_ptr<Varak::VertexBuffer> m_vertexBuffer;
-    std::shared_ptr<Varak::IndexBuffer> m_indexBuffer;
+    Varak::Ref<Varak::Shader> m_shader;
+    Varak::Ref<Varak::VertexBuffer> m_vertexBuffer;
+    Varak::Ref<Varak::IndexBuffer> m_indexBuffer;
 };

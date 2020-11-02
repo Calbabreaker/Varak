@@ -6,12 +6,12 @@
 
 namespace Varak {
 
-    std::unique_ptr<RenderingContext> RenderingContext::create(void* window)
+    Scope<RenderingContext> RenderingContext::create(void* window)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::OpenGL:
-            return std::make_unique<OpenGLRenderingContext>(
+            return makeScope<OpenGLRenderingContext>(
                 static_cast<GLFWwindow*>(window));
         }
 
