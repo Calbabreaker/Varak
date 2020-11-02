@@ -6,7 +6,7 @@ namespace Varak {
     {
     public:
         static Ref<Shader> create(const std::string vertexSrc,
-                                              const std::string fragmentSrc);
+                                  const std::string fragmentSrc);
 
         virtual ~Shader() = default;
 

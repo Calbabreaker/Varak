@@ -49,6 +49,10 @@ namespace Varak {
         }
 
         size_t getStride() const { return m_stride; }
+        const std::vector<BufferElement>& getElements() const
+        {
+            return m_elements;
+        }
 
         // clang-format off
         std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
@@ -68,8 +72,7 @@ namespace Varak {
     class VertexBuffer
     {
     public:
-        static Ref<VertexBuffer> create(float* vertices,
-                                                    size_t size);
+        static Ref<VertexBuffer> create(float* vertices, size_t size);
 
         virtual ~VertexBuffer() = default;
 
@@ -83,8 +86,7 @@ namespace Varak {
     class IndexBuffer
     {
     public:
-        static Ref<IndexBuffer> create(uint32_t* indicies,
-                                                   uint32_t count);
+        static Ref<IndexBuffer> create(uint32_t* indicies, uint32_t count);
 
         virtual ~IndexBuffer() = default;
 

@@ -19,3 +19,4 @@
 
 #include "varak/renderer/shader.h"
 #include "varak/renderer/buffer.h"
+#include "varak/renderer/vertex_array.h"

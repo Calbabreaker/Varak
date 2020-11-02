@@ -3,31 +3,6 @@
 // temporary
 #include <glad/glad.h>
 
-namespace Varak {
-
-    GLenum shaderTypeOpenGL(ShaderDataType type)
-    {
-        switch (type)
-        {
-        case ShaderDataType::Float1: return GL_FLOAT;
-        case ShaderDataType::Float2: return GL_FLOAT;
-        case ShaderDataType::Float3: return GL_FLOAT;
-        case ShaderDataType::Float4: return GL_FLOAT;
-        case ShaderDataType::Mat3: return GL_FLOAT;
-        case ShaderDataType::Mat4: return GL_FLOAT;
-        case ShaderDataType::Int1: return GL_INT;
-        case ShaderDataType::Int2: return GL_INT;
-        case ShaderDataType::Int3: return GL_INT;
-        case ShaderDataType::Int4: return GL_INT;
-        case ShaderDataType::Bool: return GL_BOOL;
-        }
-
-        VR_CORE_ASSERT(false, "Unknown shader type!");
-        return 0;
-    }
-
-} // namespace
-
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
@@ -48,30 +23,20 @@ ExampleLayer::ExampleLayer()
 
     // clang-format on
 
-    // vertex array
-    glGenVertexArrays(1, &m_vertexArray);
-    glBindVertexArray(m_vertexArray);
-
     // vertex buffer
-    m_vertexBuffer =
+    Varak::Ref<Varak::VertexBuffer> vertexBuffer =
         Varak::VertexBuffer::create(positions.data(), sizeof(positions));
-    m_vertexBuffer->bind();
-    m_vertexBuffer->setLayout(layout);
-
-    uint32_t index = 0;
-    for (auto& element : m_vertexBuffer->getLayout())
-    {
-        glEnableVertexAttribArray(index);
-        glVertexAttribPointer(index, element.getComponentCount(),
-                              Varak::shaderTypeOpenGL(element.type),
-                              element.normalized, layout.getStride(),
-                              reinterpret_cast<const void*>(element.offset));
-        index++;
-    }
+    vertexBuffer->setLayout(layout);
 
     // index buffer
-    m_indexBuffer = Varak::IndexBuffer::create(indices.data(), indices.size());
-    m_indexBuffer->bind();
+    Varak::Ref<Varak::IndexBuffer> indexBuffer =
+        Varak::IndexBuffer::create(indices.data(), indices.size());
+    indexBuffer->bind();
+
+    // vertex array
+    m_vertexArray = Varak::VertexArray::create();
+    m_vertexArray->addVertexBuffer(vertexBuffer);
+    m_vertexArray->setIndexBuffer(indexBuffer);
 
     // shader
     std::string vertexSrc = R"(
@@ -112,9 +77,9 @@ void ExampleLayer::onUpdate()
 
     m_shader->bind();
 
-    glBindVertexArray(m_vertexArray);
-    glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT,
-                   nullptr);
+    m_vertexArray->bind();
+    glDrawElements(GL_TRIANGLES, m_vertexArray->getIndexBuffer()->getCount(),
+                   GL_UNSIGNED_INT, nullptr);
 }
 
 void ExampleLayer::onImGuiRender()

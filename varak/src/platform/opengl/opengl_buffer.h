@@ -8,6 +8,7 @@ namespace Varak {
     {
     public:
         OpenGLVertexBuffer(float* vertices, size_t size);
+        ~OpenGLVertexBuffer();
 
         void bind() override;
         void unbind() override;
@@ -27,6 +28,7 @@ namespace Varak {
     {
     public:
         OpenGLIndexBuffer(uint32_t* vertices, uint32_t count);
+        ~OpenGLIndexBuffer();
 
         void bind() override;
         void unbind() override;

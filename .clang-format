@@ -10,6 +10,7 @@ NamespaceIndentation: All
 AlwaysBreakTemplateDeclarations: Yes 
 AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortCaseLabelsOnASingleLine: true
+PenaltyReturnTypeOnItsOwnLine: 999999
 
 BreakBeforeBraces: Custom
 BraceWrapping:
