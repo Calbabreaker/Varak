@@ -1,0 +1,35 @@
+#pragma once
+
+#include <glm/glm.hpp>
+
+namespace Varak {
+
+    class OrthographicCamera
+    {
+    public:
+        OrthographicCamera(float left, float right, float bottom, float top,
+                           float znear = -1.0f, float zfar = 1.0f);
+
+        void setPosition(const glm::vec3& position)
+        {
+            m_position = position;
+            recalculateMatrices();
+        };
+
+        const glm::vec3& getPosition() const { return m_position; }
+        const glm::mat4& getViewProjection() const { return m_viewProjection; }
+        const glm::mat4& getView() const { return m_view; }
+        const glm::mat4& getProjection() const { return m_projection; }
+
+    private:
+        void recalculateMatrices();
+
+    private:
+        glm::mat4 m_projection;
+        glm::mat4 m_view;
+        glm::mat4 m_viewProjection;
+
+        glm::vec3 m_position;
+    };
+
+} // namespace Varak

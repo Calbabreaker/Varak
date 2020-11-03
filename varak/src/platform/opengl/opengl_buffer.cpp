@@ -20,12 +20,12 @@ namespace Varak {
         glDeleteBuffers(1, &m_rendererID);
     }
 
-    void OpenGLVertexBuffer::bind()
+    void OpenGLVertexBuffer::bind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
     }
 
-    void OpenGLVertexBuffer::unbind()
+    void OpenGLVertexBuffer::unbind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0); //
     }
@@ -48,12 +48,12 @@ namespace Varak {
         glDeleteBuffers(1, &m_rendererID);
     }
 
-    void OpenGLIndexBuffer::bind()
+    void OpenGLIndexBuffer::bind() const
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
     }
 
-    void OpenGLIndexBuffer::unbind()
+    void OpenGLIndexBuffer::unbind() const
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }

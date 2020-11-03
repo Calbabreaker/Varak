@@ -13,8 +13,8 @@ namespace Varak {
         void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
         void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-        void bind() override;
-        void unbind() override;
+        void bind() const override;
+        void unbind() const override;
 
         const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const override
         {

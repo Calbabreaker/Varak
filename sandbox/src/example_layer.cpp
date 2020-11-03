@@ -3,10 +3,16 @@
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
+    //std::array<float, 3*7> positions = {
+    //    -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f,
+    //     0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
+    //     0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+    //};
+
     std::array<float, 3*7> positions = {
-        -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
-         0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+         0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+         1000.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+         500.0f, 1000.0f, 0.0f, 0.0f, 1.0f, 1.0f
     };
 
     std::array<uint32_t, 3> indices = {
@@ -44,10 +50,13 @@ ExampleLayer::ExampleLayer()
 
         out vec4 v_color;
 
+        uniform mat4 u_viewProjection;
+        uniform mat4 u_transform;
+
         void main() 
         {
             v_color = a_color;
-            gl_Position = vec4(a_position, 0.0, 1.0);
+            gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
         }
     )";
 
@@ -65,6 +74,11 @@ ExampleLayer::ExampleLayer()
     )";
 
     m_shader = Varak::Shader::create(vertexSrc, framentSrc);
+
+    Varak::Window& window = Varak::Application::get().getWindow();
+    m_camera = Varak::makeScope<Varak::OrthographicCamera>(
+        0.0f, static_cast<float>(window.getWidth()), 0.0f,
+        static_cast<float>(window.getHeight()));
 }
 
 void ExampleLayer::onUpdate()
@@ -72,10 +86,11 @@ void ExampleLayer::onUpdate()
     Varak::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Varak::RenderCommand::clear();
 
-    Varak::Renderer::beginScene();
+    m_camera->setPosition({0.1f, 0.0f, 0.0f});
 
-    m_shader->bind();
-    Varak::Renderer::submit(m_vertexArray);
+    Varak::Renderer::beginScene(*m_camera);
+
+    Varak::Renderer::submit(m_vertexArray, m_shader);
 
     Varak::Renderer::endScene();
 }

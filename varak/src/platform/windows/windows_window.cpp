@@ -4,6 +4,8 @@
 #include "varak/events/mouse_event.h"
 #include "varak/events/window_event.h"
 
+#include "varak/renderer/renderer.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Varak {
@@ -61,6 +63,11 @@ namespace Varak {
         m_window = glfwCreateWindow(static_cast<int>(m_data.width),
                                     static_cast<int>(m_data.height),
                                     m_data.title.c_str(), nullptr, nullptr);
+
+#ifdef VR_DEBUG
+        if (Renderer::getAPI() == RendererAPI::API::OpenGL)
+            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
         s_glfwWindowCount++;
 
         m_context = RenderingContext::create(m_window);

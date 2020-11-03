@@ -18,14 +18,42 @@ namespace Varak {
         glDeleteProgram(m_rendererID); //
     }
 
-    void OpenGLShader::bind()
+    void OpenGLShader::bind() const
     {
         glUseProgram(m_rendererID); //
     }
 
-    void OpenGLShader::unbind()
+    void OpenGLShader::unbind() const
     {
         glUseProgram(0); //
+    }
+
+    void OpenGLShader::setFloat1(const std::string& name, float value)
+    {
+        glUniform1f(getUniformLocation(name), value);
+    }
+
+    void OpenGLShader::setFloat3(const std::string& name,
+                                 const glm::vec3& value)
+    {
+        glUniform3f(getUniformLocation(name), value.x, value.y, value.z);
+    }
+
+    void OpenGLShader::setFloat4(const std::string& name,
+                                 const glm::vec4& value)
+    {
+        glUniform4f(getUniformLocation(name), value.x, value.y, value.z,
+                    value.w);
+    }
+
+    void OpenGLShader::setInt1(const std::string& name, int value)
+    {
+        glUniform1i(getUniformLocation(name), value);
+    }
+
+    void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
+    {
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &value[0][0]);
     }
 
     void OpenGLShader::compile(
@@ -94,6 +122,19 @@ namespace Varak {
             glDetachShader(m_rendererID, shaderID);
             glDeleteShader(shaderID);
         }
+    }
+
+    int OpenGLShader::getUniformLocation(const std::string& name)
+    {
+        if (m_uniformLoactionCache.find(name) != m_uniformLoactionCache.end())
+            return m_uniformLoactionCache[name];
+
+        int location = glGetUniformLocation(m_rendererID, name.c_str());
+        if (location == -1)
+            VR_CORE_WARN("Uniform {0} does not apear to exist!", name);
+
+        m_uniformLoactionCache[name] = location;
+        return location;
     }
 
 } // namespace Varak

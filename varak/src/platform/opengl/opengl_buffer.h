@@ -10,8 +10,8 @@ namespace Varak {
         OpenGLVertexBuffer(float* vertices, size_t size);
         ~OpenGLVertexBuffer();
 
-        void bind() override;
-        void unbind() override;
+        void bind() const override;
+        void unbind() const override;
 
         const BufferLayout& getLayout() const override { return m_layout; }
         void setLayout(const BufferLayout& layout) override
@@ -30,8 +30,8 @@ namespace Varak {
         OpenGLIndexBuffer(uint32_t* vertices, uint32_t count);
         ~OpenGLIndexBuffer();
 
-        void bind() override;
-        void unbind() override;
+        void bind() const override;
+        void unbind() const override;
 
         uint32_t getCount() const override { return m_count; }
 

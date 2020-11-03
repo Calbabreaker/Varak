@@ -1,6 +1,6 @@
 #include "varak/core/application.h"
 
-#include "varak/core/base.h"
+#include "varak/renderer/renderer.h"
 
 #include <glad/glad.h>
 
@@ -16,13 +16,18 @@ namespace Varak {
         m_window = Window::create();
         m_window->setEventCallback(VR_BIND_EVENT_FUNC(Application::onEvent));
 
+        Renderer::init();
+
         m_imGuiLayer = new ImGuiLayer();
         pushOverlay(m_imGuiLayer);
 
         m_running = true;
     }
 
-    Application::~Application() {}
+    Application::~Application()
+    {
+        Renderer::shutdown(); //
+    }
 
     void Application::run()
     {

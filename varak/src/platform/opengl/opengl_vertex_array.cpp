@@ -68,12 +68,12 @@ namespace Varak {
         m_indexBuffer = indexBuffer;
     }
 
-    void OpenGLVertexArray::bind()
+    void OpenGLVertexArray::bind() const
     {
         glBindVertexArray(m_rendererID); //
     }
 
-    void OpenGLVertexArray::unbind()
+    void OpenGLVertexArray::unbind() const
     {
         glBindVertexArray(0); //
     }

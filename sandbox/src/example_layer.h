@@ -15,4 +15,6 @@ public:
 private:
     Varak::Ref<Varak::Shader> m_shader;
     Varak::Ref<Varak::VertexArray> m_vertexArray;
+
+    Varak::Scope<Varak::OrthographicCamera> m_camera;
 };

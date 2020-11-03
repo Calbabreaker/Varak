@@ -76,8 +76,8 @@ namespace Varak {
 
         virtual ~VertexBuffer() = default;
 
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
 
         virtual const BufferLayout& getLayout() const = 0;
         virtual void setLayout(const BufferLayout& layout) = 0;
@@ -90,8 +90,8 @@ namespace Varak {
 
         virtual ~IndexBuffer() = default;
 
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
 
         virtual uint32_t getCount() const = 0;
     };

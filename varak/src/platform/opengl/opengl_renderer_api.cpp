@@ -5,6 +5,7 @@
 namespace Varak {
 
     namespace {
+
         void OpenGLMessageCallback(unsigned /*source*/, unsigned /*type*/,
                                    unsigned /*id*/, unsigned severity,
                                    int length, const char* message,
@@ -20,6 +21,7 @@ namespace Varak {
 
             VR_CORE_ASSERT(false, "Unknown severity level!");
         }
+
     } // namespace
 
     void OpenGLRendererAPI::init()
