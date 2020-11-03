@@ -2,6 +2,14 @@
 
 namespace Varak {
 
-    RendererAPI Renderer::s_API = RendererAPI::OpenGL;
+    void Renderer::beginScene() {}
+
+    void Renderer::endScene() {}
+
+    void Renderer::submit(const Ref<VertexArray>& vertexArray)
+    {
+        vertexArray->bind();
+        RenderCommand::drawIndexed(vertexArray);
+    }
 
 } // namespace Varak

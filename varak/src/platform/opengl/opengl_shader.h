@@ -16,7 +16,7 @@ namespace Varak {
 
     private:
         // uint32_t = GLenum
-        void compile(const std::unordered_map<uint32_t, std::string> sources);
+        void compile(const std::unordered_map<uint32_t, std::string>& sources);
 
     private:
         uint32_t m_rendererID;

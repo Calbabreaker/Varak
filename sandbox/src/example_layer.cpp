@@ -1,8 +1,5 @@
 #include "example_layer.h"
 
-// temporary
-#include <glad/glad.h>
-
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
@@ -72,14 +69,15 @@ ExampleLayer::ExampleLayer()
 
 void ExampleLayer::onUpdate()
 {
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Varak::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+    Varak::RenderCommand::clear();
+
+    Varak::Renderer::beginScene();
 
     m_shader->bind();
+    Varak::Renderer::submit(m_vertexArray);
 
-    m_vertexArray->bind();
-    glDrawElements(GL_TRIANGLES, m_vertexArray->getIndexBuffer()->getCount(),
-                   GL_UNSIGNED_INT, nullptr);
+    Varak::Renderer::endScene();
 }
 
 void ExampleLayer::onImGuiRender()

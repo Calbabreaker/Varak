@@ -6,12 +6,12 @@
 
 namespace Varak {
 
-    Ref<Shader> Shader::create(const std::string vertexSrc,
-                                           const std::string fragmentSrc)
+    Ref<Shader> Shader::create(const std::string& vertexSrc,
+                               const std::string& fragmentSrc)
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::OpenGL:
+        case RendererAPI::API::OpenGL:
             return makeRef<OpenGLShader>(vertexSrc, fragmentSrc);
         }
 

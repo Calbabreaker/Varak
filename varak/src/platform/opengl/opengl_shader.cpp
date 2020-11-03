@@ -4,36 +4,6 @@
 
 namespace Varak {
 
-    namespace {
-
-        uint32_t compileShader(GLenum type, const std::string& source)
-        {
-            uint32_t id = glCreateShader(type);
-            const char* src = source.c_str();
-            glShaderSource(id, 1, &src, nullptr);
-            glCompileShader(id);
-
-            // error handling
-            int result;
-            glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-            if (result == GL_FALSE)
-            {
-                int length;
-                glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-                char* message =
-                    static_cast<char*>(alloca(length * sizeof(char)));
-                glGetShaderInfoLog(id, length, &length, message);
-
-                VR_CORE_ERROR("{0}", message);
-                VR_ASSERT(false, "Failed to compile shader!");
-                return 0;
-            }
-
-            return id;
-        }
-
-    } // namespace
-
     OpenGLShader::OpenGLShader(const std::string& vertexSrc,
                                const std::string& fragmentSrc)
     {
@@ -59,7 +29,7 @@ namespace Varak {
     }
 
     void OpenGLShader::compile(
-        const std::unordered_map<uint32_t, std::string> sources)
+        const std::unordered_map<uint32_t, std::string>& sources)
     {
         m_rendererID = glCreateProgram();
 

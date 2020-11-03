@@ -1,19 +1,18 @@
 #pragma once
 
-namespace Varak {
+#include "varak/renderer/render_command.h"
 
-    enum class RendererAPI
-    {
-        None = 0, OpenGL
-    };
+namespace Varak {
 
     class Renderer
     {
     public:
-        static RendererAPI getAPI() { return s_API; }
+        static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
 
-    private:
-        static RendererAPI s_API;
+        static void beginScene();
+        static void endScene();
+
+        static void submit(const Ref<VertexArray>& vertexArray);
     };
 
 } // namespace Varak

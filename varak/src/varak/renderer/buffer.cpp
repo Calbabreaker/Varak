@@ -6,12 +6,11 @@
 
 namespace Varak {
 
-    Ref<VertexBuffer> VertexBuffer::create(float* vertices,
-                                                       size_t size)
+    Ref<VertexBuffer> VertexBuffer::create(float* vertices, size_t size)
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::OpenGL:
+        case RendererAPI::API::OpenGL:
             return makeRef<OpenGLVertexBuffer>(vertices, size);
         }
 
@@ -19,12 +18,11 @@ namespace Varak {
         return nullptr;
     }
 
-    Ref<IndexBuffer> IndexBuffer::create(uint32_t* indicies,
-                                                     uint32_t count)
+    Ref<IndexBuffer> IndexBuffer::create(uint32_t* indicies, uint32_t count)
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::OpenGL:
+        case RendererAPI::API::OpenGL:
             return makeRef<OpenGLIndexBuffer>(indicies, count);
         }
 
@@ -63,7 +61,7 @@ namespace Varak {
         }
     }
 
-    uint32_t BufferElement::getComponentCount() const 
+    uint32_t BufferElement::getComponentCount() const
     {
         switch (type)
         {
