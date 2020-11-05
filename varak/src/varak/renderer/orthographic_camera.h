@@ -19,6 +19,13 @@ namespace Varak {
             recalculateMatrices();
         };
 
+        void setRotation(float rotation)
+        {
+            m_rotation = rotation;
+            recalculateMatrices();
+        }
+
+        float getRotation() { return m_rotation; }
         const glm::vec3& getPosition() const { return m_position; }
         const glm::mat4& getViewProjection() const { return m_viewProjection; }
         const glm::mat4& getView() const { return m_view; }
@@ -32,6 +39,7 @@ namespace Varak {
         glm::mat4 m_viewProjection;
         glm::mat4 m_view;
 
+        float m_rotation = 0.0f;
         glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
     };
 
