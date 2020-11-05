@@ -27,7 +27,7 @@ namespace Varak {
 
 } // namespace Varak
 
-// for only the Varak code
+// for only the Varak engine
 #define VR_CORE_TRACE(...) ::Varak::Log::getCoreLogger()->trace(__VA_ARGS__)
 #define VR_CORE_INFO(...) ::Varak::Log::getCoreLogger()->info(__VA_ARGS__)
 #define VR_CORE_WARN(...) ::Varak::Log::getCoreLogger()->warn(__VA_ARGS__)

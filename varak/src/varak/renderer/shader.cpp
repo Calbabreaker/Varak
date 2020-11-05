@@ -12,7 +12,7 @@ namespace Varak {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL:
-            return makeRef<OpenGLShader>(vertexSrc, fragmentSrc);
+            return createRef<OpenGLShader>(vertexSrc, fragmentSrc);
         }
 
         VR_CORE_ASSERT(false, "Unknown RendererAPI!");

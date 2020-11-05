@@ -10,11 +10,10 @@ public:
     void onUpdate() override;
     void onImGuiRender() override;
     void onEvent(Varak::Event& event) override;
-    bool onKeyPressedEvent(Varak::KeyPressedEvent& event);
 
 private:
     Varak::Ref<Varak::Shader> m_shader;
     Varak::Ref<Varak::VertexArray> m_vertexArray;
 
-    Varak::Scope<Varak::OrthographicCamera> m_camera;
+    Varak::Scope<Varak::OrthographicCameraController> m_cameraController;
 };

@@ -11,7 +11,7 @@ namespace Varak {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL:
-            return makeRef<OpenGLVertexBuffer>(vertices, size);
+            return createRef<OpenGLVertexBuffer>(vertices, size);
         }
 
         VR_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -23,7 +23,7 @@ namespace Varak {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL:
-            return makeRef<OpenGLIndexBuffer>(indicies, count);
+            return createRef<OpenGLIndexBuffer>(indicies, count);
         }
 
         VR_CORE_ASSERT(false, "Unknown RendererAPI!");

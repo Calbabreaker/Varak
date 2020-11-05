@@ -1,7 +1,5 @@
 #pragma once
 
-#include "varak/core/base.h"
-
 namespace Varak {
 
     // clang-format off

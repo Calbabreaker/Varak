@@ -11,7 +11,7 @@ namespace Varak {
         uint32_t height;
 
         WindowProps(const std::string& title = "Varak Engine",
-                    uint32_t width = 1600, uint32_t height = 900)
+                    uint32_t width = 1280, uint32_t height = 720)
             : title(title), width(width), height(height)
         {
         }
@@ -33,8 +33,8 @@ namespace Varak {
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
 
-        static std::unique_ptr<Window>
-        create(const WindowProps& props = WindowProps());
+        static std::unique_ptr<Window> create(
+            const WindowProps& props = WindowProps());
 
         virtual void* getNativeWindow() const = 0;
     };

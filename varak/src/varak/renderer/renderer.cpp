@@ -2,7 +2,7 @@
 
 namespace Varak {
 
-    Scope<SceneData> Renderer::s_sceneData = makeScope<SceneData>();
+    Scope<SceneData> Renderer::s_sceneData = createScope<SceneData>();
 
     void Renderer::init()
     {

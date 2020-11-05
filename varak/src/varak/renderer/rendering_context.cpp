@@ -11,7 +11,7 @@ namespace Varak {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL:
-            return makeScope<OpenGLRenderingContext>(
+            return createScope<OpenGLRenderingContext>(
                 static_cast<GLFWwindow*>(window));
         }
 

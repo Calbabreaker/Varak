@@ -16,6 +16,7 @@
 
 // -- rendering --------------------
 #include "varak/renderer/renderer.h"
+#include "varak/renderer/orthographic_camera_controller.h"
 
 #include "varak/renderer/shader.h"
 #include "varak/renderer/buffer.h"

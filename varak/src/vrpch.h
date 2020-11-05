@@ -21,5 +21,10 @@
 #include <unordered_set>
 #include <vector>
 
+// vendor
+#include <glm/glm.hpp>
+#include <glm/gtx/io.hpp>
+
+// Varak engine
 #include "varak/core/base.h"
 #include "varak/core/log.h"

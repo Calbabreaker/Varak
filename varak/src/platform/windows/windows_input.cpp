@@ -5,7 +5,7 @@
 
 namespace Varak {
 
-    bool Input::isKeyPressed(KeyCode key)
+    bool Input::isKeyPressed(Key key)
     {
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
@@ -14,7 +14,7 @@ namespace Varak {
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool Input::isMouseButtonPressed(MouseCode button)
+    bool Input::isMouseButtonPressed(Mouse button)
     {
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());

@@ -26,10 +26,10 @@ namespace Varak {
 
     private:
         glm::mat4 m_projection;
-        glm::mat4 m_view;
         glm::mat4 m_viewProjection;
+        glm::mat4 m_view;
 
-        glm::vec3 m_position;
+        glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
     };
 
 } // namespace Varak

@@ -4,7 +4,7 @@
 
 namespace Varak {
 
-    enum class MouseCode : uint8_t
+    enum class Mouse : uint8_t
     {
         // from glfw3.h
         Button0 = 0,

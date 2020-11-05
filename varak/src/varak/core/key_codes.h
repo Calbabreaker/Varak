@@ -4,7 +4,7 @@
 
 namespace Varak {
 
-    enum class KeyCode : uint16_t
+    enum class Key : uint16_t
     {
         // from glfw3.h
         Space = 32,
@@ -68,10 +68,10 @@ namespace Varak {
         Backspace = 259,
         Insert = 260,
         Delete = 261,
-        Right = 262,
-        Left = 263,
-        Down = 264,
-        Up = 265,
+        RightArrow = 262,
+        LeftArrow = 263,
+        DownArrow = 264,
+        UpArrow = 265,
         PageUp = 266,
         PageDown = 267,
         Home = 268,

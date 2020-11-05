@@ -122,21 +122,21 @@ namespace Varak {
             {
                 case GLFW_PRESS:
                 {
-                    KeyPressedEvent event(static_cast<KeyCode>(key), 0);
+                    KeyPressedEvent event(static_cast<Key>(key), 0);
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_RELEASE:
                 {
-                    KeyReleasedEvent event(static_cast<KeyCode>(key));
+                    KeyReleasedEvent event(static_cast<Key>(key));
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_REPEAT:
                 {
-                    KeyPressedEvent event(static_cast<KeyCode>(key), 0);
+                    KeyPressedEvent event(static_cast<Key>(key), 0);
                     data.eventCallback(event);
                     break;
                 }
@@ -147,7 +147,7 @@ namespace Varak {
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			KeyTypedEvent event(static_cast<KeyCode>(keycode));
+			KeyTypedEvent event(static_cast<Key>(keycode));
 			data.eventCallback(event);
 		});
 
@@ -159,14 +159,14 @@ namespace Varak {
             {
                 case GLFW_PRESS:
                 {
-                    MouseButtonPressedEvent event(static_cast<MouseCode>(button));
+                    MouseButtonPressedEvent event(static_cast<Mouse>(button));
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_RELEASE: 
                 {
-                    MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
+                    MouseButtonReleasedEvent event(static_cast<Mouse>(button));
                     data.eventCallback(event);
                     break;
                 }

@@ -10,7 +10,7 @@ namespace Varak {
     Scope<Window> Window::create(const WindowProps& props)
     {
 #ifdef VR_PLATFORM_WINDOWS
-        return makeScope<WindowsWindow>(props);
+        return createScope<WindowsWindow>(props);
 #endif
     }
 

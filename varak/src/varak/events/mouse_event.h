@@ -8,21 +8,21 @@ namespace Varak {
     class MouseButtonEvent : public Event
     {
     public:
-        MouseCode getMouseButton() const { return m_button; }
+        Mouse getMouseButton() const { return m_button; }
 
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput |
                                   EventCategoryMouseButton)
 
     protected:
-        MouseButtonEvent(MouseCode button) : m_button(button) {}
+        MouseButtonEvent(Mouse button) : m_button(button) {}
 
-        MouseCode m_button;
+        Mouse m_button;
     };
 
     class MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
-        MouseButtonPressedEvent(MouseCode button) : MouseButtonEvent(button) {}
+        MouseButtonPressedEvent(Mouse button) : MouseButtonEvent(button) {}
 
         std::string toString() const override
         {
@@ -37,7 +37,7 @@ namespace Varak {
     class MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
-        MouseButtonReleasedEvent(MouseCode button) : MouseButtonEvent(button) {}
+        MouseButtonReleasedEvent(Mouse button) : MouseButtonEvent(button) {}
 
         std::string toString() const override
         {

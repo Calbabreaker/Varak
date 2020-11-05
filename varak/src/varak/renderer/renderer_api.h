@@ -2,8 +2,6 @@
 
 #include "varak/renderer/vertex_array.h"
 
-#include <glm/glm.hpp>
-
 namespace Varak {
 
     class RendererAPI
