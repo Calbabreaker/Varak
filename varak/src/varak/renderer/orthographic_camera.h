@@ -10,6 +10,9 @@ namespace Varak {
         OrthographicCamera(float left, float right, float bottom, float top,
                            float znear = -1.0f, float zfar = 1.0f);
 
+        void setProjection(float left, float right, float bottom, float top,
+                           float znear = -1.0f, float zfar = 1.0f);
+
         void setPosition(const glm::vec3& position)
         {
             m_position = position;

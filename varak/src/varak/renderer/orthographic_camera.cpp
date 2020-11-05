@@ -7,9 +7,17 @@ namespace Varak {
     OrthographicCamera::OrthographicCamera(float left, float right,
                                            float bottom, float top, float znear,
                                            float zfar)
-        : m_projection(glm::ortho(left, right, bottom, top, znear, zfar)), m_view(1.0f)
+        : m_projection(glm::ortho(left, right, bottom, top, znear, zfar)),
+          m_view(1.0f)
     {
+        m_viewProjection = m_projection * m_view;
+    }
 
+    void OrthographicCamera::setProjection(float left, float right,
+                                           float bottom, float top,
+                                           float znear, float zfar)
+    {
+        m_projection = glm::ortho(left, right, bottom, top, znear, zfar);
         m_viewProjection = m_projection * m_view;
     }
 

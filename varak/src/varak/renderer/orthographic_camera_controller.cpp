@@ -32,6 +32,27 @@ namespace Varak {
         m_camera.setPosition(m_camera.getPosition() + velocity);
     }
 
-    void OrthographicCameraController::onEvent(Event& event) {}
+    void OrthographicCameraController::onEvent(Event& event)
+    {
+        EventDispatcher dispatcher(event);
+        dispatcher.dispatch<MouseScrolledEvent>(
+            VR_BIND_EVENT_FUNC(OrthographicCameraController::onMouseScrolled));
+    }
+
+    bool OrthographicCameraController::onMouseScrolled(
+        MouseScrolledEvent& event)
+    {
+        m_zoomLevel -= event.getYOfset() * m_zoomSpeed;
+        m_zoomLevel = std::max(m_zoomLevel, 0.25f);
+        recaculateProjection();
+        return false;
+    }
+
+    void OrthographicCameraController::recaculateProjection()
+    {
+        m_camera.setProjection(-m_zoomLevel * m_aspectRatio,
+                               m_zoomLevel * m_aspectRatio, -m_zoomLevel,
+                               m_zoomLevel);
+    }
 
 } // namespace Varak
