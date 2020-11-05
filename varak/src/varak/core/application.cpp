@@ -2,7 +2,7 @@
 
 #include "varak/renderer/renderer.h"
 
-#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Varak {
 
@@ -33,8 +33,12 @@ namespace Varak {
     {
         while (m_running)
         {
+            float now = static_cast<float>(glfwGetTime());
+            Timestep ts = now - m_lastFrameTime;
+            m_lastFrameTime = now;
+
             for (Layer* layer : m_layerStack)
-                layer->onUpdate();
+                layer->onUpdate(ts);
 
             m_imGuiLayer->begin();
             for (Layer* layer : m_layerStack)

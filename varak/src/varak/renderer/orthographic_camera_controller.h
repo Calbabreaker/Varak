@@ -1,5 +1,6 @@
 #pragma once
 
+#include "varak/core/timestep.h"
 #include "varak/events/event.h"
 #include "varak/events/mouse_event.h"
 #include "varak/renderer/orthographic_camera.h"
@@ -11,7 +12,7 @@ namespace Varak {
     public:
         OrthographicCameraController(float aspectRatio);
 
-        void onUpdate();
+        void onUpdate(Timestep ts);
         void onEvent(Event& event);
 
         bool onMouseScrolled(MouseScrolledEvent& event);
@@ -26,7 +27,7 @@ namespace Varak {
         float m_zoomLevel = 1.0f;
         OrthographicCamera m_camera;
 
-        float m_moveSpeed = 0.1f;
+        float m_moveSpeed = 5.0f;
         float m_zoomSpeed = 0.25f;
     };
 

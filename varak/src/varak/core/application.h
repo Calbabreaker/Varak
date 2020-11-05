@@ -34,6 +34,7 @@ namespace Varak {
         static Application* s_instance;
 
         bool m_running = false;
+        float m_lastFrameTime = 0.0f;
     };
 
     // client will define

@@ -7,7 +7,7 @@ class ExampleLayer : public Varak::Layer
 public:
     ExampleLayer();
 
-    void onUpdate() override;
+    void onUpdate(Varak::Timestep ts) override;
     void onImGuiRender() override;
     void onEvent(Varak::Event& event) override;
 

@@ -84,12 +84,12 @@ ExampleLayer::ExampleLayer()
         Varak::createScope<Varak::OrthographicCameraController>(aspectRatio);
 }
 
-void ExampleLayer::onUpdate()
+void ExampleLayer::onUpdate(Varak::Timestep ts)
 {
     Varak::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Varak::RenderCommand::clear();
 
-    m_cameraController->onUpdate();
+    m_cameraController->onUpdate(ts);
 
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 

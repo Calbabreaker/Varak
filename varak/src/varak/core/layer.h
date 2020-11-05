@@ -1,5 +1,6 @@
 #pragma once
 
+#include "varak/core/timestep.h"
 #include "varak/events/event.h"
 
 namespace Varak {
@@ -12,7 +13,7 @@ namespace Varak {
 
         virtual void onAttach() {}
         virtual void onDetach() {}
-        virtual void onUpdate() {}
+        virtual void onUpdate(Timestep ts) {}
         virtual void onImGuiRender() {}
         virtual void onEvent(Event& event) {}
     };

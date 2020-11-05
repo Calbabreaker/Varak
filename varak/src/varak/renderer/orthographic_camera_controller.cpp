@@ -13,7 +13,7 @@ namespace Varak {
     {
     }
 
-    void OrthographicCameraController::onUpdate()
+    void OrthographicCameraController::onUpdate(Timestep ts)
     {
         glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
         if (Input::isKeyPressed(Key::A))
@@ -27,11 +27,11 @@ namespace Varak {
             velocity.y += 1.0f;
 
         if (glm::length(velocity) != 0)
-            velocity = glm::normalize(velocity) * m_moveSpeed;
+            velocity = glm::normalize(velocity) * m_moveSpeed * ts.getSeconds();
 
         m_camera.setPosition(m_camera.getPosition() + velocity);
 
-        //m_moveSpeed = m_zoomLevel;
+        m_moveSpeed = m_zoomLevel;
     }
 
     void OrthographicCameraController::onEvent(Event& event)
