@@ -28,10 +28,6 @@ namespace Varak {
         void* getNativeWindow() const override { return m_window; }
 
     private:
-        void init(const WindowProps& props);
-        void shutdown();
-
-    private:
         GLFWwindow* m_window;
 
         struct WindowData

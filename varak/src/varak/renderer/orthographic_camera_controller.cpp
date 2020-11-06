@@ -16,14 +16,14 @@ namespace Varak {
     void OrthographicCameraController::onUpdate(Timestep ts)
     {
         glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
-        if (Input::isKeyPressed(Key::A))
+        if (Input::isKeyPressed(KeyCode::A))
             velocity.x -= 1.0f;
-        if (Input::isKeyPressed(Key::D))
+        if (Input::isKeyPressed(KeyCode::D))
             velocity.x += 1.0f;
 
-        if (Input::isKeyPressed(Key::S))
+        if (Input::isKeyPressed(KeyCode::S))
             velocity.y -= 1.0f;
-        if (Input::isKeyPressed(Key::W))
+        if (Input::isKeyPressed(KeyCode::W))
             velocity.y += 1.0f;
 
         if (glm::length(velocity) != 0)
@@ -45,7 +45,8 @@ namespace Varak {
         MouseScrolledEvent& event)
     {
         m_zoomLevel -= event.getYOfset() * m_zoomSpeed;
-        m_zoomLevel = std::max(m_zoomLevel, 0.25f);
+        m_zoomLevel = glm::max(m_zoomLevel, 0.25f);
+        m_zoomSpeed = m_zoomLevel / 20.0f;
         recaculateProjection();
         return false;
     }

@@ -19,33 +19,6 @@ namespace Varak {
 
     WindowsWindow::WindowsWindow(const WindowProps& props)
     {
-        init(props); //
-    }
-
-    WindowsWindow::~WindowsWindow()
-    {
-        shutdown(); //
-    }
-
-    void WindowsWindow::onUpdate()
-    {
-        glfwPollEvents();
-        m_context->swapBuffers();
-    }
-
-    void WindowsWindow::setVSync(bool enabled)
-    {
-        glfwSwapInterval(enabled);
-        m_data.vSyncEnabled = enabled;
-    }
-
-    bool WindowsWindow::isVSync() const
-    {
-        return m_data.vSyncEnabled; //
-    }
-
-    void WindowsWindow::init(const WindowProps& props)
-    {
         m_data.title = props.title;
         m_data.width = props.width;
         m_data.height = props.height;
@@ -77,6 +50,7 @@ namespace Varak {
         setVSync(true);
 
         // clang-format off
+        // clang format does not like these lambdas
 
         // set glfw callbacks
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) 
@@ -122,21 +96,21 @@ namespace Varak {
             {
                 case GLFW_PRESS:
                 {
-                    KeyPressedEvent event(static_cast<Key>(key), 0);
+                    KeyPressedEvent event(static_cast<KeyCode>(key), 0);
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_RELEASE:
                 {
-                    KeyReleasedEvent event(static_cast<Key>(key));
+                    KeyReleasedEvent event(static_cast<KeyCode>(key));
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_REPEAT:
                 {
-                    KeyPressedEvent event(static_cast<Key>(key), 0);
+                    KeyPressedEvent event(static_cast<KeyCode>(key), 0);
                     data.eventCallback(event);
                     break;
                 }
@@ -147,7 +121,7 @@ namespace Varak {
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			KeyTypedEvent event(static_cast<Key>(keycode));
+			KeyTypedEvent event(static_cast<KeyCode>(keycode));
 			data.eventCallback(event);
 		});
 
@@ -159,14 +133,14 @@ namespace Varak {
             {
                 case GLFW_PRESS:
                 {
-                    MouseButtonPressedEvent event(static_cast<Mouse>(button));
+                    MouseButtonPressedEvent event(static_cast<MouseCode>(button));
                     data.eventCallback(event);
                     break;
                 }
 
                 case GLFW_RELEASE: 
                 {
-                    MouseButtonReleasedEvent event(static_cast<Mouse>(button));
+                    MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
                     data.eventCallback(event);
                     break;
                 }
@@ -188,11 +162,10 @@ namespace Varak {
             MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
             data.eventCallback(event);
         });
-
         // clang-format on
     }
 
-    void WindowsWindow::shutdown()
+    WindowsWindow::~WindowsWindow()
     {
         glfwDestroyWindow(m_window);
         s_glfwWindowCount--;
@@ -201,6 +174,23 @@ namespace Varak {
         {
             glfwTerminate();
         }
+    }
+
+    void WindowsWindow::onUpdate()
+    {
+        glfwPollEvents();
+        m_context->swapBuffers();
+    }
+
+    void WindowsWindow::setVSync(bool enabled)
+    {
+        glfwSwapInterval(enabled);
+        m_data.vSyncEnabled = enabled;
+    }
+
+    bool WindowsWindow::isVSync() const
+    {
+        return m_data.vSyncEnabled; //
     }
 
 } // namespace Varak

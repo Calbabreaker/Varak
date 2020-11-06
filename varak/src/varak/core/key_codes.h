@@ -4,7 +4,7 @@
 
 namespace Varak {
 
-    enum class Key : uint16_t
+    enum class KeyCode : uint16_t
     {
         // from glfw3.h
         Space = 32,

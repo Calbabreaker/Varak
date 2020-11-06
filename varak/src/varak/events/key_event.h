@@ -8,20 +8,20 @@ namespace Varak {
     class KeyEvent : public Event
     {
     public:
-        Key getKeyCode() const { return m_keyCode; }
+        KeyCode getKeyCode() const { return m_keyCode; }
 
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
     protected:
-        KeyEvent(Key keyCode) : m_keyCode(keyCode){};
+        KeyEvent(KeyCode keyCode) : m_keyCode(keyCode){};
 
-        Key m_keyCode;
+        KeyCode m_keyCode;
     };
 
     class KeyPressedEvent : public KeyEvent
     {
     public:
-        KeyPressedEvent(Key keyCode, uint16_t repeatCount)
+        KeyPressedEvent(KeyCode keyCode, uint16_t repeatCount)
             : KeyEvent(keyCode), m_repeatCount(repeatCount)
         {
         }
@@ -45,7 +45,7 @@ namespace Varak {
     class KeyReleasedEvent : public KeyEvent
     {
     public:
-        KeyReleasedEvent(Key keyCode) : KeyEvent(keyCode) {}
+        KeyReleasedEvent(KeyCode keyCode) : KeyEvent(keyCode) {}
 
         std::string toString() const override
         {
@@ -60,7 +60,7 @@ namespace Varak {
     class KeyTypedEvent : public KeyEvent
     {
     public:
-        KeyTypedEvent(Key keyCode) : KeyEvent(keyCode) {}
+        KeyTypedEvent(KeyCode keyCode) : KeyEvent(keyCode) {}
 
         std::string toString() const override
         {

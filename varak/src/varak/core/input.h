@@ -8,8 +8,8 @@ namespace Varak {
     class Input
     {
     public:
-        static bool isKeyPressed(Key key);
-        static bool isMouseButtonPressed(Mouse button);
+        static bool isKeyPressed(KeyCode key);
+        static bool isMouseButtonPressed(MouseCode button);
 
         static glm::vec2 getMousePosition();
         static float getMouseX();

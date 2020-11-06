@@ -11,25 +11,24 @@
     #else
         #error "Varak does not support 32-bit Windows!"
     #endif
-#elif __APPLE__
+#elif defined(__APPLE__) || defined(__MACH__)
     #include <TargetConditionals.h>
-    #if TARGET_IPHONE_SIMULATOR
+    #if TARGET_IPHONE_SIMULATOR == 1
         #define VR_PLATFORM_IOS
         #error "Varak does not support IOS simulator!"
-    #elif TARGET_OS_IPHONE
+    #elif TARGET_OS_IPHONE == 1
         #define VR_PLATFORM_IOS
         #error "Varak does not support IOS!"
-    #elif TARGET_OS_MAC
+    #elif TARGET_OS_MAC == 1
         #define VR_PLATFORM_MACOS
         #error "Varak does not support MacOS!"
     #else
         #error "Unknown Apple platform!"
     #endif
-
 #elif defined(__ANDROID__)
     #define VR_PLATFORM_ANDROID
     #error "Varak does not support Android!"
-#elif __linux__
+#elif defined(__linux__)
     #define VR_PLATFORM_LINUX
     #error "Varak does not support Linux!"
 #else
