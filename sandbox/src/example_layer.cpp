@@ -3,20 +3,16 @@
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
-    std::array<float, 3*7> positions = {
-        -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f,
-         0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+    std::array<float, 4*7> positions = {
+        -0.5f, -0.5f,      0.0f, 0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f,      0.0f, 1.0f, 1.0f, 1.0f,
+         0.5f,  0.5f,      1.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f,      1.0f, 1.0f, 0.0f, 1.0f
     };
 
-    //std::array<float, 3*7> positions = {
-    //     0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-    //     1000.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    //     500.0f, 1000.0f, 0.0f, 0.0f, 1.0f, 1.0f
-    //};
-
-    std::array<uint32_t, 3> indices = {
-        0, 1, 2
+    std::array<uint32_t, 6> indices = {
+        0, 1, 2,
+        2, 3, 0
     };
 
     Varak::BufferLayout layout = { 
@@ -94,6 +90,16 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 
     Varak::Renderer::submit(m_vertexArray, m_shader);
+
+    for (int x = 0; x < 20; x++)
+    {
+        for (int y = 0; y < 20; y++)
+        {
+            glm::vec3 pos(x + 1.0f, y + 1.0f, 0.0f);
+            glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
+            Varak::Renderer::submit(m_vertexArray, m_shader, transform);
+        }
+    }
 
     Varak::Renderer::endScene();
 }
