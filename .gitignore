@@ -1,7 +1,2 @@
 # build output
 /build
-/out
-
-# vs stuff
-.vs
-CMakeSettings.json

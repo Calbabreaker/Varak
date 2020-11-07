@@ -1,12 +1,12 @@
 [submodule "varak/vendor/spdlog"]
-	path = varak/vendor/spdlog
+	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
 [submodule "varak/vendor/glfw"]
-	path = varak/vendor/glfw
+	path = vendor/glfw
 	url = https://github.com/glfw/glfw
 [submodule "varak/vendor/glm"]
-	path = varak/vendor/glm
+	path = vendor/glm
 	url = https://github.com/g-truc/glm
 [submodule "varak/vendor/imgui"]
-	path = varak/vendor/imgui
+	path = vendor/imgui
 	url = https://github.com/Calbabreaker/imgui
