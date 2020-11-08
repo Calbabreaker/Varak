@@ -6,11 +6,11 @@
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
-    std::array<float, 4*7> positions = {
-        -0.5f, -0.5f,      0.0f, 0.0f, 1.0f, 1.0f,
-         0.5f, -0.5f,      0.0f, 1.0f, 1.0f, 1.0f,
-         0.5f,  0.5f,      1.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f,      1.0f, 1.0f, 0.0f, 1.0f
+    std::array<float, 4*2> positions = {
+        -0.5f, -0.5f,
+         0.5f, -0.5f,
+         0.5f,  0.5f,
+        -0.5f,  0.5f,
     };
 
     std::array<uint32_t, 6> indices = {
@@ -19,8 +19,7 @@ ExampleLayer::ExampleLayer()
     };
 
     Varak::BufferLayout layout = { 
-        { Varak::ShaderDataType::Float2, "a_position" }, 
-        { Varak::ShaderDataType::Float4, "a_color" } 
+        { Varak::ShaderDataType::Float2, "a_position" }
     };
 
     // clang-format on
@@ -45,16 +44,12 @@ ExampleLayer::ExampleLayer()
         #version 330 core
 
         layout(location = 0) in vec2 a_position;
-        layout(location = 1) in vec4 a_color;
-
-        out vec4 v_color;
 
         uniform mat4 u_viewProjection;
         uniform mat4 u_transform;
 
         void main() 
         {
-            v_color = a_color;
             gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
         }
     )";
@@ -64,11 +59,11 @@ ExampleLayer::ExampleLayer()
 
         layout(location = 0) out vec4 color;
 
-        in vec4 v_color;
+        uniform vec3 u_color;
 
         void main() 
         {
-            color = v_color;
+            color = vec4(u_color, 1.0);
         }
     )";
 
@@ -92,14 +87,18 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 
+    m_shader->setFloat3("u_color", {1.0f, 0.5f, 0.0f});
     Varak::Renderer::submit(m_vertexArray, m_shader);
 
     for (int x = 0; x < 10; x++)
     {
         for (int y = 0; y < 10; y++)
         {
+            m_shader->setFloat3("u_color", (x + y) % 2 ? m_squareColor1 : m_squareColor2);
             glm::vec3 pos(x + 1.0f, y + 1.0f, 0.0f);
-            glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
+            glm::mat4 transform =
+                glm::translate(glm::mat4(1.0f), pos) *
+                glm::scale(glm::mat4(1.0f), {0.75f, 0.75f, 1.0f});
             Varak::Renderer::submit(m_vertexArray, m_shader, transform);
         }
     }
@@ -109,8 +108,9 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
 void ExampleLayer::onImGuiRender()
 {
-    ImGui::Begin("test");
-    ImGui::Text("hi");
+    ImGui::Begin("Settings");
+    ImGui::ColorEdit3("Square Color 1", glm::value_ptr(m_squareColor1));
+    ImGui::ColorEdit3("Square Color 2", glm::value_ptr(m_squareColor2));
     ImGui::End();
 }
 
