@@ -2,6 +2,8 @@
 
 #include "varak/core/layer.h"
 
+#include <vector>
+
 namespace Varak {
 
     class LayerStack

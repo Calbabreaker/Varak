@@ -1,7 +1,7 @@
 #include "varak/core/window.h"
 
 #include "varak/core/platform_detection.h"
-#ifdef VR_PLATFORM_WINDOWS
+#if defined(VR_PLATFORM_WINDOWS)
     #include "platform/windows/windows_window.h"
 #endif
 

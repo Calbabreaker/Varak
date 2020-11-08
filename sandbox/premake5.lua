@@ -47,6 +47,3 @@ project "Sandbox"
 		defines "VR_DISTRIBUTION"
 		runtime "Release"
         optimize "on"
-        
-    filter "action:vs*" 
-        buildoptions {"/FI vrpch.h"}

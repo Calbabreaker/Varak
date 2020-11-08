@@ -1,5 +1,11 @@
 #pragma once
 
+#include <functional>
+#include <sstream>
+#include <string>
+
+#include "varak/core/base.h"
+
 namespace Varak {
 
     // clang-format off

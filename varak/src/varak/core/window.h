@@ -1,5 +1,6 @@
 #pragma once
 
+#include "varak/core/base.h"
 #include "varak/events/event.h"
 
 namespace Varak {
@@ -33,8 +34,7 @@ namespace Varak {
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
 
-        static std::unique_ptr<Window> create(
-            const WindowProps& props = WindowProps());
+        static Scope<Window> create(const WindowProps& props = WindowProps());
 
         virtual void* getNativeWindow() const = 0;
     };

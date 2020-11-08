@@ -3,6 +3,8 @@
 #include "varak/core/key_codes.h"
 #include "varak/core/mouse_codes.h"
 
+#include <glm/glm.hpp>
+
 namespace Varak {
 
     class Input

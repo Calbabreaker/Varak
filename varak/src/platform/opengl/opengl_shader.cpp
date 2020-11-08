@@ -1,5 +1,6 @@
 #include "platform/opengl/opengl_shader.h"
 
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
 namespace Varak {

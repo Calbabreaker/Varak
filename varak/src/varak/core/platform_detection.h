@@ -1,8 +1,5 @@
 #pragma once
 
-// from
-// https://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
-
 // for now only support 64-bit windows
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)

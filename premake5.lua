@@ -16,7 +16,8 @@ workspace "Varak"
     
     files 
     {
-        ".clang-format"
+        ".clang-format",
+        ".editorconfig"
     }
 
 outputdir = "%{wks.location}/build/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
