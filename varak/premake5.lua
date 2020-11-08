@@ -11,26 +11,28 @@ project "Varak"
 	objdir ("%{outputdir}/premake_files/%{prj.name}")
 
 	pchheader "vrpch.h"
+	pchsource "src/vrpch.cpp"
 
 	files 
 	{
-		"src/**.h"
+		"src/**.h",
 		"src/**.cpp"
 	}
 
 	defines
 	{
-		"GLFW_INCLUDE_NONE"
+        "GLFW_INCLUDE_NONE",
+        "_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs 
 	{
-		"%{varakdir}/src",
+		"src",
 		
 		"%{vendordir}/spdlog/include",
 		"%{vendordir}/glad/include",
 		"%{vendordir}/glfw/include",
-		"%{vendordir}/glm"
+		"%{vendordir}/glm",
 		"%{vendordir}/imgui"
 	}
 
@@ -42,16 +44,19 @@ project "Varak"
 	}
 
 	filter "configurations:Debug"
-		define "VR_DEBUG"
+		defines "VR_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		define "VR_RELEASE"
+		defines "VR_RELEASE"
 		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Distribution"
-		define "VR_DISTRIBUTION"
+		defines "VR_DISTRIBUTION"
 		runtime "Release"
 		optimize "on"
+
+	filter "action:vs*" 
+        buildoptions {"/FI vrpch.h"}

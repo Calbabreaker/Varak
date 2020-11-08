@@ -12,7 +12,12 @@ workspace "Varak"
 	flags
 	{
 		"MultiProcessorCompile"
-	}
+    }
+    
+    files 
+    {
+        ".clang-format"
+    }
 
 outputdir = "%{wks.location}/build/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 vendordir = "%{wks.location}/vendor"

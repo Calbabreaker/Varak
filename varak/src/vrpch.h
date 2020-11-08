@@ -24,6 +24,7 @@
 // vendor
 #include <glm/glm.hpp>
 #include <glm/gtx/io.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Varak engine
 #include "varak/core/base.h"

@@ -10,7 +10,7 @@ project "Sandbox"
 
 	files 
 	{
-		"src/**.h"
+		"src/**.h",
 		"src/**.cpp"
 	}
 
@@ -23,8 +23,9 @@ project "Sandbox"
 	{
 		"%{varakdir}/src",
 		
-		"%{vendordir}/spdlog/include"
-		"%{vendordir}/glm"
+		"%{vendordir}/spdlog/include",
+        "%{vendordir}/glm",
+		"%{vendordir}/imgui"
 	}
 
 	links
@@ -33,16 +34,19 @@ project "Sandbox"
 	}
 
 	filter "configurations:Debug"
-		define "VR_DEBUG"
+		defines "VR_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		define "VR_RELEASE"
+		defines "VR_RELEASE"
 		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Distribution"
-		define "VR_DISTRIBUTION"
+		defines "VR_DISTRIBUTION"
 		runtime "Release"
-		optimize "on"
+        optimize "on"
+        
+    filter "action:vs*" 
+        buildoptions {"/FI vrpch.h"}

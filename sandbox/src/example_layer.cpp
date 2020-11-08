@@ -28,8 +28,8 @@ ExampleLayer::ExampleLayer()
     vertexBuffer->setLayout(layout);
 
     // index buffer
-    Varak::Ref<Varak::IndexBuffer> indexBuffer =
-        Varak::IndexBuffer::create(indices.data(), indices.size());
+    Varak::Ref<Varak::IndexBuffer> indexBuffer = Varak::IndexBuffer::create(
+        indices.data(), static_cast<uint32_t>(indices.size()));
     indexBuffer->bind();
 
     // vertex array

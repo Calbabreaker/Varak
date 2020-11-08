@@ -53,7 +53,7 @@ namespace Varak {
 
     void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
     {
-        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &value[0][0]);
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
     void OpenGLShader::compile(
