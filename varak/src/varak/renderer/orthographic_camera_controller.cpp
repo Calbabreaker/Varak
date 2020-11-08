@@ -30,8 +30,6 @@ namespace Varak {
             velocity = glm::normalize(velocity) * m_moveSpeed * ts.getSeconds();
 
         m_camera.setPosition(m_camera.getPosition() + velocity);
-
-        m_moveSpeed = m_zoomLevel;
     }
 
     void OrthographicCameraController::onEvent(Event& event)
@@ -41,13 +39,20 @@ namespace Varak {
             VR_BIND_EVENT_FUNC(OrthographicCameraController::onMouseScrolled));
     }
 
+    void OrthographicCameraController::setZoomLevel(float zoomLevel)
+    {
+        m_zoomLevel = zoomLevel;
+        m_moveSpeed = m_zoomLevel;
+        recaculateProjection();
+    }
+
     bool OrthographicCameraController::onMouseScrolled(
         MouseScrolledEvent& event)
     {
-        m_zoomLevel -= event.getYOfset() * m_zoomSpeed;
-        m_zoomLevel = glm::max(m_zoomLevel, 0.25f);
-        m_zoomSpeed = m_zoomLevel / 20.0f;
-        recaculateProjection();
+        float zoomLevel = m_zoomLevel - event.getYOffset() * m_realZoomSpeed;
+        zoomLevel = glm::clamp(zoomLevel, m_minZoomLevel, m_maxZoomLevel);
+        m_realZoomSpeed = zoomLevel * m_zoomSpeed;
+        setZoomLevel(zoomLevel);
         return false;
     }
 

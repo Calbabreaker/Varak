@@ -81,7 +81,7 @@ namespace Varak {
         }
 
         float getXOffset() const { return m_xOffSet; }
-        float getYOfset() const { return m_yOffset; }
+        float getYOffset() const { return m_yOffset; }
 
         std::string toString() const override
         {

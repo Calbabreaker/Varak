@@ -94,9 +94,9 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer::submit(m_vertexArray, m_shader);
 
-    for (int x = 0; x < 20; x++)
+    for (int x = 0; x < 10; x++)
     {
-        for (int y = 0; y < 20; y++)
+        for (int y = 0; y < 10; y++)
         {
             glm::vec3 pos(x + 1.0f, y + 1.0f, 0.0f);
             glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
