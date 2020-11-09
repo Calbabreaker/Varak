@@ -6,7 +6,7 @@
 
 namespace Varak {
 
-    Ref<VertexBuffer> VertexBuffer::create(float* vertices, size_t size)
+    Ref<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
     {
         switch (Renderer::getAPI())
         {
@@ -30,7 +30,7 @@ namespace Varak {
         return nullptr;
     }
 
-    size_t shaderTypeSize(ShaderDataType type)
+    uint32_t shaderTypeSize(ShaderDataType type)
     {
         switch (type)
         {

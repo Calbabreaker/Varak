@@ -30,14 +30,14 @@ ExampleLayer::ExampleLayer()
     vertexBuffer->setLayout(layout);
 
     // index buffer
-    Varak::Ref<Varak::IndexBuffer> indexBuffer = Varak::IndexBuffer::create(
-        indices.data(), static_cast<uint32_t>(indices.size()));
+    Varak::Ref<Varak::IndexBuffer> indexBuffer =
+        Varak::IndexBuffer::create(indices.data(), static_cast<uint32_t>(indices.size()));
     indexBuffer->bind();
 
     // vertex array
-    m_vertexArray = Varak::VertexArray::create();
-    m_vertexArray->addVertexBuffer(vertexBuffer);
-    m_vertexArray->setIndexBuffer(indexBuffer);
+    m_squareVA = Varak::VertexArray::create();
+    m_squareVA->addVertexBuffer(vertexBuffer);
+    m_squareVA->setIndexBuffer(indexBuffer);
 
     // shader
     std::string vertexSrc = R"(
@@ -67,7 +67,7 @@ ExampleLayer::ExampleLayer()
         }
     )";
 
-    m_shader = Varak::Shader::create(vertexSrc, framentSrc);
+    m_floatColorShader = Varak::Shader::create(vertexSrc, framentSrc);
 
     // camera
     Varak::Window& window = Varak::Application::get().getWindow();
@@ -87,19 +87,20 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 
-    m_shader->setFloat3("u_color", {1.0f, 0.5f, 0.0f});
-    Varak::Renderer::submit(m_vertexArray, m_shader);
+    m_floatColorShader->setFloat3("u_color", {1.0f, 0.5f, 0.0f});
+    Varak::Renderer::submit(m_squareVA, m_floatColorShader);
 
     for (int x = 0; x < 10; x++)
     {
         for (int y = 0; y < 10; y++)
         {
-            m_shader->setFloat3("u_color", (x + y) % 2 ? m_squareColor1 : m_squareColor2);
+            m_floatColorShader->setFloat3("u_color",
+                                (x + y) % 2 ? m_squareColor1 : m_squareColor2);
             glm::vec3 pos(x + 1.0f, y + 1.0f, 0.0f);
             glm::mat4 transform =
                 glm::translate(glm::mat4(1.0f), pos) *
                 glm::scale(glm::mat4(1.0f), {0.75f, 0.75f, 1.0f});
-            Varak::Renderer::submit(m_vertexArray, m_shader, transform);
+            Varak::Renderer::submit(m_squareVA, m_floatColorShader, transform);
         }
     }
 

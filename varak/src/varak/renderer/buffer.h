@@ -18,14 +18,14 @@ namespace Varak {
         Bool
     };
 
-    size_t shaderTypeSize(ShaderDataType type);
+    uint32_t shaderTypeSize(ShaderDataType type);
 
     struct BufferElement
     {
         ShaderDataType type;
         std::string name;
         bool normalized;
-        size_t size;
+        uint32_t size;
         size_t offset;
 
         BufferElement(ShaderDataType type, const std::string& name,
@@ -48,7 +48,7 @@ namespace Varak {
             calculateOffsetsAndStride();
         }
 
-        size_t getStride() const { return m_stride; }
+        uint32_t getStride() const { return m_stride; }
         const std::vector<BufferElement>& getElements() const
         {
             return m_elements;
@@ -66,13 +66,13 @@ namespace Varak {
 
     private:
         std::vector<BufferElement> m_elements;
-        size_t m_stride;
+        uint32_t m_stride = 0;
     };
 
     class VertexBuffer
     {
     public:
-        static Ref<VertexBuffer> create(float* vertices, size_t size);
+        static Ref<VertexBuffer> create(float* vertices, uint32_t size);
 
         virtual ~VertexBuffer() = default;
 

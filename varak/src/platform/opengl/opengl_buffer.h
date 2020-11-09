@@ -7,7 +7,7 @@ namespace Varak {
     class OpenGLVertexBuffer : public VertexBuffer
     {
     public:
-        OpenGLVertexBuffer(float* vertices, size_t size);
+        OpenGLVertexBuffer(float* vertices, uint32_t size);
         ~OpenGLVertexBuffer();
 
         void bind() const override;

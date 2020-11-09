@@ -8,7 +8,7 @@ namespace Varak {
     // Vertex Buffer
     //
 
-    OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size)
+    OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
     {
         glCreateBuffers(1, &m_rendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);

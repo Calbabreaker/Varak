@@ -55,7 +55,7 @@ namespace Varak {
             glVertexAttribPointer(
                 index, element.getComponentCount(),
                 shaderTypeOpenGL(element.type), element.normalized,
-                static_cast<GLsizei>(vertexBuffer->getLayout().getStride()),
+                vertexBuffer->getLayout().getStride(),
                 reinterpret_cast<const void*>(element.offset));
             index++;
         }

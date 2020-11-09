@@ -1,9 +1,7 @@
 # build output
 build/
 
-# visual studio
+# visual studio files
 .vs/
-**.vcxproj
-**.vcxproj.filters
-**.vcxproj.user
+**.vcxproj*
 **.sln
