@@ -35,6 +35,9 @@ namespace Varak {
                               GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr,
                               GL_FALSE);
 #endif
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     void OpenGLRendererAPI::setClearColor(const glm::vec4& color)

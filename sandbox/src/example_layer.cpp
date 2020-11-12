@@ -144,8 +144,8 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
     m_texture->bind();
     m_textureShader->bind();
     m_textureShader->setInt1("u_texture", 0);
-    glm::mat4 transform = glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f});
-    Varak::Renderer::submit(m_squareVA, m_textureShader, transform);
+    Varak::Renderer::submit(m_squareVA, m_textureShader,
+                            glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f}));
 
     Varak::Renderer::endScene();
 }
