@@ -4,9 +4,9 @@
 
 namespace Varak {
 
-    //
-    // Vertex Buffer
-    //
+    //               \\
+    // Vertex Buffer \\
+    //               \\
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
     {
@@ -30,9 +30,9 @@ namespace Varak {
         glBindBuffer(GL_ARRAY_BUFFER, 0); //
     }
 
-    //
-    // Index Buffer
-    //
+    //              \\
+    // Index Buffer \\
+    //              \\
 
     OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* vertices, uint32_t count)
         : m_count(count)

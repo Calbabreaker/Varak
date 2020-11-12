@@ -1,6 +1,11 @@
 #pragma once
 
+#include <string>
+#include <unordered_map>
+
 #include <glm/glm.hpp>
+
+#include "varak/core/base.h"
 
 namespace Varak {
 

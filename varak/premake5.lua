@@ -33,14 +33,16 @@ project "Varak"
 		"%{vendordir}/glad/include",
 		"%{vendordir}/glfw/include",
 		"%{vendordir}/glm",
-		"%{vendordir}/imgui"
+		"%{vendordir}/imgui",
+		"%{vendordir}/stb_image"
 	}
 
 	links
 	{
 		"ImGui",
 		"Glad",
-		"GLFW"
+        "GLFW",
+        "stb_image"
 	}
 
 	filter "configurations:Debug"

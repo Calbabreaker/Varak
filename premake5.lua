@@ -27,6 +27,7 @@ group "Vendor"
 	include "vendor/glfw"
 	include "vendor/glad"
 	include "vendor/imgui"
+	include "vendor/stb_image"
 group ""
 
 include "Varak"

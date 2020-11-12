@@ -6,11 +6,12 @@
 ExampleLayer::ExampleLayer()
 {
     // clang-format off
-    std::array<float, 4*2> positions = {
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-         0.5f,  0.5f,
-        -0.5f,  0.5f,
+    std::array<float, 4*4> vertices = {
+        // Positions, TexCoords
+        -0.5f, -0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, 1.0f, 0.0f,
+         0.5f,  0.5f, 1.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 1.0f
     };
 
     std::array<uint32_t, 6> indices = {
@@ -19,19 +20,20 @@ ExampleLayer::ExampleLayer()
     };
 
     Varak::BufferLayout layout = { 
-        { Varak::ShaderDataType::Float2, "a_position" }
+        { Varak::ShaderDataType::Float2, "a_position" },
+        { Varak::ShaderDataType::Float2, "a_texCoord" }
     };
 
     // clang-format on
 
     // vertex buffer
     Varak::Ref<Varak::VertexBuffer> vertexBuffer =
-        Varak::VertexBuffer::create(positions.data(), sizeof(positions));
+        Varak::VertexBuffer::create(vertices.data(), sizeof(vertices));
     vertexBuffer->setLayout(layout);
 
     // index buffer
-    Varak::Ref<Varak::IndexBuffer> indexBuffer =
-        Varak::IndexBuffer::create(indices.data(), static_cast<uint32_t>(indices.size()));
+    Varak::Ref<Varak::IndexBuffer> indexBuffer = Varak::IndexBuffer::create(
+        indices.data(), static_cast<uint32_t>(indices.size()));
     indexBuffer->bind();
 
     // vertex array
@@ -39,35 +41,74 @@ ExampleLayer::ExampleLayer()
     m_squareVA->addVertexBuffer(vertexBuffer);
     m_squareVA->setIndexBuffer(indexBuffer);
 
-    // shader
-    std::string vertexSrc = R"(
-        #version 330 core
+    // shaders
+    std::string flatColorVertexSrc = R"(
+            #version 330 core
 
-        layout(location = 0) in vec2 a_position;
+            layout(location = 0) in vec2 a_position;
 
-        uniform mat4 u_viewProjection;
-        uniform mat4 u_transform;
+            uniform mat4 u_viewProjection;
+            uniform mat4 u_transform;
 
-        void main() 
-        {
-            gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
-        }
-    )";
+            void main() 
+            {
+                gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
+            }
+        )";
 
-    std::string framentSrc = R"(
-        #version 330 core
+    std::string flatColorFramentSrc = R"(
+            #version 330 core
 
-        layout(location = 0) out vec4 color;
+            layout(location = 0) out vec4 color;
 
-        uniform vec3 u_color;
+            uniform vec3 u_color;
 
-        void main() 
-        {
-            color = vec4(u_color, 1.0);
-        }
-    )";
+            void main() 
+            {
+                color = vec4(u_color, 1.0);
+            }
+        )";
 
-    m_floatColorShader = Varak::Shader::create(vertexSrc, framentSrc);
+    m_flatColorShader =
+        Varak::Shader::create(flatColorVertexSrc, flatColorFramentSrc);
+
+    std::string textureVertexSrc = R"(
+            #version 330 core
+
+            layout(location = 0) in vec2 a_position;
+            layout(location = 1) in vec2 a_texCoord;
+
+            uniform mat4 u_viewProjection;
+            uniform mat4 u_transform;
+
+            out vec2 v_texCoord;
+
+            void main() 
+            {
+                v_texCoord = a_texCoord;
+                gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
+            }
+        )";
+
+    std::string textureframentSrc = R"(
+            #version 330 core
+
+            layout(location = 0) out vec4 color;
+
+            in vec2 v_texCoord;
+
+            uniform sampler2D u_texture;
+
+            void main() 
+            {
+                color = texture(u_texture, v_texCoord);
+            }
+        )";
+
+    m_textureShader =
+        Varak::Shader::create(textureVertexSrc, textureframentSrc);
+
+    m_texture = Varak::Texture2D::create("assets/textures/v.png");
 
     // camera
     Varak::Window& window = Varak::Application::get().getWindow();
@@ -87,22 +128,24 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 
-    m_floatColorShader->setFloat3("u_color", {1.0f, 0.5f, 0.0f});
-    Varak::Renderer::submit(m_squareVA, m_floatColorShader);
-
     for (int x = 0; x < 10; x++)
     {
         for (int y = 0; y < 10; y++)
         {
-            m_floatColorShader->setFloat3("u_color",
-                                (x + y) % 2 ? m_squareColor1 : m_squareColor2);
-            glm::vec3 pos(x + 1.0f, y + 1.0f, 0.0f);
+            m_flatColorShader->setFloat3(
+                "u_color", (x + y) % 2 ? m_squareColor1 : m_squareColor2);
             glm::mat4 transform =
-                glm::translate(glm::mat4(1.0f), pos) *
+                glm::translate(glm::mat4(1.0f), {x, y, 0.0f}) *
                 glm::scale(glm::mat4(1.0f), {0.75f, 0.75f, 1.0f});
-            Varak::Renderer::submit(m_squareVA, m_floatColorShader, transform);
+            Varak::Renderer::submit(m_squareVA, m_flatColorShader, transform);
         }
     }
+
+    m_texture->bind();
+    m_textureShader->bind();
+    m_textureShader->setInt1("u_texture", 0);
+    glm::mat4 transform = glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f});
+    Varak::Renderer::submit(m_squareVA, m_textureShader, transform);
 
     Varak::Renderer::endScene();
 }
