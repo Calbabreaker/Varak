@@ -17,7 +17,7 @@ namespace Varak {
         m_width = width;
         m_height = height;
 
-        GLenum internalFormat = 0, dataFormat = 0;
+        GLenum internalFormat = GL_NONE, dataFormat = GL_NONE;
         if (channels == 4)
         {
             internalFormat = GL_RGBA8;

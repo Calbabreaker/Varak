@@ -1,17 +1,25 @@
 #include "platform/opengl/opengl_shader.h"
 
-#include <glm/gtc/type_ptr.hpp>
+#include <fstream>
+
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Varak {
 
     OpenGLShader::OpenGLShader(const std::string& vertexSrc,
                                const std::string& fragmentSrc)
     {
-        std::unordered_map<uint32_t, std::string> sources;
-        sources[GL_VERTEX_SHADER] = vertexSrc;
-        sources[GL_FRAGMENT_SHADER] = fragmentSrc;
-        compile(sources);
+        std::unordered_map<uint32_t, std::string> shaderSources;
+        shaderSources[GL_VERTEX_SHADER] = vertexSrc;
+        shaderSources[GL_FRAGMENT_SHADER] = fragmentSrc;
+        compile(shaderSources);
+    }
+
+    OpenGLShader::OpenGLShader(const std::string& filepath)
+    {
+        auto shaderSources = parseShader(filepath);
+        compile(shaderSources);
     }
 
     OpenGLShader::~OpenGLShader()
@@ -26,7 +34,7 @@ namespace Varak {
 
     void OpenGLShader::unbind() const
     {
-        glUseProgram(0); //
+        glUseProgram(GL_NONE); //
     }
 
     void OpenGLShader::setFloat1(const std::string& name, float value)
@@ -54,24 +62,22 @@ namespace Varak {
 
     void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
     {
-        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
+                           glm::value_ptr(value));
     }
 
     void OpenGLShader::compile(
-        const std::unordered_map<uint32_t, std::string>& sources)
+        const std::unordered_map<uint32_t, std::string>& shaderSources)
     {
         m_rendererID = glCreateProgram();
 
-        VR_CORE_ASSERT(sources.size() <= 2,
+        VR_CORE_ASSERT(shaderSources.size() <= 2,
                        "Varak only support 2 shaders at a time!");
         std::array<uint32_t, 2> shaderIDs;
         uint32_t shaderIDIndex = 0;
 
-        for (auto& tsPair : sources)
+        for (auto const& [type, source] : shaderSources)
         {
-            GLenum type = tsPair.first;
-            const std::string& source = tsPair.second;
-
             uint32_t shaderID = glCreateShader(type);
             const char* sourceCSTR = source.c_str();
             glShaderSource(shaderID, 1, &sourceCSTR, nullptr);
@@ -123,6 +129,43 @@ namespace Varak {
             glDetachShader(m_rendererID, shaderID);
             glDeleteShader(shaderID);
         }
+    }
+
+    std::unordered_map<uint32_t, std::string> OpenGLShader::parseShader(
+        const std::string& filepath)
+    {
+        std::unordered_map<uint32_t, std::string> shaderSources;
+
+        GLenum currentType = GL_NONE;
+
+        std::ifstream inFile(filepath);
+        std::string line;
+        if (inFile)
+        {
+            while (std::getline(inFile, line))
+            {
+                if (line.find("#type") != std::string::npos)
+                {
+                    if (line.find("vertex") != std::string::npos)
+                        currentType = GL_VERTEX_SHADER;
+                    else if (line.find("fragment") != std::string::npos ||
+                             line.find("pixel") != std::string::npos)
+                        currentType = GL_FRAGMENT_SHADER;
+                    else
+                        VR_CORE_ASSERT(false, "Invalid shader type specified!");
+                }
+                else
+                {
+                    shaderSources[currentType] += line + '\n';
+                }
+            }
+        }
+        else
+        {
+            VR_CORE_ERROR("File does not exist at {0}", filepath);
+        }
+
+        return shaderSources;
     }
 
     int OpenGLShader::getUniformLocation(const std::string& name)

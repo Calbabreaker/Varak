@@ -19,4 +19,16 @@ namespace Varak {
         return nullptr;
     }
 
+    Ref<Shader> Shader::create(const std::string& filepath) 
+    {
+        switch (Renderer::getAPI())
+        {
+        case RendererAPI::API::OpenGL:
+            return createRef<OpenGLShader>(filepath);
+        }
+
+        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        return nullptr;
+    }
+
 } // namespace Varak

@@ -42,72 +42,10 @@ ExampleLayer::ExampleLayer()
     m_squareVA->setIndexBuffer(indexBuffer);
 
     // shaders
-    std::string flatColorVertexSrc = R"(
-            #version 330 core
+    m_flatColorShader = Varak::Shader::create("assets/shaders/flat_color.glsl");
+    m_textureShader = Varak::Shader::create("assets/shaders/texture.glsl");
 
-            layout(location = 0) in vec2 a_position;
-
-            uniform mat4 u_viewProjection;
-            uniform mat4 u_transform;
-
-            void main() 
-            {
-                gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
-            }
-        )";
-
-    std::string flatColorFramentSrc = R"(
-            #version 330 core
-
-            layout(location = 0) out vec4 color;
-
-            uniform vec3 u_color;
-
-            void main() 
-            {
-                color = vec4(u_color, 1.0);
-            }
-        )";
-
-    m_flatColorShader =
-        Varak::Shader::create(flatColorVertexSrc, flatColorFramentSrc);
-
-    std::string textureVertexSrc = R"(
-            #version 330 core
-
-            layout(location = 0) in vec2 a_position;
-            layout(location = 1) in vec2 a_texCoord;
-
-            uniform mat4 u_viewProjection;
-            uniform mat4 u_transform;
-
-            out vec2 v_texCoord;
-
-            void main() 
-            {
-                v_texCoord = a_texCoord;
-                gl_Position = u_viewProjection * u_transform * vec4(a_position, 0.0, 1.0);
-            }
-        )";
-
-    std::string textureframentSrc = R"(
-            #version 330 core
-
-            layout(location = 0) out vec4 color;
-
-            in vec2 v_texCoord;
-
-            uniform sampler2D u_texture;
-
-            void main() 
-            {
-                color = texture(u_texture, v_texCoord);
-            }
-        )";
-
-    m_textureShader =
-        Varak::Shader::create(textureVertexSrc, textureframentSrc);
-
+    // textures
     m_texture = Varak::Texture2D::create("assets/textures/v.png");
 
     // camera

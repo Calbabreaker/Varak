@@ -24,7 +24,7 @@ namespace Varak {
             }
 
             VR_CORE_ASSERT(false, "Unknown shader type!");
-            return 0;
+            return GL_NONE;
         }
 
     } // namespace
@@ -75,7 +75,7 @@ namespace Varak {
 
     void OpenGLVertexArray::unbind() const
     {
-        glBindVertexArray(0); //
+        glBindVertexArray(GL_NONE); //
     }
 
 } // namespace Varak

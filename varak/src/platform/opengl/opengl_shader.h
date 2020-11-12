@@ -9,6 +9,7 @@ namespace Varak {
     public:
         OpenGLShader(const std::string& vertexSrc,
                      const std::string& fragmentSrc);
+        OpenGLShader(const std::string& filepath);
         ~OpenGLShader();
 
         void bind() const override;
@@ -25,12 +26,13 @@ namespace Varak {
     private:
         // uint32_t = GLenum
         void compile(const std::unordered_map<uint32_t, std::string>& sources);
+        std::unordered_map<uint32_t, std::string> parseShader(const std::string& filepath);
 
         int getUniformLocation(const std::string& name);
 
     private:
         uint32_t m_rendererID;
-        std::unordered_map<std::string, int> m_uniformLoactionCache; 
+        std::unordered_map<std::string, int> m_uniformLoactionCache;
     };
 
 } // namespace Varak
