@@ -2,6 +2,8 @@
 
 #include "varak/renderer/shader.h"
 
+#include <glad/glad.h>
+
 namespace Varak {
 
     class OpenGLShader : public Shader
@@ -24,15 +26,15 @@ namespace Varak {
         void setMat4(const std::string& name, const glm::mat4& value) override;
 
     private:
-        // uint32_t = GLenum
-        void compile(const std::unordered_map<uint32_t, std::string>& sources);
-        std::unordered_map<uint32_t, std::string> parseShader(const std::string& filepath);
+        void compile(const std::unordered_map<GLenum, std::string>& sources);
+        std::unordered_map<GLenum, std::string> parseShader(
+            const std::string& filepath);
 
         int getUniformLocation(const std::string& name);
 
     private:
         uint32_t m_rendererID;
-        std::unordered_map<std::string, int> m_uniformLoactionCache;
+        std::unordered_map<std::string, int> m_uniformLocationCache;
     };
 
 } // namespace Varak

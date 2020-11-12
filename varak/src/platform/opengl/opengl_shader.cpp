@@ -2,7 +2,6 @@
 
 #include <fstream>
 
-#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Varak {
@@ -76,6 +75,7 @@ namespace Varak {
         std::array<uint32_t, 2> shaderIDs;
         uint32_t shaderIDIndex = 0;
 
+        // go through shaders and compile
         for (auto const& [type, source] : shaderSources)
         {
             uint32_t shaderID = glCreateShader(type);
@@ -83,7 +83,7 @@ namespace Varak {
             glShaderSource(shaderID, 1, &sourceCSTR, nullptr);
             glCompileShader(shaderID);
 
-            // error handling
+            // get error message from OpenGL
             int isCompiled = 0;
             glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
             if (isCompiled == GL_FALSE)
@@ -104,6 +104,7 @@ namespace Varak {
             shaderIDIndex++;
         }
 
+        // link program
         glLinkProgram(m_rendererID);
 
         int isLinked = 0;
@@ -144,8 +145,10 @@ namespace Varak {
         {
             while (std::getline(inFile, line))
             {
+                // is a shader type declaration
                 if (line.find("#type") != std::string::npos)
                 {
+                    // get the type
                     if (line.find("vertex") != std::string::npos)
                         currentType = GL_VERTEX_SHADER;
                     else if (line.find("fragment") != std::string::npos ||
@@ -154,7 +157,7 @@ namespace Varak {
                     else
                         VR_CORE_ASSERT(false, "Invalid shader type specified!");
                 }
-                else
+                else if (currentType != GL_NONE)
                 {
                     shaderSources[currentType] += line + '\n';
                 }
@@ -170,14 +173,14 @@ namespace Varak {
 
     int OpenGLShader::getUniformLocation(const std::string& name)
     {
-        if (m_uniformLoactionCache.find(name) != m_uniformLoactionCache.end())
-            return m_uniformLoactionCache[name];
+        if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
+            return m_uniformLocationCache[name];
 
         int location = glGetUniformLocation(m_rendererID, name.c_str());
         if (location == -1)
             VR_CORE_WARN("Uniform {0} does not apear to exist!", name);
 
-        m_uniformLoactionCache[name] = location;
+        m_uniformLocationCache[name] = location;
         return location;
     }
 

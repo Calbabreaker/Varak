@@ -1,3 +1,5 @@
+// shader for textures
+
 #type vertex
 #version 330 core
 
