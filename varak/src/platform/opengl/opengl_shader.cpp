@@ -1,13 +1,16 @@
 #include "platform/opengl/opengl_shader.h"
 
+#include <filesystem>
 #include <fstream>
 
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Varak {
 
-    OpenGLShader::OpenGLShader(const std::string& vertexSrc,
+    OpenGLShader::OpenGLShader(const std::string& name,
+                               const std::string& vertexSrc,
                                const std::string& fragmentSrc)
+        : m_name(name)
     {
         std::unordered_map<uint32_t, std::string> shaderSources;
         shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -19,6 +22,9 @@ namespace Varak {
     {
         auto shaderSources = parseShader(filepath);
         compile(shaderSources);
+
+        std::filesystem::path path = filepath;
+        m_name = path.stem().string();
     }
 
     OpenGLShader::~OpenGLShader()
@@ -165,7 +171,7 @@ namespace Varak {
         }
         else
         {
-            VR_CORE_ERROR("File does not exist at {0}", filepath);
+            VR_CORE_ERROR("File does not exist at {0}!", filepath);
         }
 
         return shaderSources;

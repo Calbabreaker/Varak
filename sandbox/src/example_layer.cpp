@@ -42,8 +42,10 @@ ExampleLayer::ExampleLayer()
     m_squareVA->setIndexBuffer(indexBuffer);
 
     // shaders
-    m_flatColorShader = Varak::Shader::create("assets/shaders/flat_color.glsl");
-    m_textureShader = Varak::Shader::create("assets/shaders/texture.glsl");
+    m_shaderLibrary.add(
+        Varak::Shader::create("test", "void main() {}", "void main() {}"));
+    m_shaderLibrary.load("assets/shaders/flat_color.glsl");
+    m_shaderLibrary.load("assets/shaders/texture.glsl");
 
     // textures
     m_texture = Varak::Texture2D::create("assets/textures/v.png");
@@ -66,23 +68,26 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer::beginScene(m_cameraController->getCamera());
 
+    auto flatColorShader = m_shaderLibrary.get("flat_color");
+
     for (int x = 0; x < 10; x++)
     {
         for (int y = 0; y < 10; y++)
         {
-            m_flatColorShader->setFloat3(
-                "u_color", (x + y) % 2 ? m_squareColor1 : m_squareColor2);
+            flatColorShader->setFloat3("u_color", (x + y) % 2 ? m_squareColor1
+                                                              : m_squareColor2);
             glm::mat4 transform =
                 glm::translate(glm::mat4(1.0f), {x, y, 0.0f}) *
                 glm::scale(glm::mat4(1.0f), {0.75f, 0.75f, 1.0f});
-            Varak::Renderer::submit(m_squareVA, m_flatColorShader, transform);
+            Varak::Renderer::submit(m_squareVA, flatColorShader, transform);
         }
     }
 
+    auto textureShader = m_shaderLibrary.get("texture");
     m_texture->bind();
-    m_textureShader->bind();
-    m_textureShader->setInt1("u_texture", 0);
-    Varak::Renderer::submit(m_squareVA, m_textureShader,
+    textureShader->bind();
+    textureShader->setInt1("u_texture", 0);
+    Varak::Renderer::submit(m_squareVA, textureShader,
                             glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f}));
 
     Varak::Renderer::endScene();

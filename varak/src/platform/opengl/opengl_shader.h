@@ -9,13 +9,15 @@ namespace Varak {
     class OpenGLShader : public Shader
     {
     public:
-        OpenGLShader(const std::string& vertexSrc,
+        OpenGLShader(const std::string& name, const std::string& vertexSrc,
                      const std::string& fragmentSrc);
         OpenGLShader(const std::string& filepath);
         ~OpenGLShader();
 
         void bind() const override;
         void unbind() const override;
+
+        const std::string& getName() const override { return m_name; }
 
         void setFloat1(const std::string& name, float value) override;
         void setFloat3(const std::string& name,
@@ -34,6 +36,8 @@ namespace Varak {
 
     private:
         uint32_t m_rendererID;
+        std::string m_name;
+
         std::unordered_map<std::string, int> m_uniformLocationCache;
     };
 
