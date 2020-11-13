@@ -26,6 +26,7 @@ namespace Varak {
 
     private:
         bool onWindowClosed(WindowClosedEvent& event);
+        bool onWindowResized(WindowResizedEvent& event);
 
     private:
         Scope<Window> m_window;
@@ -33,7 +34,8 @@ namespace Varak {
         LayerStack m_layerStack;
         static Application* s_instance;
 
-        bool m_running = false;
+        bool m_running = true;
+        bool m_minimized = false;
         float m_lastFrameTime = 0.0f;
     };
 

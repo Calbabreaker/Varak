@@ -20,8 +20,6 @@ namespace Varak {
 
         m_imGuiLayer = new ImGuiLayer();
         pushOverlay(m_imGuiLayer);
-
-        m_running = true;
     }
 
     Application::~Application()
@@ -37,8 +35,11 @@ namespace Varak {
             Timestep ts = now - m_lastFrameTime;
             m_lastFrameTime = now;
 
-            for (Layer* layer : m_layerStack)
-                layer->onUpdate(ts);
+            if (!m_minimized)
+            {
+                for (Layer* layer : m_layerStack)
+                    layer->onUpdate(ts);
+            }
 
             m_imGuiLayer->begin();
             for (Layer* layer : m_layerStack)
@@ -54,6 +55,8 @@ namespace Varak {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowClosedEvent>(
             VR_BIND_EVENT_FUNC(Application::onWindowClosed));
+        dispatcher.dispatch<WindowResizedEvent>(
+            VR_BIND_EVENT_FUNC(Application::onWindowResized));
 
         for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); it++)
         {
@@ -79,6 +82,19 @@ namespace Varak {
     {
         m_running = false;
         return true;
+    }
+
+    bool Application::onWindowResized(WindowResizedEvent& event)
+    {
+        if (event.getWidth() == 0 || event.getHeight() == 0)
+        {
+            m_minimized = true;
+            return false;
+        }
+
+        m_minimized = false;
+        Renderer::onWindowResized(event.getWidth(), event.getHeight());
+        return false;
     }
 
 } // namespace Varak

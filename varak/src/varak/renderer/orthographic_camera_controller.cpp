@@ -37,6 +37,8 @@ namespace Varak {
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<MouseScrolledEvent>(
             VR_BIND_EVENT_FUNC(OrthographicCameraController::onMouseScrolled));
+        dispatcher.dispatch<WindowResizedEvent>(
+            VR_BIND_EVENT_FUNC(OrthographicCameraController::onWindowResized));
     }
 
     void OrthographicCameraController::setZoomLevel(float zoomLevel)
@@ -53,6 +55,15 @@ namespace Varak {
         zoomLevel = glm::clamp(zoomLevel, m_minZoomLevel, m_maxZoomLevel);
         m_realZoomSpeed = zoomLevel * m_zoomSpeed;
         setZoomLevel(zoomLevel);
+        return false;
+    }
+
+    bool OrthographicCameraController::onWindowResized(
+        WindowResizedEvent& event)
+    {
+        m_aspectRatio = static_cast<float>(event.getWidth()) /
+                        static_cast<float>(event.getHeight());
+        recaculateProjection();
         return false;
     }
 

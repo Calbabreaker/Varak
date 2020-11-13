@@ -3,6 +3,7 @@
 #include "varak/core/timestep.h"
 #include "varak/events/event.h"
 #include "varak/events/mouse_event.h"
+#include "varak/events/window_event.h"
 #include "varak/renderer/orthographic_camera.h"
 
 namespace Varak {
@@ -19,6 +20,7 @@ namespace Varak {
         void setZoomLevel(float zoomLevel);
 
         bool onMouseScrolled(MouseScrolledEvent& event);
+        bool onWindowResized(WindowResizedEvent& event);
 
         OrthographicCamera& getCamera() { return m_camera; }
 

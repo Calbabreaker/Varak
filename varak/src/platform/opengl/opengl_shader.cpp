@@ -138,10 +138,10 @@ namespace Varak {
         }
     }
 
-    std::unordered_map<uint32_t, std::string> OpenGLShader::parseShader(
+    std::unordered_map<GLenum, std::string> OpenGLShader::parseShader(
         const std::string& filepath)
     {
-        std::unordered_map<uint32_t, std::string> shaderSources;
+        std::unordered_map<GLenum, std::string> shaderSources;
 
         GLenum currentType = GL_NONE;
 
@@ -165,7 +165,9 @@ namespace Varak {
                 }
                 else if (currentType != GL_NONE)
                 {
-                    shaderSources[currentType] += line + '\n';
+                    std::string& source = shaderSources[currentType];
+                    source += line;
+                    source += '\n';
                 }
             }
         }

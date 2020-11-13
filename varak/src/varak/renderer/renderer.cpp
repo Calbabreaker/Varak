@@ -11,6 +11,11 @@ namespace Varak {
 
     void Renderer::shutdown() {}
 
+    void Renderer::onWindowResized(uint32_t width, uint32_t height)
+    {
+        RenderCommand::setViewport(0, 0, width, height);
+    }
+
     void Renderer::beginScene(const OrthographicCamera& camera)
     {
         s_sceneData->viewProjection = camera.getViewProjection();
