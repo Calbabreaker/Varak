@@ -1,5 +1,8 @@
 #include "varak/renderer/renderer2d.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace Varak {
 
     struct Renderer2DData
@@ -40,8 +43,6 @@ namespace Varak {
 
         s_data->flatColorShader =
             Shader::create("assets/shaders/flat_color.glsl");
-        s_data->flatColorShader->bind();
-        s_data->flatColorShader->setMat4("u_transform", glm::mat4(1.0f));
     }
 
     void Renderer2D::shutdown()
@@ -67,9 +68,19 @@ namespace Varak {
     void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size,
                               const glm::vec4& color)
     {
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+
+        drawQuad(transform, color);
+    }
+
+    void Renderer2D::drawQuad(const glm::mat4& transform,
+                              const glm::vec4& color)
+    {
         s_data->quadVertexArray->bind();
         s_data->flatColorShader->bind();
         s_data->flatColorShader->setFloat4("u_color", color);
+        s_data->flatColorShader->setMat4("u_transform", transform);
         RenderCommand::drawIndexed(s_data->quadVertexArray);
     }
 
