@@ -74,7 +74,7 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
     {
         for (int y = 0; y < 10; y++)
         {
-            flatColorShader->setFloat3("u_color", (x + y) % 2 ? m_squareColor1
+            flatColorShader->setFloat4("u_color", (x + y) % 2 ? m_squareColor1
                                                               : m_squareColor2);
             glm::mat4 transform =
                 glm::translate(glm::mat4(1.0f), {x, y, 0.0f}) *
@@ -96,8 +96,8 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
 void ExampleLayer::onImGuiRender()
 {
     ImGui::Begin("Settings");
-    ImGui::ColorEdit3("Square Color 1", glm::value_ptr(m_squareColor1));
-    ImGui::ColorEdit3("Square Color 2", glm::value_ptr(m_squareColor2));
+    ImGui::ColorEdit4("Square Color 1", glm::value_ptr(m_squareColor1));
+    ImGui::ColorEdit4("Square Color 2", glm::value_ptr(m_squareColor2));
     ImGui::End();
 }
 
