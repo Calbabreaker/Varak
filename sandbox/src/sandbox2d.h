@@ -15,9 +15,7 @@ public:
     void onEvent(Varak::Event& event) override;
 
 private:
-    Varak::Ref<Varak::VertexArray> m_squareVA;
     Varak::Ref<Varak::Texture> m_texture;
-    Varak::Ref<Varak::Shader> m_flatColorShader;
 
     Varak::Scope<Varak::OrthographicCameraController> m_cameraController;
 

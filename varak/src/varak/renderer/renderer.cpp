@@ -1,4 +1,5 @@
 #include "varak/renderer/renderer.h"
+#include "varak/renderer/renderer2d.h"
 
 namespace Varak {
 
@@ -6,10 +7,14 @@ namespace Varak {
 
     void Renderer::init()
     {
-        RenderCommand::init(); //
+        RenderCommand::init();
+        Renderer2D::init();
     }
 
-    void Renderer::shutdown() {}
+    void Renderer::shutdown()
+    {
+        Renderer2D::shutdown(); //
+    }
 
     void Renderer::onWindowResized(uint32_t width, uint32_t height)
     {
