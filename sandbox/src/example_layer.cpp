@@ -87,8 +87,12 @@ void ExampleLayer::onUpdate(Varak::Timestep ts)
     m_texture->bind();
     textureShader->bind();
     textureShader->setInt1("u_texture", 0);
-    Varak::Renderer::submit(m_squareVA, textureShader,
-                            glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f}));
+    textureShader->setFloat4("u_color", glm::vec4(1.0f));
+    textureShader->setFloat1("u_tilingFactor", 1.0f);
+    Varak::Renderer::submit(
+        m_squareVA, textureShader,
+        glm::scale(glm::mat4(1.0f), {2.0f, 2.0f, 1.0f}) *
+            glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, 0.5f}));
 
     Varak::Renderer::endScene();
 }

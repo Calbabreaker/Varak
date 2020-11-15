@@ -15,7 +15,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::onAttach()
 {
-    m_texture = Varak::Texture2D::create("assets/textures/v.png");
+    m_vTexture = Varak::Texture2D::create("assets/textures/v.png");
+    m_patternTexture = Varak::Texture2D::create("assets/textures/pattern.png");
 }
 
 void Sandbox2D::onDetach()
@@ -33,8 +34,18 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
 
     Varak::Renderer2D::beginScene(m_cameraController->getCamera());
 
-    Varak::Renderer2D::drawQuad({0.0f, 0.0f}, {2.0f, 2.0f}, m_squareColor);
-    Varak::Renderer2D::drawQuad({2.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.0f});
+    Varak::Renderer2D::drawQuad({0.0f, 0.0f}, {1.0f, 1.0f}, m_squareColor);
+    Varak::Renderer2D::drawQuad({2.0f, -0.5f}, {0.5f, 1.0f},
+                                {1.0f, 0.0f, 0.0, 1.0f});
+    Varak::Renderer2D::drawQuad({2.0f, 1.0f}, {0.5f, 0.75f});
+
+    Varak::Renderer2D::drawTexturedQuad(m_patternTexture, {0.0f, 0.0f, -0.5f},
+                                        {10.0f, 10.0f}, 25.0f);
+    Varak::Renderer2D::drawTexturedQuad(m_vTexture, {0.0f, 3.0f, 0.25f},
+                                        {3.0f, 3.0f});
+    Varak::Renderer2D::drawTexturedQuad(m_vTexture, {2.0f, 3.0f, 0.5f},
+                                        {2.0f, 2.0f}, 1.0f,
+                                        {1.0, 1.0f, 0.0f, 1.0f});
 
     Varak::Renderer2D::endScene();
 }
