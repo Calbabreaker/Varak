@@ -7,6 +7,8 @@ namespace Varak {
 
     bool Input::isKeyPressed(KeyCode key)
     {
+        VR_PROFILE_FUNCTION();
+       
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 
@@ -16,6 +18,8 @@ namespace Varak {
 
     bool Input::isMouseButtonPressed(MouseCode button)
     {
+        VR_PROFILE_FUNCTION();
+        
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 
@@ -25,6 +29,8 @@ namespace Varak {
 
     glm::vec2 Input::getMousePosition()
     {
+        VR_PROFILE_FUNCTION();
+
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 
@@ -35,6 +41,8 @@ namespace Varak {
 
     float Input::getMouseX()
     {
+        VR_PROFILE_FUNCTION();
+      
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 
@@ -45,6 +53,8 @@ namespace Varak {
 
     float Input::getMouseY()
     {
+        VR_PROFILE_FUNCTION();
+    
         GLFWwindow* window = static_cast<GLFWwindow*>(
             Application::get().getWindow().getNativeWindow());
 

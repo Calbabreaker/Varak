@@ -13,6 +13,8 @@ namespace Varak {
 
     void OpenGLRenderingContext::init()
     {
+        VR_PROFILE_FUNCTION();
+      
         glfwMakeContextCurrent(m_windowHandle);
         int status = gladLoadGLLoader(
             reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
@@ -30,6 +32,8 @@ namespace Varak {
 
     void OpenGLRenderingContext::swapBuffers()
     {
+        VR_PROFILE_FUNCTION();
+      
         glfwSwapBuffers(m_windowHandle); //
     }
 

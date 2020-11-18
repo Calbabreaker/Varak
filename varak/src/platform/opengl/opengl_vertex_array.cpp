@@ -31,17 +31,23 @@ namespace Varak {
 
     OpenGLVertexArray::OpenGLVertexArray()
     {
+        VR_PROFILE_FUNCTION();
+       
         glCreateVertexArrays(1, &m_rendererID);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray()
     {
+        VR_PROFILE_FUNCTION();
+       
         glDeleteVertexArrays(1, &m_rendererID);
     }
 
     void OpenGLVertexArray::addVertexBuffer(
         const Ref<VertexBuffer>& vertexBuffer)
     {
+        VR_PROFILE_FUNCTION();
+      
         glBindVertexArray(m_rendererID);
         VR_CORE_ASSERT(vertexBuffer->getLayout().getElements().size(),
                        "BufferLayout can not be empty!");
@@ -63,6 +69,8 @@ namespace Varak {
 
     void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
     {
+        VR_PROFILE_FUNCTION();
+      
         glBindVertexArray(m_rendererID);
         indexBuffer->bind();
         m_indexBuffer = indexBuffer;
@@ -70,11 +78,15 @@ namespace Varak {
 
     void OpenGLVertexArray::bind() const
     {
+        VR_PROFILE_FUNCTION();
+     
         glBindVertexArray(m_rendererID); //
     }
 
     void OpenGLVertexArray::unbind() const
     {
+        VR_PROFILE_FUNCTION();
+        
         glBindVertexArray(GL_NONE); //
     }
 

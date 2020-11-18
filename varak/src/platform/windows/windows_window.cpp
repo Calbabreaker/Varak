@@ -19,6 +19,8 @@ namespace Varak {
 
     WindowsWindow::WindowsWindow(const WindowProps& props)
     {
+        VR_PROFILE_FUNCTION();
+
         m_data.title = props.title;
         m_data.width = props.width;
         m_data.height = props.height;
@@ -29,19 +31,27 @@ namespace Varak {
 
         if (s_glfwWindowCount == 0)
         {
+            VR_PROFILE_SCOPE("glfwInit - WindowsWindow::WindowsWindow");
+
             int success = glfwInit();
             VR_CORE_ASSERT(success, "Could not initialize GLFW");
         }
 
-        m_window = glfwCreateWindow(static_cast<int>(m_data.width),
-                                    static_cast<int>(m_data.height),
-                                    m_data.title.c_str(), nullptr, nullptr);
+        {
+            VR_PROFILE_SCOPE("glfwCreateWindow - WindowsWindow::WindowsWindow");
 
 #ifdef VR_DEBUG
-        if (Renderer::getAPI() == RendererAPI::API::OpenGL)
-            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+            if (Renderer::getAPI() == RendererAPI::API::OpenGL)
+                glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-        s_glfwWindowCount++;
+
+            m_window = glfwCreateWindow(static_cast<int>(m_data.width),
+                                        static_cast<int>(m_data.height),
+                                        m_data.title.c_str(), nullptr, nullptr);
+
+            VR_CORE_ASSERT(m_window, "Could not create Window!");
+            s_glfwWindowCount++;
+        }
 
         m_context = RenderingContext::create(m_window);
         m_context->init();
@@ -167,6 +177,8 @@ namespace Varak {
 
     WindowsWindow::~WindowsWindow()
     {
+        VR_PROFILE_FUNCTION();
+
         glfwDestroyWindow(m_window);
         s_glfwWindowCount--;
 
@@ -178,12 +190,16 @@ namespace Varak {
 
     void WindowsWindow::onUpdate()
     {
+        VR_PROFILE_FUNCTION();
+
         glfwPollEvents();
         m_context->swapBuffers();
     }
 
     void WindowsWindow::setVSync(bool enabled)
     {
+        VR_PROFILE_FUNCTION();
+
         glfwSwapInterval(enabled);
         m_data.vSyncEnabled = enabled;
     }

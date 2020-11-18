@@ -1,6 +1,7 @@
 #pragma once
 
-#include "log.h"
+#include "varak/core/log.h"
+#include "varak/core/platform_detection.h"
 
 #ifdef VR_DEBUG
     // TODO: cross compiler/ide debug break

@@ -10,6 +10,8 @@ namespace Varak {
         : m_projection(glm::ortho(left, right, bottom, top, znear, zfar)),
           m_view(1.0f)
     {
+        VR_PROFILE_FUNCTION();
+
         m_viewProjection = m_projection * m_view;
     }
 
@@ -17,12 +19,16 @@ namespace Varak {
                                            float bottom, float top, float znear,
                                            float zfar)
     {
+        VR_PROFILE_FUNCTION();
+
         m_projection = glm::ortho(left, right, bottom, top, znear, zfar);
         m_viewProjection = m_projection * m_view;
     }
 
     void OrthographicCamera::recalculateMatrices()
     {
+        VR_PROFILE_FUNCTION();
+
         glm::mat4 transform =
             glm::translate(glm::mat4(1.0f), m_position) *
             glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation),

@@ -7,12 +7,16 @@ namespace Varak {
 
     void Renderer::init()
     {
+        VR_PROFILE_FUNCTION();
+
         RenderCommand::init();
         Renderer2D::init();
     }
 
     void Renderer::shutdown()
     {
+        VR_PROFILE_FUNCTION();
+
         Renderer2D::shutdown(); //
     }
 

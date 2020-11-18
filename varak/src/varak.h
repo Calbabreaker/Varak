@@ -11,6 +11,9 @@
 #include "varak/core/log.h"
 #include "varak/core/mouse_codes.h"
 
+// -- debug --
+#include "varak/debug/instrumentor.h"
+
 // -- imgui --
 #include "varak/imgui/imgui_layer.h"
 

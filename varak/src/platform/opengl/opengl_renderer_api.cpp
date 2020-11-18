@@ -26,6 +26,8 @@ namespace Varak {
 
     void OpenGLRendererAPI::init()
     {
+        VR_PROFILE_FUNCTION();
+
 #if VR_DEBUG
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

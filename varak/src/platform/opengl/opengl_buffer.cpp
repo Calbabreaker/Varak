@@ -10,6 +10,8 @@ namespace Varak {
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
     {
+        VR_PROFILE_FUNCTION();
+
         glCreateBuffers(1, &m_rendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
@@ -17,16 +19,22 @@ namespace Varak {
 
     OpenGLVertexBuffer::~OpenGLVertexBuffer()
     {
+        VR_PROFILE_FUNCTION();
+        
         glDeleteBuffers(1, &m_rendererID);
     }
 
     void OpenGLVertexBuffer::bind() const
     {
+        VR_PROFILE_FUNCTION();
+       
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
     }
 
     void OpenGLVertexBuffer::unbind() const
     {
+        VR_PROFILE_FUNCTION();
+       
         glBindBuffer(GL_ARRAY_BUFFER, GL_NONE); //
     }
 
@@ -37,6 +45,8 @@ namespace Varak {
     OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* vertices, uint32_t count)
         : m_count(count)
     {
+        VR_PROFILE_FUNCTION();
+       
         glCreateBuffers(1, &m_rendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t),
@@ -45,16 +55,22 @@ namespace Varak {
 
     OpenGLIndexBuffer::~OpenGLIndexBuffer()
     {
+        VR_PROFILE_FUNCTION();
+       
         glDeleteBuffers(1, &m_rendererID);
     }
 
     void OpenGLIndexBuffer::bind() const
     {
+        VR_PROFILE_FUNCTION();
+     
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
     }
 
     void OpenGLIndexBuffer::unbind() const
     {
+        VR_PROFILE_FUNCTION();
+       
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_NONE);
     }
 

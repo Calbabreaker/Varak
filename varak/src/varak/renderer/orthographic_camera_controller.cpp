@@ -11,10 +11,13 @@ namespace Varak {
           m_camera(-m_zoomLevel * m_aspectRatio, m_zoomLevel * m_aspectRatio,
                    -m_zoomLevel, m_zoomLevel)
     {
+        VR_PROFILE_FUNCTION();
     }
 
     void OrthographicCameraController::onUpdate(Timestep ts)
     {
+        VR_PROFILE_FUNCTION();
+
         glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
         if (Input::isKeyPressed(KeyCode::A))
             velocity.x -= 1.0f;
@@ -34,6 +37,8 @@ namespace Varak {
 
     void OrthographicCameraController::onEvent(Event& event)
     {
+        VR_PROFILE_FUNCTION();
+        
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<MouseScrolledEvent>(
             VR_BIND_EVENT_FUNC(OrthographicCameraController::onMouseScrolled));
@@ -43,6 +48,8 @@ namespace Varak {
 
     void OrthographicCameraController::setZoomLevel(float zoomLevel)
     {
+        VR_PROFILE_FUNCTION();
+      
         m_zoomLevel = zoomLevel;
         m_moveSpeed = m_zoomLevel;
         recaculateProjection();
@@ -51,6 +58,8 @@ namespace Varak {
     bool OrthographicCameraController::onMouseScrolled(
         MouseScrolledEvent& event)
     {
+        VR_PROFILE_FUNCTION();
+      
         float zoomLevel = m_zoomLevel - event.getYOffset() * m_realZoomSpeed;
         zoomLevel = glm::clamp(zoomLevel, m_minZoomLevel, m_maxZoomLevel);
         m_realZoomSpeed = zoomLevel * m_zoomSpeed;
@@ -61,6 +70,8 @@ namespace Varak {
     bool OrthographicCameraController::onWindowResized(
         WindowResizedEvent& event)
     {
+        VR_PROFILE_FUNCTION();
+      
         m_aspectRatio = static_cast<float>(event.getWidth()) /
                         static_cast<float>(event.getHeight());
         recaculateProjection();
@@ -69,6 +80,8 @@ namespace Varak {
 
     void OrthographicCameraController::recaculateProjection()
     {
+        VR_PROFILE_FUNCTION();
+        
         m_camera.setProjection(-m_zoomLevel * m_aspectRatio,
                                m_zoomLevel * m_aspectRatio, -m_zoomLevel,
                                m_zoomLevel);

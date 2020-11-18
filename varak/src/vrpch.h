@@ -1,11 +1,5 @@
 #pragma once
 
-#include "varak/core/platform_detection.h"
-
-#ifdef VR_PLATFORM_WINDOWS
-    #include <Windows.h>
-#endif
-
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -13,7 +7,7 @@
 #include <memory>
 #include <utility>
 
-// data structures
+// -- data structures --
 #include <array>
 #include <sstream>
 #include <string>
@@ -21,6 +15,11 @@
 #include <unordered_set>
 #include <vector>
 
-// Varak engine
+// -- Varak engine --
 #include "varak/core/base.h"
 #include "varak/core/log.h"
+#include "varak/debug/instrumentor.h"
+
+#ifdef VR_PLATFORM_WINDOWS
+    #include <Windows.h>
+#endif
