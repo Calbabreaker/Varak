@@ -66,13 +66,13 @@ namespace Varak {
         VR_PROFILE_FUNCTION(); //
     }
 
-    void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size,
+    void Renderer2D::drawRect(const glm::vec2& position, const glm::vec2& size,
                               const glm::vec4& color)
     {
-        drawQuad({position.x, position.y, 0.0f}, size, color);
+        drawRect({position.x, position.y, 0.0f}, size, color);
     }
 
-    void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size,
+    void Renderer2D::drawRect(const glm::vec3& position, const glm::vec2& size,
                               const glm::vec4& color)
     {
         VR_PROFILE_FUNCTION();
@@ -81,22 +81,44 @@ namespace Varak {
             glm::translate(glm::mat4(1.0f), position) *
             glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
-        drawQuad(transform, color);
+        drawRect(transform, color);
     }
 
-    void Renderer2D::drawTexturedQuad(const Ref<Texture>& texture,
-                                      const glm::vec2& position,
-                                      const glm::vec2& size, float tilingFactor,
-                                      const glm::vec4& tint)
+    void Renderer2D::drawRotatedRect(const glm::vec3& position,
+                                     const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
     {
-        drawTexturedQuad(texture, {position.x, position.y, 0.0f}, size,
-                         tilingFactor, tint);
+        VR_PROFILE_FUNCTION();
+
+        glm::mat4 transform =
+            glm::translate(glm::mat4(1.0f), position) *
+            glm::rotate(glm::mat4(1.0f), glm::radians(rotation),
+                        {0.0f, 0.0f, 1.0f}) *
+            glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+
+        drawRect(transform, color);
     }
 
-    void Renderer2D::drawTexturedQuad(const Ref<Texture>& texture,
-                                      const glm::vec3& position,
-                                      const glm::vec2& size, float tilingFactor,
-                                      const glm::vec4& tint)
+    void Renderer2D::drawRotatedRect(const glm::vec2& position,
+                                     const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
+    {
+        drawRotatedRect({position.x, position.y, 0.0f}, size, rotation, color);
+    }
+
+    void Renderer2D::drawTexture(const Ref<Texture>& texture,
+                                 const glm::vec2& position,
+                                 const glm::vec2& size, float tilingFactor,
+                                 const glm::vec4& tint)
+    {
+        drawTexture(texture, {position.x, position.y, 0.0f}, size, tilingFactor,
+                    tint);
+    }
+
+    void Renderer2D::drawTexture(const Ref<Texture>& texture,
+                                 const glm::vec3& position,
+                                 const glm::vec2& size, float tilingFactor,
+                                 const glm::vec4& tint)
     {
         VR_PROFILE_FUNCTION();
 
@@ -104,10 +126,37 @@ namespace Varak {
             glm::translate(glm::mat4(1.0f), position) *
             glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
-        drawTexturedQuad(texture, transform, tilingFactor, tint);
+        drawTexture(texture, transform, tilingFactor, tint);
     }
 
-    void Renderer2D::drawQuad(const glm::mat4& transform,
+    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture,
+                                        const glm::vec2& position,
+                                        const glm::vec2& size, float rotation,
+                                        float tilingFactor,
+                                        const glm::vec4& tint)
+    {
+        drawRotatedTexture(texture, {position.x, position.y, 0.0f}, size,
+                           rotation, tilingFactor, tint);
+    }
+
+    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture,
+                                        const glm::vec3& position,
+                                        const glm::vec2& size, float rotation,
+                                        float tilingFactor,
+                                        const glm::vec4& tint)
+    {
+        VR_PROFILE_FUNCTION();
+
+        glm::mat4 transform =
+            glm::translate(glm::mat4(1.0f), position) *
+            glm::rotate(glm::mat4(1.0f), glm::radians(rotation),
+                        {0.0f, 0.0f, 1.0f}) *
+            glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+
+        drawTexture(texture, transform, tilingFactor, tint);
+    }
+
+    void Renderer2D::drawRect(const glm::mat4& transform,
                               const glm::vec4& color)
     {
         VR_PROFILE_FUNCTION();
@@ -120,9 +169,9 @@ namespace Varak {
         RenderCommand::drawIndexed(s_data.quadVertexArray);
     }
 
-    void Renderer2D::drawTexturedQuad(const Ref<Texture>& texture,
-                                      const glm::mat4& transform,
-                                      float tilingFactor, const glm::vec4& tint)
+    void Renderer2D::drawTexture(const Ref<Texture>& texture,
+                                 const glm::mat4& transform, float tilingFactor,
+                                 const glm::vec4& tint)
     {
         VR_PROFILE_FUNCTION();
 
