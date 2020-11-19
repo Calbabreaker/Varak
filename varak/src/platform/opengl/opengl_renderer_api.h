@@ -13,7 +13,8 @@ namespace Varak {
                          uint32_t height) override;
         void clear() override;
 
-        void drawIndexed(const Ref<VertexArray>& vertexArray) override;
+        void drawIndexed(const Ref<VertexArray>& vertexArray,
+                         uint32_t indexCount = 0) override;
     };
 
 } // namespace Varak

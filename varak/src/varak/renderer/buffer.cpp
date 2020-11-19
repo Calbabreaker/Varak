@@ -18,6 +18,18 @@ namespace Varak {
         return nullptr;
     }
 
+    Ref<VertexBuffer> VertexBuffer::create(uint32_t size)
+    {
+        switch (Renderer::getAPI())
+        {
+        case RendererAPI::API::OpenGL:
+            return createRef<OpenGLVertexBuffer>(size);
+        }
+
+        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        return nullptr;
+    }
+
     Ref<IndexBuffer> IndexBuffer::create(uint32_t* indicies, uint32_t count)
     {
         switch (Renderer::getAPI())

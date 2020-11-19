@@ -26,7 +26,8 @@ namespace Varak {
                                  uint32_t height) = 0;
         virtual void clear() = 0;
 
-        virtual void drawIndexed(const Ref<VertexArray>& vertexArray) = 0;
+        virtual void drawIndexed(const Ref<VertexArray>& vertexArray,
+                                 uint32_t indexCount = 0) = 0;
 
     private:
         static API s_API;

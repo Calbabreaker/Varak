@@ -8,10 +8,13 @@ namespace Varak {
     {
     public:
         OpenGLVertexBuffer(float* vertices, uint32_t size);
+        OpenGLVertexBuffer(uint32_t size);
         ~OpenGLVertexBuffer();
 
         void bind() const override;
         void unbind() const override;
+
+        void setData(const void* data, uint32_t size) override;
 
         const BufferLayout& getLayout() const override { return m_layout; }
         void setLayout(const BufferLayout& layout) override
