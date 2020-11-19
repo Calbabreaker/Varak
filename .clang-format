@@ -10,6 +10,7 @@ NamespaceIndentation: All
 AlwaysBreakTemplateDeclarations: Yes 
 AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortCaseLabelsOnASingleLine: true
+Cpp11BracedListStyle: false
 
 PenaltyReturnTypeOnItsOwnLine: 999999
 

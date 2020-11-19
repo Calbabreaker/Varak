@@ -25,6 +25,8 @@ namespace Varak {
         void setFloat4(const std::string& name,
                        const glm::vec4& value) override;
         void setInt1(const std::string& name, int value) override;
+        void setIntArray(const std::string& name, int* values,
+                         uint32_t count) override;
         void setMat4(const std::string& name, const glm::mat4& value) override;
 
     private:

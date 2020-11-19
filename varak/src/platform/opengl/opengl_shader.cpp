@@ -13,7 +13,7 @@ namespace Varak {
         : m_name(name)
     {
         VR_PROFILE_FUNCTION();
-      
+
         std::unordered_map<uint32_t, std::string> shaderSources;
         shaderSources[GL_VERTEX_SHADER] = vertexSrc;
         shaderSources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -23,7 +23,7 @@ namespace Varak {
     OpenGLShader::OpenGLShader(const std::string& filepath)
     {
         VR_PROFILE_FUNCTION();
-     
+
         auto shaderSources = parseShader(filepath);
         compile(shaderSources);
 
@@ -34,28 +34,28 @@ namespace Varak {
     OpenGLShader::~OpenGLShader()
     {
         VR_PROFILE_FUNCTION();
-      
+
         glDeleteProgram(m_rendererID); //
     }
 
     void OpenGLShader::bind() const
     {
         VR_PROFILE_FUNCTION();
-      
+
         glUseProgram(m_rendererID); //
     }
 
     void OpenGLShader::unbind() const
     {
         VR_PROFILE_FUNCTION();
-        
+
         glUseProgram(GL_NONE); //
     }
 
     void OpenGLShader::setFloat1(const std::string& name, float value)
     {
         VR_PROFILE_FUNCTION();
-      
+
         glUniform1f(getUniformLocation(name), value);
     }
 
@@ -63,7 +63,7 @@ namespace Varak {
                                  const glm::vec3& value)
     {
         VR_PROFILE_FUNCTION();
-      
+
         glUniform3f(getUniformLocation(name), value.x, value.y, value.z);
     }
 
@@ -71,7 +71,7 @@ namespace Varak {
                                  const glm::vec4& value)
     {
         VR_PROFILE_FUNCTION();
-      
+
         glUniform4f(getUniformLocation(name), value.x, value.y, value.z,
                     value.w);
     }
@@ -79,14 +79,22 @@ namespace Varak {
     void OpenGLShader::setInt1(const std::string& name, int value)
     {
         VR_PROFILE_FUNCTION();
-        
+
         glUniform1i(getUniformLocation(name), value);
+    }
+
+    void OpenGLShader::setIntArray(const std::string& name, int* values,
+                                   uint32_t count)
+    {
+        VR_PROFILE_FUNCTION();
+
+        glUniform1iv(getUniformLocation(name), count, values);
     }
 
     void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
     {
         VR_PROFILE_FUNCTION();
-      
+
         glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
                            glm::value_ptr(value));
     }
@@ -95,7 +103,7 @@ namespace Varak {
         const std::unordered_map<uint32_t, std::string>& shaderSources)
     {
         VR_PROFILE_FUNCTION();
-        
+
         m_rendererID = glCreateProgram();
 
         VR_CORE_ASSERT(shaderSources.size() <= 2,
@@ -164,7 +172,7 @@ namespace Varak {
         const std::string& filepath)
     {
         VR_PROFILE_FUNCTION();
-      
+
         std::unordered_map<GLenum, std::string> shaderSources;
 
         GLenum currentType = GL_NONE;
@@ -206,7 +214,7 @@ namespace Varak {
     int OpenGLShader::getUniformLocation(const std::string& name)
     {
         VR_PROFILE_FUNCTION();
-        
+
         if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
             return m_uniformLocationCache[name];
 
