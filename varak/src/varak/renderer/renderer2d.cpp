@@ -37,6 +37,8 @@ namespace Varak {
 
         std::array<glm::vec4, 4> quadVertexPositions;
         std::array<glm::vec2, 4> quadVertexTexCoords;
+
+        Renderer2D::Statistics stats;
     };
 
     static Renderer2DData s_data;
@@ -47,8 +49,8 @@ namespace Varak {
 
         s_data.quadVertexArray = VertexArray::create();
 
-        s_data.quadVertexBufer =
-            VertexBuffer::create(sizeof(QuadVertex) * Renderer2DData::maxVertices);
+        s_data.quadVertexBufer = VertexBuffer::create(
+            sizeof(QuadVertex) * Renderer2DData::maxVertices);
 
         s_data.quadVertexBufer->setLayout({
             { ShaderDataType::Float3, "a_position" },    //
@@ -162,10 +164,12 @@ namespace Varak {
 
         // bind textures
         for (uint32_t i = 0; i < s_data.textureSlotIndex; i++)
-            s_data.textureSlots[i]->bind(i);    
+            s_data.textureSlots[i]->bind(i);
 
         RenderCommand::drawIndexed(s_data.quadVertexArray,
                                    s_data.quadIndicesCount);
+
+        s_data.stats.drawCalls++;
     }
 
     void Renderer2D::drawRect(const glm::mat4& transform,
@@ -190,6 +194,8 @@ namespace Varak {
         }
 
         s_data.quadIndicesCount += 6;
+        
+        s_data.stats.quadCount++;
     }
 
     void Renderer2D::drawTexture(const Ref<Texture>& texture,
@@ -230,13 +236,15 @@ namespace Varak {
             s_data.quadVertexBufferPtr->color = tint;
             s_data.quadVertexBufferPtr->texCoord =
                 s_data.quadVertexTexCoords[i];
-            s_data.quadVertexBufferPtr->texIndex = textureIndex; 
+            s_data.quadVertexBufferPtr->texIndex = textureIndex;
             s_data.quadVertexBufferPtr->tilingFactor = tilingFactor;
 
             s_data.quadVertexBufferPtr++;
         }
 
         s_data.quadIndicesCount += 6;
+
+        s_data.stats.quadCount++;
     }
 
     void Renderer2D::drawRect(const glm::vec2& position, const glm::vec2& size,
@@ -328,6 +336,16 @@ namespace Varak {
             glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         drawTexture(texture, transform, tilingFactor, tint);
+    }
+
+    void Renderer2D::resetStats()
+    {
+        memset(&s_data.stats, 0, sizeof(Statistics));
+    }
+
+    Renderer2D::Statistics Renderer2D::getStats()
+    {
+        return s_data.stats; //
     }
 
 } // namespace Varak

@@ -61,6 +61,18 @@ namespace Varak {
                                        const glm::vec2& size, float rotation,
                                        float tilingFactor = 1.0f,
                                        const glm::vec4& tint = glm::vec4(1.0f));
+
+        struct Statistics
+        {
+            uint32_t drawCalls;
+            uint32_t quadCount;
+
+            uint32_t getVertexCount() { return quadCount * 4; }
+            uint32_t getIndexCount() { return quadCount * 6; }
+        };
+
+        static void resetStats();
+        static Statistics getStats();
     };
 
 } // namespace Varak

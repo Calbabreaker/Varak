@@ -54,7 +54,7 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
         static float color = 0.0f;
         static float colorIncrease = 0.5f;
 
-        rotation += 45.0f * ts;
+        rotation += 90.0f * ts;
         color += colorIncrease * ts;
 
         if (color > 1.0f)
@@ -62,13 +62,14 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
         else if (color < 0.0f)
             colorIncrease = 0.5f;
 
+        Varak::Renderer2D::resetStats();
         Varak::Renderer2D::beginScene(m_cameraController->getCamera());
 
         for (uint32_t x = 0; x < 10; x++)
         {
             for (uint32_t y = 0; y < 10; y++)
             {
-                Varak::Renderer2D::drawRect({ x, y }, { 0.75f, 0.75f },
+                Varak::Renderer2D::drawRect({ x + 5.0f, y + 5.0f}, { 0.75f, 0.75f },
                                             m_squareColor);
             }
         }
@@ -98,6 +99,14 @@ void Sandbox2D::onImGuiRender()
     VR_PROFILE_FUNCTION();
 
     ImGui::Begin("Settings");
+
+    auto stats = Varak::Renderer2D::getStats();
+    ImGui::Text("Renderer2D Stats:");
+    ImGui::Text("Draw Calls: %d", stats.drawCalls);
+    ImGui::Text("Quads: %d", stats.quadCount);
+    ImGui::Text("Vertices: %d", stats.getVertexCount());
+    ImGui::Text("Indices: %d", stats.getIndexCount());
+
     ImGui::ColorEdit4("Square Color", glm::value_ptr(m_squareColor));
     ImGui::End();
 }
