@@ -16,8 +16,10 @@ namespace Varak {
         void onUpdate(Timestep ts);
         void onEvent(Event& event);
 
-        float getZoomLevel() const {return m_zoomLevel; };
+        float getZoomLevel() const { return m_zoomLevel; };
         void setZoomLevel(float zoomLevel);
+
+        void onResize(float width, float height);
 
         bool onMouseScrolled(MouseScrolledEvent& event);
         bool onWindowResized(WindowResizedEvent& event);

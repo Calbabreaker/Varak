@@ -39,25 +39,28 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        // update
+        // resize
+        FrameBufferProperties props = m_frameBuffer->getProperties();
+        if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f &&
+            (props.width != m_viewportSize.x ||
+             props.height != m_viewportSize.y))
         {
-            VR_PROFILE_SCOPE("Update");
-
-            m_cameraController->onUpdate(ts);
+            m_frameBuffer->resize(static_cast<uint32_t>(m_viewportSize.x),
+                                  static_cast<uint32_t>(m_viewportSize.y));
+            m_cameraController->onResize(m_viewportSize.x, m_viewportSize.y);
         }
+
+        // update
+        m_cameraController->onUpdate(ts);
 
         // render
         {
-            VR_PROFILE_SCOPE("Renderer Prep");
-
             m_frameBuffer->bind();
             RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
             RenderCommand::clear();
         }
 
         {
-            VR_PROFILE_SCOPE("Renderer Draw");
-
             static float rotation = 0.0f;
             static float color = 0.0f;
             static float colorIncrease = 0.5f;
@@ -99,7 +102,6 @@ namespace Varak {
 
         static bool dockSpaceOpen = true;
         static bool fullscreen = true;
-        static bool padding = false;
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
         ImGuiWindowFlags window_flags =
@@ -126,12 +128,9 @@ namespace Varak {
         if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
             window_flags |= ImGuiWindowFlags_NoBackground;
 
-        if (!padding)
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,
-                                ImVec2(0.0f, 0.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
         ImGui::Begin("DockSpace", &dockSpaceOpen, window_flags);
-        if (!padding)
-            ImGui::PopStyleVar();
+        ImGui::PopStyleVar();
 
         if (fullscreen)
             ImGui::PopStyleVar(2);
@@ -166,13 +165,22 @@ namespace Varak {
         ImGui::Text("Vertices: %d", stats.getVertexCount());
         ImGui::Text("Indices: %d", stats.getIndexCount());
 
+        ImGui::End(); // Stats
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+        ImGui::Begin("Viewport");
+
+        ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
+        m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
+
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID),
-                     ImVec2{ 1280.0f, 720.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize,
+                     ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
-        ImGui::End(); // stats
+        ImGui::End(); // Viewport
+        ImGui::PopStyleVar();
 
-        ImGui::End(); // dockspace
+        ImGui::End(); // Dockspace
     }
 
     void EditorLayer::onEvent(Event& event)

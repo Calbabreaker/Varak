@@ -1,6 +1,6 @@
 workspace "Varak"
 	architecture "x86_64"
-	startproject "Sandbox"
+	startproject "VarakEditor"
 
 	configurations 
 	{

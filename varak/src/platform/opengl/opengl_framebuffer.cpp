@@ -64,4 +64,12 @@ namespace Varak {
         glBindFramebuffer(GL_FRAMEBUFFER, 0); //
     }
 
+    void OpenGLFrameBuffer::resize(uint32_t width, uint32_t height)
+    {
+        m_properties.width = width;
+        m_properties.height = height;
+
+        invalidate();
+    }
+
 } // namespace Varak

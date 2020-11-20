@@ -15,6 +15,8 @@ namespace Varak {
         virtual void bind() override;
         virtual void unbind() override;
 
+        void resize(uint32_t width, uint32_t height) override;
+
         uint32_t getColorAttachmentRendererID() override
         {
             return m_colorAttachment;
