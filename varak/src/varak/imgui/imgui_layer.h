@@ -17,12 +17,15 @@ namespace Varak {
 
         void onAttach() override;
         void onDetach() override;
+        virtual void onEvent(Event& event) override;
 
         void begin();
         void end();
 
+        void blockEvents(bool block) { m_blockEvents = block; }
+
     private:
-        float m_time = 0.0f;
+        bool m_blockEvents = false;
     };
 
 } // namespace Varak

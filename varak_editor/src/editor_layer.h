@@ -23,6 +23,7 @@ namespace Varak {
         Ref<FrameBuffer> m_frameBuffer;
 
         glm::vec2 m_viewportSize;
+        bool m_viewportFocused = false, m_viewportHovered = false;
 
         Scope<OrthographicCameraController> m_cameraController;
     };

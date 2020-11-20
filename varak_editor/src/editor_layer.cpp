@@ -51,7 +51,8 @@ namespace Varak {
         }
 
         // update
-        m_cameraController->onUpdate(ts);
+        if (m_viewportFocused)
+            m_cameraController->onUpdate(ts);
 
         // render
         {
@@ -169,6 +170,11 @@ namespace Varak {
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
+
+        m_viewportFocused = ImGui::IsWindowFocused();
+        m_viewportHovered = ImGui::IsWindowHovered();
+        Application::get().getImGuiLayer()->blockEvents(!m_viewportHovered ||
+                                                        !m_viewportFocused);
 
         ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
         m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };

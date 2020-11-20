@@ -23,8 +23,9 @@ namespace Varak {
 
         void close();
 
-        static Application& get() { return *s_instance; }
         Window& getWindow() { return *m_window; }
+        ImGuiLayer* getImGuiLayer() {return m_imGuiLayer; }
+        static Application& get() { return *s_instance; }
 
     private:
         bool onWindowClosed(WindowClosedEvent& event);
