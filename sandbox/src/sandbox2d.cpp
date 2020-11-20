@@ -69,8 +69,8 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
         {
             for (uint32_t y = 0; y < 10; y++)
             {
-                Varak::Renderer2D::drawRect({ x + 5.0f, y + 5.0f}, { 0.75f, 0.75f },
-                                            m_squareColor);
+                Varak::Renderer2D::drawRect({ x + 5.0f, y + 5.0f },
+                                            { 0.75f, 0.75f }, m_squareColor);
             }
         }
 

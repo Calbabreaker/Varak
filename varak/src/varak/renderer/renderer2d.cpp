@@ -1,7 +1,6 @@
 #include "varak/renderer/renderer2d.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/io.hpp>
 
 namespace Varak {
 
@@ -194,7 +193,7 @@ namespace Varak {
         }
 
         s_data.quadIndicesCount += 6;
-        
+
         s_data.stats.quadCount++;
     }
 

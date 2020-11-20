@@ -5,13 +5,13 @@
 
 namespace Varak {
 
-    struct WindowProps
+    struct WindowProperties
     {
         std::string title;
         uint32_t width;
         uint32_t height;
 
-        WindowProps(const std::string& title = "Varak Engine",
+        WindowProperties(const std::string& title = "Varak Engine",
                     uint32_t width = 1280, uint32_t height = 720)
             : title(title), width(width), height(height)
         {
@@ -34,7 +34,7 @@ namespace Varak {
         virtual void setVSync(bool enabled) = 0;
         virtual bool isVSync() const = 0;
 
-        static Scope<Window> create(const WindowProps& props = WindowProps());
+        static Scope<Window> create(const WindowProperties& props = WindowProperties());
 
         virtual void* getNativeWindow() const = 0;
     };

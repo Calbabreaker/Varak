@@ -30,5 +30,6 @@ group "Vendor"
 	include "vendor/stb_image"
 group ""
 
-include "Varak"
-include "Sandbox"
+include "varak"
+include "sandbox"
+include "varak_editor"

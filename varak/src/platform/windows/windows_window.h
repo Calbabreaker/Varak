@@ -10,7 +10,7 @@ namespace Varak {
     class WindowsWindow : public Window
     {
     public:
-        WindowsWindow(const WindowProps& props);
+        WindowsWindow(const WindowProperties& props);
         ~WindowsWindow();
 
         void onUpdate() override;

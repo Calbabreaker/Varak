@@ -1,4 +1,4 @@
-project "Sandbox"
+project "VarakEditor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -12,8 +12,8 @@ project "Sandbox"
 	{
 		"src/**.h",
 		"src/**.cpp"
-	}
-
+    }
+    
 	includedirs 
 	{
 		"%{varakdir}/src",

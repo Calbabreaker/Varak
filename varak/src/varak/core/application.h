@@ -11,7 +11,7 @@ namespace Varak {
     class Application
     {
     public:
-        Application();
+        Application(const std::string& name = "Varak Engine");
         virtual ~Application();
 
         void run();

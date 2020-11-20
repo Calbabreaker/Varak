@@ -17,7 +17,7 @@ namespace Varak {
         VR_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
-    WindowsWindow::WindowsWindow(const WindowProps& props)
+    WindowsWindow::WindowsWindow(const WindowProperties& props)
     {
         VR_PROFILE_FUNCTION();
 
