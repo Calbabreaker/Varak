@@ -23,6 +23,11 @@ namespace Varak {
 
         m_vTexture = Texture2D::create("assets/textures/v.png");
         m_patternTexture = Texture2D::create("assets/textures/pattern.png");
+
+        FrameBufferProperties props;
+        props.width = 1280;
+        props.height = 720;
+        m_frameBuffer = FrameBuffer::create(props);
     }
 
     void EditorLayer::onDetach()
@@ -45,6 +50,7 @@ namespace Varak {
         {
             VR_PROFILE_SCOPE("Renderer Prep");
 
+            m_frameBuffer->bind();
             RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
             RenderCommand::clear();
         }
@@ -67,15 +73,6 @@ namespace Varak {
             Renderer2D::resetStats();
             Renderer2D::beginScene(m_cameraController->getCamera());
 
-            for (uint32_t x = 0; x < 10; x++)
-            {
-                for (uint32_t y = 0; y < 10; y++)
-                {
-                    Renderer2D::drawRect({ x + 5.0f, y + 5.0f },
-                                         { 0.75f, 0.75f }, m_squareColor);
-                }
-            }
-
             Renderer2D::drawRect({ 2.0f, -0.5f }, { 0.5f, 1.0f },
                                  { 1.0f, 0.0f, 0.0, 1.0f });
             Renderer2D::drawRect({ 2.0f, 1.0f }, { 0.5f, 0.75f });
@@ -92,6 +89,7 @@ namespace Varak {
                                     { 1.0, 1.0f, 0.0f, 1.0f });
 
             Renderer2D::endScene();
+            m_frameBuffer->unbind();
         }
     }
 
@@ -99,7 +97,67 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        ImGui::Begin("Settings");
+        static bool dockSpaceOpen = true;
+        static bool fullscreen = true;
+        static bool padding = false;
+        static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+        ImGuiWindowFlags window_flags =
+            ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        if (fullscreen)
+        {
+            ImGuiViewport* viewport = ImGui::GetMainViewport();
+            ImGui::SetNextWindowPos(viewport->GetWorkPos());
+            ImGui::SetNextWindowSize(viewport->GetWorkSize());
+            ImGui::SetNextWindowViewport(viewport->ID);
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+            window_flags |= ImGuiWindowFlags_NoTitleBar |
+                            ImGuiWindowFlags_NoCollapse |
+                            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+            window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus |
+                            ImGuiWindowFlags_NoNavFocus;
+        }
+        else
+        {
+            dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+        }
+
+        if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+            window_flags |= ImGuiWindowFlags_NoBackground;
+
+        if (!padding)
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,
+                                ImVec2(0.0f, 0.0f));
+        ImGui::Begin("DockSpace", &dockSpaceOpen, window_flags);
+        if (!padding)
+            ImGui::PopStyleVar();
+
+        if (fullscreen)
+            ImGui::PopStyleVar(2);
+
+        // DockSpace
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+        {
+            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+        }
+
+        if (ImGui::BeginMenuBar())
+        {
+            if (ImGui::BeginMenu("File"))
+            {
+                if (ImGui::MenuItem("Exit"))
+                    Application::get().close();
+
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndMenuBar();
+        }
+
+        ImGui::Begin("Stats");
 
         auto stats = Renderer2D::getStats();
         ImGui::Text("Renderer2D Stats:");
@@ -108,11 +166,13 @@ namespace Varak {
         ImGui::Text("Vertices: %d", stats.getVertexCount());
         ImGui::Text("Indices: %d", stats.getIndexCount());
 
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_squareColor));
-        ImGui::End();
+        uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
+        ImGui::Image(reinterpret_cast<void*>(rendererID),
+                     ImVec2{ 1280.0f, 720.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
+        ImGui::End(); // stats
+
+        ImGui::End(); // dockspace
     }
 
     void EditorLayer::onEvent(Event& event)

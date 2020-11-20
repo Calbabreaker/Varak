@@ -53,7 +53,8 @@ namespace Varak {
 
                 m_imGuiLayer->begin();
                 {
-                    VR_PROFILE_SCOPE("layerStack onImGuiRender - Application::run");
+                    VR_PROFILE_SCOPE(
+                        "layerStack onImGuiRender - Application::run");
 
                     for (Layer* layer : m_layerStack)
                         layer->onImGuiRender();
@@ -97,6 +98,11 @@ namespace Varak {
 
         m_layerStack.pushOverlay(overlay);
         overlay->onAttach();
+    }
+
+    void Application::close()
+    {
+        m_running = false; //
     }
 
     bool Application::onWindowClosed(WindowClosedEvent& event)

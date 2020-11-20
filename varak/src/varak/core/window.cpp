@@ -11,6 +11,9 @@ namespace Varak {
     {
 #if defined(VR_PLATFORM_WINDOWS)
         return createScope<WindowsWindow>(props);
+#else
+        VR_CORE_ASSERT(false, "Window creation not supported on platform!");
+        return nullptr;
 #endif
     }
 

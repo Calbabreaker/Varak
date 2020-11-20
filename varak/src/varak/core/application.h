@@ -21,6 +21,8 @@ namespace Varak {
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* overlay);
 
+        void close();
+
         static Application& get() { return *s_instance; }
         Window& getWindow() { return *m_window; }
 

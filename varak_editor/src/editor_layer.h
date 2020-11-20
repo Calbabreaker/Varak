@@ -19,10 +19,10 @@ namespace Varak {
     private:
         Ref<Texture> m_vTexture;
         Ref<Texture> m_patternTexture;
+        
+        Ref<FrameBuffer> m_frameBuffer;
 
         Scope<OrthographicCameraController> m_cameraController;
-
-        glm::vec4 m_squareColor = { 0.0f, 0.4f, 0.2f, 1.0f };
     };
 
 } // namespace Varak
