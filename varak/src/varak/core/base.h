@@ -1,7 +1,6 @@
 #pragma once
 
 #include "varak/core/assert.h"
-#include "varak/core/log.h"
 #include "varak/core/platform_detection.h"
 
 #define VR_BIT(x) (1 << x)

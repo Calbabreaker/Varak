@@ -1,6 +1,9 @@
 # build output
 build/
 
+# varak output
+**.log
+
 # visual studio files
 .vs/
 **.vcxproj*
