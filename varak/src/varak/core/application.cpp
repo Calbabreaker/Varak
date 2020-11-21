@@ -12,7 +12,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        VR_CORE_ASSERT(!s_instance, "Aplication already exists!");
+        VR_CORE_ASSERT_MSG(!s_instance, "Aplication already exists!");
         s_instance = this;
 
         m_window = Window::create(WindowProperties(name));

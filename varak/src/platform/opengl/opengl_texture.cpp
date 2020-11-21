@@ -18,7 +18,7 @@ namespace Varak {
             data = stbi_load(filepath.c_str(), &width, &height, &channels, 4);
         }
 
-        VR_CORE_ASSERT(data, "Failed to load image!");
+        VR_CORE_ASSERT_MSG(data, "Failed to load image at {0}!", filepath);
         m_width = width;
         m_height = height;
 
@@ -34,7 +34,7 @@ namespace Varak {
             dataFormat = GL_RGB;
         }
 
-        VR_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+        VR_CORE_ASSERT_MSG(internalFormat & dataFormat, "Format not supported with image at {0}!", filepath);
 
         glCreateTextures(GL_TEXTURE_2D, 1, &m_rendererID);
         glTextureStorage2D(m_rendererID, 1, internalFormat, m_width, m_height);
@@ -80,7 +80,7 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
        
         uint32_t bpp = m_dataFormat == GL_RGBA ? 4 : 3;
-        VR_CORE_ASSERT(size == m_width * m_height * bpp,
+        VR_CORE_ASSERT_MSG(size == m_width * m_height * bpp,
                        "Data must be entire texture!");
         glTextureSubImage2D(m_rendererID, 0, 0, 0, m_width, m_height,
                             m_dataFormat, GL_UNSIGNED_BYTE, data);

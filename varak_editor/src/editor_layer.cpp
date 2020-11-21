@@ -21,7 +21,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        m_vTexture = Texture2D::create("assets/textures/v.png");
+        m_vTexture = Texture2D::create("assets/textures/va.png");
         m_patternTexture = Texture2D::create("assets/textures/pattern.png");
 
         FrameBufferProperties props;

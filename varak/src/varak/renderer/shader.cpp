@@ -16,7 +16,7 @@ namespace Varak {
             return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -27,7 +27,7 @@ namespace Varak {
         case RendererAPI::API::OpenGL: return createRef<OpenGLShader>(filepath);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -38,7 +38,7 @@ namespace Varak {
 
     void ShaderLibrary::add(const std::string& name, const Ref<Shader>& shader)
     {
-        VR_CORE_ASSERT(!exists(name), "Shader already exists!");
+        VR_CORE_ASSERT_MSG(!exists(name), "Shader '{0}' already exists!", name);
         m_shaders[name] = shader;
     }
 
@@ -59,7 +59,7 @@ namespace Varak {
 
     Ref<Shader> ShaderLibrary::get(const std::string& name)
     {
-        VR_CORE_ASSERT(exists(name), "Shader does not exist!");
+        VR_CORE_ASSERT_MSG(exists(name), "Shader '{0}' does not exist!", name);
         return m_shaders[name];
     }
 

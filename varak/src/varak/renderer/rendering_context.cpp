@@ -15,7 +15,7 @@ namespace Varak {
                 static_cast<GLFWwindow*>(window));
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 

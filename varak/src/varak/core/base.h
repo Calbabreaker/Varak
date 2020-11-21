@@ -1,31 +1,8 @@
 #pragma once
 
+#include "varak/core/assert.h"
 #include "varak/core/log.h"
 #include "varak/core/platform_detection.h"
-
-#ifdef VR_DEBUG
-    // TODO: cross compiler/ide debug break
-    // https://github.com/nemequ/portable-snippets/blob/master/debug-trap/debug-trap.h
-    #ifdef _MSC_VER
-        #define VR_DEBUGBREAK() __debugbreak()
-    #else
-        #error "Compiler/IDE does not support DebugBreak!"
-    #endif
-
-    // TODO: optional message param
-    // https://stackoverflow.com/questions/3046889/optional-parameters-with-c-macros
-    #define VR_CORE_ASSERT(expr, ...)                                          \
-        if (!(expr))                                                           \
-        VR_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__), VR_DEBUGBREAK()
-
-    #define VR_ASSERT(expr, ...)                                               \
-        if (!(expr))                                                           \
-        VR_ERROR("Assertion Failed: {0}", __VA_ARGS__), VR_DEBUGBREAK()
-#else
-    #define VR_CORE_ASSERT(expr, ...)
-    #define VR_ASSERT(expr, ...)
-    #define VR_DEBUGBREAK()
-#endif
 
 #define VR_BIT(x) (1 << x)
 

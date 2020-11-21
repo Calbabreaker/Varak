@@ -106,8 +106,9 @@ namespace Varak {
 
         m_rendererID = glCreateProgram();
 
-        VR_CORE_ASSERT(shaderSources.size() <= 2,
-                       "Varak only support 2 shaders at a time!");
+        VR_CORE_ASSERT_MSG(shaderSources.size() <= 2,
+                       "Varak only support 2 shaders at a time not {0}!",
+                       shaderSources.size());
         std::array<uint32_t, 2> shaderIDs;
         uint32_t shaderIDIndex = 0;
 
@@ -119,19 +120,14 @@ namespace Varak {
             glShaderSource(shaderID, 1, &sourceCSTR, nullptr);
             glCompileShader(shaderID);
 
-            // get error message from OpenGL
             int isCompiled = 0;
             glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
             if (isCompiled == GL_FALSE)
             {
-                int length;
-                glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
+                // no need to get error because error callback will be called
+                // with error message anyways
 
-                std::vector<char> infoLog(length);
-                glGetShaderInfoLog(shaderID, length, &length, &infoLog[0]);
-
-                VR_CORE_ERROR("{0}", infoLog.data());
-                VR_CORE_ASSERT(false, "Failed to compile shader!");
+                VR_CORE_ASSERT_MSG(false, "Failed to compile a shader in '{0}' shader!", m_name);
                 break;
             }
 
@@ -147,18 +143,11 @@ namespace Varak {
         glGetProgramiv(m_rendererID, GL_LINK_STATUS, &isLinked);
         if (isLinked == GL_FALSE)
         {
-            int length;
-            glGetProgramiv(m_rendererID, GL_INFO_LOG_LENGTH, &length);
-
-            std::vector<char> infoLog(length);
-            glGetProgramInfoLog(m_rendererID, length, &length, &infoLog[0]);
-
             glDeleteProgram(m_rendererID);
             for (auto shaderID : shaderIDs)
                 glDeleteShader(shaderID);
 
-            VR_CORE_ERROR("{0}", infoLog.data());
-            VR_CORE_ASSERT(false, "Shader failed to link!");
+            VR_CORE_ASSERT_MSG(false, "Failed to link '{0}' shader!", m_name);
         }
 
         for (auto shaderID : shaderIDs)
@@ -193,7 +182,7 @@ namespace Varak {
                              line.find("pixel") != std::string::npos)
                         currentType = GL_FRAGMENT_SHADER;
                     else
-                        VR_CORE_ASSERT(false, "Invalid shader type specified!");
+                        VR_CORE_ASSERT_MSG(false, "Invalid shader type specified!");
                 }
                 else if (currentType != GL_NONE)
                 {
@@ -205,7 +194,7 @@ namespace Varak {
         }
         else
         {
-            VR_CORE_ERROR("File does not exist at {0}!", filepath);
+            VR_CORE_ASSERT_MSG(false, "File does not exist at {0}!", filepath);
         }
 
         return shaderSources;

@@ -48,7 +48,7 @@ namespace Varak {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
                                GL_TEXTURE_2D, m_depthAttachment, 0);
 
-        VR_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) ==
+        VR_CORE_ASSERT_MSG(glCheckFramebufferStatus(GL_FRAMEBUFFER) ==
                            GL_FRAMEBUFFER_COMPLETE,
                        "FrameBuffer is incomplete!");
 

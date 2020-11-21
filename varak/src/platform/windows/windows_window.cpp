@@ -34,7 +34,7 @@ namespace Varak {
             VR_PROFILE_SCOPE("glfwInit - WindowsWindow::WindowsWindow");
 
             int success = glfwInit();
-            VR_CORE_ASSERT(success, "Could not initialize GLFW");
+            VR_CORE_ASSERT_MSG(success, "Could not initialize GLFW");
         }
 
         {
@@ -49,7 +49,7 @@ namespace Varak {
                                         static_cast<int>(m_data.height),
                                         m_data.title.c_str(), nullptr, nullptr);
 
-            VR_CORE_ASSERT(m_window, "Could not create Window!");
+            VR_CORE_ASSERT_MSG(m_window, "Could not create Window!");
             s_glfwWindowCount++;
         }
 

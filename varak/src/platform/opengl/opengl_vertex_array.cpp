@@ -23,7 +23,7 @@ namespace Varak {
             case ShaderDataType::Bool: return GL_BOOL;
             }
 
-            VR_CORE_ASSERT(false, "Unknown shader type!");
+            VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
             return GL_NONE;
         }
 
@@ -49,7 +49,7 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
       
         glBindVertexArray(m_rendererID);
-        VR_CORE_ASSERT(vertexBuffer->getLayout().getElements().size(),
+        VR_CORE_ASSERT_MSG(vertexBuffer->getLayout().getElements().size(),
                        "BufferLayout can not be empty!");
         vertexBuffer->bind();
         m_vertexBuffers.push_back(vertexBuffer);

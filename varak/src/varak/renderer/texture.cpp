@@ -14,7 +14,7 @@ namespace Varak {
             return createRef<OpenGLTexture2D>(filepath);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -26,7 +26,7 @@ namespace Varak {
             return createRef<OpenGLTexture2D>(width, height);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 

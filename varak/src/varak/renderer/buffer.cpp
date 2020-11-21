@@ -14,7 +14,7 @@ namespace Varak {
             return createRef<OpenGLVertexBuffer>(vertices, size);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -26,7 +26,7 @@ namespace Varak {
             return createRef<OpenGLVertexBuffer>(size);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -38,7 +38,7 @@ namespace Varak {
             return createRef<OpenGLIndexBuffer>(indicies, count);
         }
 
-        VR_CORE_ASSERT(false, "Unknown RendererAPI!");
+        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -59,7 +59,7 @@ namespace Varak {
         case ShaderDataType::Bool: return 1;
         }
 
-        VR_CORE_ASSERT(false, "Unknown shader type!");
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
         return 0;
     }
 
@@ -90,7 +90,7 @@ namespace Varak {
         case ShaderDataType::Bool: return 1;
         }
 
-        VR_CORE_ASSERT(false, "Unknown shader type!");
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
         return 0;
     }
 
