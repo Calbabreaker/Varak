@@ -6,8 +6,6 @@
 
 #include "varak/renderer/renderer.h"
 
-#include <GLFW/glfw3.h>
-
 namespace Varak {
 
     static uint8_t s_glfwWindowCount = 0;

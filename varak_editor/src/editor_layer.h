@@ -19,13 +19,16 @@ namespace Varak {
     private:
         Ref<Texture> m_vTexture;
         Ref<Texture> m_patternTexture;
-        
         Ref<FrameBuffer> m_frameBuffer;
+
+        Scope<OrthographicCameraController> m_cameraController;
+
+        Ref<Scene> m_scene;
+        Entity m_squareEntity;
 
         glm::vec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;
 
-        Scope<OrthographicCameraController> m_cameraController;
     };
 
 } // namespace Varak

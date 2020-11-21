@@ -34,7 +34,8 @@ project "Varak"
 		"%{vendordir}/glfw/include",
 		"%{vendordir}/glm",
 		"%{vendordir}/imgui",
-		"%{vendordir}/stb_image"
+        "%{vendordir}/stb_image",
+		"%{vendordir}/entt"
 	}
 
 	links

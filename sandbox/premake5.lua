@@ -20,7 +20,8 @@ project "Sandbox"
 		
 		"%{vendordir}/spdlog/include",
         "%{vendordir}/glm",
-		"%{vendordir}/imgui"
+        "%{vendordir}/imgui",
+		"%{vendordir}/entt"
 	}
 
 	links

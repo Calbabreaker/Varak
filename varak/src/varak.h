@@ -28,3 +28,8 @@
 #include "varak/renderer/vertex_array.h"
 
 #include "varak/renderer/orthographic_camera_controller.h"
+
+// -- scene --
+#include "varak/scene/components.h"
+#include "varak/scene/entity.h"
+#include "varak/scene/scene.h"

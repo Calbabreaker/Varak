@@ -2,6 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/io.hpp>
 
 namespace Varak {
 
@@ -21,13 +22,18 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        m_vTexture = Texture2D::create("assets/textures/va.png");
+        m_vTexture = Texture2D::create("assets/textures/v.png");
         m_patternTexture = Texture2D::create("assets/textures/pattern.png");
 
         FrameBufferProperties props;
         props.width = 1280;
         props.height = 720;
         m_frameBuffer = FrameBuffer::create(props);
+
+        m_scene = createRef<Scene>();
+        m_squareEntity = m_scene->createEntity();
+
+        m_squareEntity.addComponent<SpriteComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     }
 
     void EditorLayer::onDetach()
@@ -55,46 +61,18 @@ namespace Varak {
             m_cameraController->onUpdate(ts);
 
         // render
-        {
-            m_frameBuffer->bind();
-            RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-            RenderCommand::clear();
-        }
+        m_frameBuffer->bind();
+        RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        RenderCommand::clear();
 
-        {
-            static float rotation = 0.0f;
-            static float color = 0.0f;
-            static float colorIncrease = 0.5f;
+        Renderer2D::resetStats();
+        Renderer2D::beginScene(m_cameraController->getCamera());
 
-            rotation += 90.0f * ts;
-            color += colorIncrease * ts;
+        m_scene->onUpdate(ts);
 
-            if (color > 1.0f)
-                colorIncrease = -0.5f;
-            else if (color < 0.0f)
-                colorIncrease = 0.5f;
+        Renderer2D::endScene();
 
-            Renderer2D::resetStats();
-            Renderer2D::beginScene(m_cameraController->getCamera());
-
-            Renderer2D::drawRect({ 2.0f, -0.5f }, { 0.5f, 1.0f },
-                                 { 1.0f, 0.0f, 0.0, 1.0f });
-            Renderer2D::drawRect({ 2.0f, 1.0f }, { 0.5f, 0.75f });
-
-            Renderer2D::drawRotatedRect({ 0.0f, -1.0f }, { 0.75f, 0.75f },
-                                        rotation, { 0.0f, color, 1.0f, 1.0f });
-
-            Renderer2D::drawTexture(m_patternTexture, { 0.0f, 0.0f, -0.5f },
-                                    { 10.0f, 10.0f }, 25.0f);
-            Renderer2D::drawTexture(m_vTexture, { 0.0f, 3.0f, 0.25f },
-                                    { 3.0f, 3.0f });
-            Renderer2D::drawTexture(m_vTexture, { 2.0f, 3.0f, 0.5f },
-                                    { 2.0f, 2.0f }, 1.0f,
-                                    { 1.0, 1.0f, 0.0f, 1.0f });
-
-            Renderer2D::endScene();
-            m_frameBuffer->unbind();
-        }
+        m_frameBuffer->unbind();
     }
 
     void EditorLayer::onImGuiRender()
@@ -168,7 +146,7 @@ namespace Varak {
 
         ImGui::End(); // Stats
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
         ImGui::Begin("Viewport");
 
         m_viewportFocused = ImGui::IsWindowFocused();
@@ -181,7 +159,7 @@ namespace Varak {
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
         ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize,
-                     ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+                     ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
