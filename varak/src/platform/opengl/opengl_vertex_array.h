@@ -16,14 +16,8 @@ namespace Varak {
         void bind() const override;
         void unbind() const override;
 
-        const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const override
-        {
-            return m_vertexBuffers;
-        };
-        const Ref<IndexBuffer>& getIndexBuffer() const override
-        {
-            return m_indexBuffer;
-        };
+        const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const override { return m_vertexBuffers; };
+        const Ref<IndexBuffer>& getIndexBuffer() const override { return m_indexBuffer; };
 
     private:
         uint32_t m_rendererID;

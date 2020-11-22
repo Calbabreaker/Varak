@@ -10,7 +10,7 @@ namespace Varak {
     public:
         VarakEditor() : Application("Varak Editor")
         {
-            pushLayer(new EditorLayer());
+            pushLayer(new EditorLayer()); //
         };
 
         ~VarakEditor(){};

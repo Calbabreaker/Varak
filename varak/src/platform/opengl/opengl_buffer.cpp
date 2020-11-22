@@ -4,9 +4,9 @@
 
 namespace Varak {
 
-    //               \\
-    // Vertex Buffer \\
-    //               \\
+    // -----------------
+    // - Vertex Buffer -
+    // -----------------
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
     {
@@ -53,19 +53,17 @@ namespace Varak {
         glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
     }
 
-    //              \\
-    // Index Buffer \\
-    //              \\
+    // ----------------
+    // - Index Buffer -
+    // ----------------
 
-    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* vertices, uint32_t count)
-        : m_count(count)
+    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* vertices, uint32_t count) : m_count(count)
     {
         VR_PROFILE_FUNCTION();
 
         glCreateBuffers(1, &m_rendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t),
-                     vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), vertices, GL_STATIC_DRAW);
     }
 
     OpenGLIndexBuffer::~OpenGLIndexBuffer()

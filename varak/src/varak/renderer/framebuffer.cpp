@@ -10,7 +10,8 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL: return createRef<OpenGLFrameBuffer>(props);
+        case RendererAPI::API::OpenGL: //
+            return createRef<OpenGLFrameBuffer>(props);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

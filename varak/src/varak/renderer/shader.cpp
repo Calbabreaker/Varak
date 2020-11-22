@@ -6,13 +6,11 @@
 
 namespace Varak {
 
-    Ref<Shader> Shader::create(const std::string& name,
-                               const std::string& vertexSrc,
-                               const std::string& fragmentSrc)
+    Ref<Shader> Shader::create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
@@ -24,7 +22,8 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL: return createRef<OpenGLShader>(filepath);
+        case RendererAPI::API::OpenGL: //
+            return createRef<OpenGLShader>(filepath);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
@@ -33,7 +32,7 @@ namespace Varak {
 
     void ShaderLibrary::add(const Ref<Shader>& shader)
     {
-        add(shader->getName(), shader);
+        add(shader->getName(), shader); //
     }
 
     void ShaderLibrary::add(const std::string& name, const Ref<Shader>& shader)
@@ -42,8 +41,7 @@ namespace Varak {
         m_shaders[name] = shader;
     }
 
-    Ref<Shader> ShaderLibrary::load(const std::string& name,
-                                    const std::string& filepath)
+    Ref<Shader> ShaderLibrary::load(const std::string& name, const std::string& filepath)
     {
         auto shader = Shader::create(filepath);
         add(name, shader);
@@ -65,7 +63,7 @@ namespace Varak {
 
     bool ShaderLibrary::exists(const std::string& name)
     {
-        return m_shaders.find(name) != m_shaders.end();
+        return m_shaders.find(name) != m_shaders.end(); //
     }
 
 } // namespace Varak

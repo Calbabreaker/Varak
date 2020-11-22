@@ -10,7 +10,8 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL: return createScope<OpenGLRendererAPI>();
+        case RendererAPI::API::OpenGL: //
+            return createScope<OpenGLRendererAPI>();
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

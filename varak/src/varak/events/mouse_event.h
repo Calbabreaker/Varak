@@ -10,8 +10,7 @@ namespace Varak {
     public:
         MouseCode getMouseButton() const { return m_button; }
 
-        MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput |
-                                  EventCategoryMouseButton)
+        MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 
     protected:
         MouseButtonEvent(MouseCode button) : m_button(button) {}
@@ -42,8 +41,7 @@ namespace Varak {
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseButtonReleasedEvent: "
-               << static_cast<uint8_t>(m_button);
+            ss << "MouseButtonReleasedEvent: " << static_cast<uint8_t>(m_button);
             return ss.str();
         }
 
@@ -75,10 +73,7 @@ namespace Varak {
     class MouseScrolledEvent : public Event
     {
     public:
-        MouseScrolledEvent(float xOffset, float yOffset)
-            : m_xOffSet(xOffset), m_yOffset(yOffset)
-        {
-        }
+        MouseScrolledEvent(float xOffset, float yOffset) : m_xOffSet(xOffset), m_yOffset(yOffset) {}
 
         float getXOffset() const { return m_xOffSet; }
         float getYOffset() const { return m_yOffset; }
@@ -96,4 +91,5 @@ namespace Varak {
     private:
         float m_xOffSet, m_yOffset;
     };
+
 } // namespace Varak

@@ -13,10 +13,8 @@ namespace Varak {
         template <typename T, typename... Args>
         T& addComponent(Args&&... args)
         {
-            VR_CORE_ASSERT_MSG(!hasComponent<T>(),
-                               "Entity already has component!");
-            T& component = m_scene->m_registry.emplace<T>(
-                m_handle, std::forward<Args>(args)...);
+            VR_CORE_ASSERT_MSG(!hasComponent<T>(), "Entity already has component!");
+            T& component = m_scene->m_registry.emplace<T>(m_handle, std::forward<Args>(args)...);
             m_scene->onComponentAdded<T>(*this, component);
             return component;
         }
@@ -24,16 +22,14 @@ namespace Varak {
         template <typename T>
         T& getComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<T>(),
-                               "Entity does not have component!");
+            VR_CORE_ASSERT_MSG(hasComponent<T>(), "Entity does not have component!");
             return m_scene->m_registry.get<T>(m_handle);
         }
 
         template <typename T>
         void removeComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<T>(),
-                               "Entity does not have component!");
+            VR_CORE_ASSERT_MSG(hasComponent<T>(), "Entity does not have component!");
             return m_scene->m_registry.remove<T>(m_handle);
         }
 
@@ -48,7 +44,7 @@ namespace Varak {
 
         bool operator==(const Entity& other)
         {
-            return m_handle == other.m_handle && m_scene == other.m_scene;
+            return m_handle == other.m_handle && m_scene == other.m_scene; //
         }
 
         bool operator!=(const Entity& other)

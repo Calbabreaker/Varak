@@ -22,8 +22,7 @@ namespace Varak {
         static void beginScene(const Camera& camera, const glm::mat4& transform);
         static void endScene();
 
-        static void submit(const Ref<VertexArray>& vertexArray,
-                           const Ref<Shader>& shader,
+        static void submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader,
                            const glm::mat4& transform = glm::mat4(1.0f));
 
         static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }

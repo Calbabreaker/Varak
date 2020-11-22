@@ -16,8 +16,8 @@ private:
     Varak::Ref<Varak::VertexArray> m_squareVA;
     Varak::Ref<Varak::Texture> m_texture;
 
-    Varak::Scope<Varak::OrthographicCameraController> m_cameraController;
+    Varak::Scope<Varak::CameraController> m_cameraController;
 
-    glm::vec4 m_squareColor1 = {0.4f, 0.0f, 0.2f, 1.0f};
-    glm::vec4 m_squareColor2 = {0.0f, 0.4f, 0.2f, 1.0f};
+    glm::vec4 m_squareColor1 = { 0.4f, 0.0f, 0.2f, 1.0f };
+    glm::vec4 m_squareColor2 = { 0.0f, 0.4f, 0.2f, 1.0f };
 };

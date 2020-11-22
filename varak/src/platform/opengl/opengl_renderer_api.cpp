@@ -6,10 +6,8 @@ namespace Varak {
 
     namespace {
 
-        void OpenGLMessageCallback(unsigned /*source*/, unsigned /*type*/,
-                                   unsigned /*id*/, unsigned severity,
-                                   int length, const char* message,
-                                   const void* /*userParam*/)
+        void OpenGLMessageCallback(unsigned /*source*/, unsigned /*type*/, unsigned /*id*/, unsigned severity,
+                                   int length, const char* message, const void* /*userParam*/)
         {
             switch (severity)
             {
@@ -33,9 +31,7 @@ namespace Varak {
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(OpenGLMessageCallback, nullptr);
 
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE,
-                              GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr,
-                              GL_FALSE);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
 #endif
 
         glEnable(GL_BLEND);
@@ -46,25 +42,22 @@ namespace Varak {
 
     void OpenGLRendererAPI::setClearColor(const glm::vec4& color)
     {
-        glClearColor(color.r, color.g, color.b, color.a);
+        glClearColor(color.r, color.g, color.b, color.a); //
     }
 
-    void OpenGLRendererAPI::setViewport(uint32_t x, uint32_t y, uint32_t width,
-                                        uint32_t height)
+    void OpenGLRendererAPI::setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
     {
         glViewport(x, y, width, height);
     }
 
     void OpenGLRendererAPI::clear()
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //
     }
 
-    void OpenGLRendererAPI::drawIndexed(const Ref<VertexArray>& vertexArray,
-                                        uint32_t indexCount)
+    void OpenGLRendererAPI::drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
     {
-        uint32_t count =
-            indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
+        uint32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
 
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     }

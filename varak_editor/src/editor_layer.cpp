@@ -27,12 +27,10 @@ namespace Varak {
         m_scene = createRef<Scene>(width, height);
         m_squareEntity = m_scene->createEntity();
 
-        m_squareEntity.addComponent<SpriteRendererComponent>(
-            glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        m_squareEntity.addComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
         m_cameraEntity = m_scene->createEntity();
-        CameraComponent& camera =
-            m_cameraEntity.addComponent<CameraComponent>();
+        CameraComponent& camera = m_cameraEntity.addComponent<CameraComponent>();
     }
 
     void EditorLayer::onDetach()
@@ -47,8 +45,7 @@ namespace Varak {
         // resize
         FrameBufferProperties props = m_frameBuffer->getProperties();
         if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f &&
-            (props.width != m_viewportSize.x ||
-             props.height != m_viewportSize.y))
+            (props.width != m_viewportSize.x || props.height != m_viewportSize.y))
         {
             uint32_t width = static_cast<uint32_t>(m_viewportSize.x);
             uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
@@ -83,8 +80,7 @@ namespace Varak {
         static bool fullscreen = true;
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-        ImGuiWindowFlags window_flags =
-            ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
         if (fullscreen)
         {
             ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -93,11 +89,9 @@ namespace Varak {
             ImGui::SetNextWindowViewport(viewport->ID);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-            window_flags |= ImGuiWindowFlags_NoTitleBar |
-                            ImGuiWindowFlags_NoCollapse |
-                            ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-            window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus |
-                            ImGuiWindowFlags_NoNavFocus;
+            window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+                            ImGuiWindowFlags_NoMove;
+            window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
         }
         else
         {
@@ -151,15 +145,13 @@ namespace Varak {
 
         m_viewportFocused = ImGui::IsWindowFocused();
         m_viewportHovered = ImGui::IsWindowHovered();
-        Application::get().getImGuiLayer()->blockEvents(!m_viewportHovered ||
-                                                        !m_viewportFocused);
+        Application::get().getImGuiLayer()->blockEvents(!m_viewportHovered || !m_viewportFocused);
 
         ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
         m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize,
-                     ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
@@ -169,7 +161,7 @@ namespace Varak {
 
     void EditorLayer::onEvent(Event& event)
     {
-        m_cameraController->onEvent(event);
+        m_cameraController->onEvent(event); //
     }
 
 } // namespace Varak

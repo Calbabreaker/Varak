@@ -24,7 +24,7 @@ namespace Varak {
         void close();
 
         Window& getWindow() { return *m_window; }
-        ImGuiLayer* getImGuiLayer() {return m_imGuiLayer; }
+        ImGuiLayer* getImGuiLayer() { return m_imGuiLayer; }
         static Application& get() { return *s_instance; }
 
     private:

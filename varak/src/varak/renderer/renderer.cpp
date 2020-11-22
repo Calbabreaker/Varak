@@ -17,12 +17,12 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        Renderer2D::shutdown(); //
+        Renderer2D::shutdown();
     }
 
     void Renderer::onWindowResized(uint32_t width, uint32_t height)
     {
-        RenderCommand::setViewport(0, 0, width, height);
+        RenderCommand::setViewport(0, 0, width, height); //
     }
 
     void Renderer::beginScene(const Camera& camera, const glm::mat4& transform)
@@ -32,8 +32,7 @@ namespace Varak {
 
     void Renderer::endScene() {}
 
-    void Renderer::submit(const Ref<VertexArray>& vertexArray,
-                          const Ref<Shader>& shader, const glm::mat4& transform)
+    void Renderer::submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform)
     {
         vertexArray->bind();
         shader->bind();

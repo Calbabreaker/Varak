@@ -13,14 +13,8 @@ namespace Varak {
     public:
         static void init();
 
-        static Ref<spdlog::logger>& getCoreLogger()
-        {
-            return s_coreLogger;
-        }
-        static Ref<spdlog::logger>& getClientLogger()
-        {
-            return s_clientLogger;
-        }
+        static Ref<spdlog::logger>& getCoreLogger() { return s_coreLogger; }
+        static Ref<spdlog::logger>& getClientLogger() { return s_clientLogger; }
 
     private:
         static Ref<spdlog::logger> s_coreLogger;
@@ -34,8 +28,7 @@ namespace Varak {
 #define VR_CORE_INFO(...) ::Varak::Log::getCoreLogger()->info(__VA_ARGS__)
 #define VR_CORE_WARN(...) ::Varak::Log::getCoreLogger()->warn(__VA_ARGS__)
 #define VR_CORE_ERROR(...) ::Varak::Log::getCoreLogger()->error(__VA_ARGS__)
-#define VR_CORE_CRITICAL(...)                                                  \
-    ::Varak::Log::getCoreLogger()->critical(__VA_ARGS__)
+#define VR_CORE_CRITICAL(...) ::Varak::Log::getCoreLogger()->critical(__VA_ARGS__)
 
 // for the client
 #define VR_TRACE(...) ::Varak::Log::getClientLogger()->trace(__VA_ARGS__)

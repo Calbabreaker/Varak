@@ -14,8 +14,7 @@ namespace Varak {
     {
         if (m_projectionType == ProjectionType::Perpective)
         {
-            m_projection = glm::perspective(m_perpectiveFOV, m_aspectRatio,
-                                            m_perpectiveNear, m_perpectiveFar);
+            m_projection = glm::perspective(m_perpectiveFOV, m_aspectRatio, m_perpectiveNear, m_perpectiveFar);
         }
         else
         {
@@ -25,8 +24,7 @@ namespace Varak {
             float orthoTop = m_orthographicSize;
 
             m_projection =
-                glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop,
-                           m_orthographicNear, m_orthographicFar);
+                glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, m_orthographicNear, m_orthographicFar);
         }
     }
 

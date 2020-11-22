@@ -27,7 +27,6 @@ namespace Varak {
 
         glm::vec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;
-
     };
 
 } // namespace Varak

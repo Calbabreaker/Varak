@@ -18,10 +18,7 @@ namespace Varak {
         uint32_t getWidth() const override { return m_data.width; }
         uint32_t getHeight() const override { return m_data.height; }
 
-        void setEventCallback(const EventCallbackFunc& callback) override
-        {
-            m_data.eventCallback = callback;
-        }
+        void setEventCallback(const EventCallbackFunc& callback) override { m_data.eventCallback = callback; }
         void setVSync(bool enabled) override;
         bool isVSync() const override;
 

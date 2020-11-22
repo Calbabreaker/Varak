@@ -10,7 +10,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLVertexArray>();
         }
 

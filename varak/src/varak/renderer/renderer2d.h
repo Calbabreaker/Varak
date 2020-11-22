@@ -20,11 +20,8 @@ namespace Varak {
         static void nextBatch();
         static void flush();
 
-        static void drawRect(const glm::mat4& transform,
-                             const glm::vec4& color = glm::vec4(1.0f));
-        static void drawTexture(const Ref<Texture>& texture,
-                                const glm::mat4& transform,
-                                float tilingFactor = 1.0f,
+        static void drawRect(const glm::mat4& transform, const glm::vec4& color = glm::vec4(1.0f));
+        static void drawTexture(const Ref<Texture>& texture, const glm::mat4& transform, float tilingFactor = 1.0f,
                                 const glm::vec4& tint = glm::vec4(1.0f));
 
         static void drawRect(const glm::vec2& position, const glm::vec2& size,
@@ -32,34 +29,22 @@ namespace Varak {
         static void drawRect(const glm::vec3& position, const glm::vec2& size,
                              const glm::vec4& color = glm::vec4(1.0f));
 
-        static void drawRotatedRect(const glm::vec2& position,
-                                    const glm::vec2& size, float rotation,
+        static void drawRotatedRect(const glm::vec2& position, const glm::vec2& size, float rotation,
                                     const glm::vec4& color = glm::vec4(1.0f));
-        static void drawRotatedRect(const glm::vec3& position,
-                                    const glm::vec2& size, float rotation,
+        static void drawRotatedRect(const glm::vec3& position, const glm::vec2& size, float rotation,
                                     const glm::vec4& color = glm::vec4(1.0f));
 
-        static void drawTexture(const Ref<Texture>& texture,
-                                const glm::vec2& position,
-                                const glm::vec2& size,
-                                float tilingFactor = 1.0f,
-                                const glm::vec4& tint = glm::vec4(1.0f));
+        static void drawTexture(const Ref<Texture>& texture, const glm::vec2& position, const glm::vec2& size,
+                                float tilingFactor = 1.0f, const glm::vec4& tint = glm::vec4(1.0f));
 
-        static void drawTexture(const Ref<Texture>& texture,
-                                const glm::vec3& position,
-                                const glm::vec2& size,
-                                float tilingFactor = 1.0f,
-                                const glm::vec4& tint = glm::vec4(1.0f));
+        static void drawTexture(const Ref<Texture>& texture, const glm::vec3& position, const glm::vec2& size,
+                                float tilingFactor = 1.0f, const glm::vec4& tint = glm::vec4(1.0f));
 
-        static void drawRotatedTexture(const Ref<Texture>& texture,
-                                       const glm::vec2& position,
-                                       const glm::vec2& size, float rotation,
-                                       float tilingFactor = 1.0f,
+        static void drawRotatedTexture(const Ref<Texture>& texture, const glm::vec2& position, const glm::vec2& size,
+                                       float rotation, float tilingFactor = 1.0f,
                                        const glm::vec4& tint = glm::vec4(1.0f));
-        static void drawRotatedTexture(const Ref<Texture>& texture,
-                                       const glm::vec3& position,
-                                       const glm::vec2& size, float rotation,
-                                       float tilingFactor = 1.0f,
+        static void drawRotatedTexture(const Ref<Texture>& texture, const glm::vec3& position, const glm::vec2& size,
+                                       float rotation, float tilingFactor = 1.0f,
                                        const glm::vec4& tint = glm::vec4(1.0f));
 
         struct Statistics

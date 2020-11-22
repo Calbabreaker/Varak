@@ -9,8 +9,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        GLFWwindow* window = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         int state = glfwGetKey(window, static_cast<int>(key));
         return state == GLFW_PRESS || state == GLFW_REPEAT;
@@ -20,8 +19,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        GLFWwindow* window = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         int state = glfwGetMouseButton(window, static_cast<int>(button));
         return state == GLFW_PRESS;
@@ -31,8 +29,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        GLFWwindow* window = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         double xPos, yPos;
         glfwGetCursorPos(window, &xPos, &yPos);
@@ -43,8 +40,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        GLFWwindow* window = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         double xPos;
         glfwGetCursorPos(window, &xPos, nullptr);
@@ -55,8 +51,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        GLFWwindow* window = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         double yPos;
         glfwGetCursorPos(window, nullptr, &yPos);

@@ -6,7 +6,7 @@ namespace Varak {
     {
         uint32_t width, height;
         uint32_t samples = 1;
-        
+
         bool swapChainTarget = false;
     };
 

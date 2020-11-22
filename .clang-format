@@ -3,7 +3,7 @@ Language: Cpp
 PointerAlignment: Left
 IndentWidth: 4
 IndentPPDirectives: BeforeHash 
-ColumnLimit: 80
+ColumnLimit: 120
 AccessModifierOffset: -4
 FixNamespaceComments: true
 NamespaceIndentation: All 

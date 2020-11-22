@@ -7,9 +7,7 @@
 
 namespace Varak {
 
-    OpenGLShader::OpenGLShader(const std::string& name,
-                               const std::string& vertexSrc,
-                               const std::string& fragmentSrc)
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
         : m_name(name)
     {
         VR_PROFILE_FUNCTION();
@@ -59,21 +57,18 @@ namespace Varak {
         glUniform1f(getUniformLocation(name), value);
     }
 
-    void OpenGLShader::setFloat3(const std::string& name,
-                                 const glm::vec3& value)
+    void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
     {
         VR_PROFILE_FUNCTION();
 
         glUniform3f(getUniformLocation(name), value.x, value.y, value.z);
     }
 
-    void OpenGLShader::setFloat4(const std::string& name,
-                                 const glm::vec4& value)
+    void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value)
     {
         VR_PROFILE_FUNCTION();
 
-        glUniform4f(getUniformLocation(name), value.x, value.y, value.z,
-                    value.w);
+        glUniform4f(getUniformLocation(name), value.x, value.y, value.z, value.w);
     }
 
     void OpenGLShader::setInt1(const std::string& name, int value)
@@ -83,8 +78,7 @@ namespace Varak {
         glUniform1i(getUniformLocation(name), value);
     }
 
-    void OpenGLShader::setIntArray(const std::string& name, int* values,
-                                   uint32_t count)
+    void OpenGLShader::setIntArray(const std::string& name, int* values, uint32_t count)
     {
         VR_PROFILE_FUNCTION();
 
@@ -95,20 +89,17 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
-                           glm::value_ptr(value));
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
-    void OpenGLShader::compile(
-        const std::unordered_map<uint32_t, std::string>& shaderSources)
+    void OpenGLShader::compile(const std::unordered_map<uint32_t, std::string>& shaderSources)
     {
         VR_PROFILE_FUNCTION();
 
         m_rendererID = glCreateProgram();
 
-        VR_CORE_ASSERT_MSG(shaderSources.size() <= 2,
-                       "Varak only support 2 shaders at a time not {0}!",
-                       shaderSources.size());
+        VR_CORE_ASSERT_MSG(shaderSources.size() <= 2, "Varak only support 2 shaders at a time not {0}!",
+                           shaderSources.size());
         std::array<uint32_t, 2> shaderIDs;
         uint32_t shaderIDIndex = 0;
 
@@ -157,8 +148,7 @@ namespace Varak {
         }
     }
 
-    std::unordered_map<GLenum, std::string> OpenGLShader::parseShader(
-        const std::string& filepath)
+    std::unordered_map<GLenum, std::string> OpenGLShader::parseShader(const std::string& filepath)
     {
         VR_PROFILE_FUNCTION();
 
@@ -178,8 +168,7 @@ namespace Varak {
                     // get the type
                     if (line.find("vertex") != std::string::npos)
                         currentType = GL_VERTEX_SHADER;
-                    else if (line.find("fragment") != std::string::npos ||
-                             line.find("pixel") != std::string::npos)
+                    else if (line.find("fragment") != std::string::npos || line.find("pixel") != std::string::npos)
                         currentType = GL_FRAGMENT_SHADER;
                     else
                         VR_CORE_ASSERT_MSG(false, "Invalid shader type specified!");

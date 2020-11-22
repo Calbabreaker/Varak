@@ -2,7 +2,7 @@
 
 #include "varak/renderer/rendering_context.h"
 
-struct GLFWwindow;
+#include <GLFW/glfw3.h>
 
 namespace Varak {
 

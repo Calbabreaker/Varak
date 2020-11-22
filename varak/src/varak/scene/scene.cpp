@@ -26,8 +26,7 @@ namespace Varak {
 
             for (auto entity : view)
             {
-                auto [transformComponent, cameraComponent] =
-                    view.get<TransformComponent, CameraComponent>(entity);
+                auto [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
 
                 if (cameraComponent.primary)
                 {
@@ -40,18 +39,14 @@ namespace Varak {
 
         if (mainCamera)
         {
-            auto group =
-                m_registry.group<TransformComponent, SpriteRendererComponent>();
+            auto group = m_registry.group<TransformComponent, SpriteRendererComponent>();
 
             Renderer2D::beginScene(*mainCamera, cameraTransform);
 
             for (auto entity : group)
             {
-                auto [transformComponent, sprite] =
-                    group.get<TransformComponent, SpriteRendererComponent>(
-                        entity);
-                Renderer2D::drawRect(transformComponent.transform,
-                                     sprite.color);
+                auto [transformComponent, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                Renderer2D::drawRect(transformComponent.transform, sprite.color);
             }
 
             Renderer2D::endScene();
@@ -94,21 +89,18 @@ namespace Varak {
     }
 
     template <>
-    void Scene::onComponentAdded<TransformComponent>(
-        Entity& entity, TransformComponent& component)
+    void Scene::onComponentAdded<TransformComponent>(Entity& entity, TransformComponent& component)
     {
     }
 
     template <>
-    void Scene::onComponentAdded<CameraComponent>(Entity& entity,
-                                                  CameraComponent& component)
+    void Scene::onComponentAdded<CameraComponent>(Entity& entity, CameraComponent& component)
     {
         component.camera.setViewportSize(m_viewportWidth, m_viewportHeight);
     }
 
     template <>
-    void Scene::onComponentAdded<SpriteRendererComponent>(
-        Entity& entity, SpriteRendererComponent& component)
+    void Scene::onComponentAdded<SpriteRendererComponent>(Entity& entity, SpriteRendererComponent& component)
     {
     }
 

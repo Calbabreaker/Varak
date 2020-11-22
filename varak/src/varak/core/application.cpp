@@ -53,8 +53,7 @@ namespace Varak {
 
                 m_imGuiLayer->begin();
                 {
-                    VR_PROFILE_SCOPE(
-                        "layerStack onImGuiRender - Application::run");
+                    VR_PROFILE_SCOPE("layerStack onImGuiRender - Application::run");
 
                     for (Layer* layer : m_layerStack)
                         layer->onImGuiRender();
@@ -71,10 +70,8 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
 
         EventDispatcher dispatcher(event);
-        dispatcher.dispatch<WindowClosedEvent>(
-            VR_BIND_EVENT_FUNC(Application::onWindowClosed));
-        dispatcher.dispatch<WindowResizedEvent>(
-            VR_BIND_EVENT_FUNC(Application::onWindowResized));
+        dispatcher.dispatch<WindowClosedEvent>(VR_BIND_EVENT_FUNC(Application::onWindowClosed));
+        dispatcher.dispatch<WindowResizedEvent>(VR_BIND_EVENT_FUNC(Application::onWindowResized));
 
         for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); it++)
         {

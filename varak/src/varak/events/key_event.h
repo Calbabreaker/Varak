@@ -21,18 +21,14 @@ namespace Varak {
     class KeyPressedEvent : public KeyEvent
     {
     public:
-        KeyPressedEvent(KeyCode keyCode, uint16_t repeatCount)
-            : KeyEvent(keyCode), m_repeatCount(repeatCount)
-        {
-        }
+        KeyPressedEvent(KeyCode keyCode, uint16_t repeatCount) : KeyEvent(keyCode), m_repeatCount(repeatCount) {}
 
         uint16_t getRepeatCount() const { return m_repeatCount; }
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "KeyPressedEvent: " << static_cast<uint16_t>(m_keyCode)
-               << " (" << m_repeatCount << " repeats)";
+            ss << "KeyPressedEvent: " << static_cast<uint16_t>(m_keyCode) << " (" << m_repeatCount << " repeats)";
             return ss.str();
         }
 

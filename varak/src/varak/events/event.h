@@ -29,12 +29,12 @@ namespace Varak {
 
     // clang-format on
 
-#define MAKE_EVENT_CLASS_TYPE(type)                                            \
-    static EventType getStaticType() { return EventType::type; }               \
-    EventType getEventType() const override { return getStaticType(); }        \
+#define MAKE_EVENT_CLASS_TYPE(type)                                                                                    \
+    static EventType getStaticType() { return EventType::type; }                                                       \
+    EventType getEventType() const override { return getStaticType(); }                                                \
     const char* getName() const override { return #type; }
 
-#define MAKE_EVENT_CLASS_CATEGORY(category)                                    \
+#define MAKE_EVENT_CLASS_CATEGORY(category)                                                                            \
     int getCategoryFlags() const override { return category; }
 
     class Event
@@ -45,10 +45,7 @@ namespace Varak {
         virtual int getCategoryFlags() const = 0;
         virtual std::string toString() const { return getName(); }
 
-        bool isInCategory(EventCategory category)
-        {
-            return getCategoryFlags() & category;
-        }
+        bool isInCategory(EventCategory category) { return getCategoryFlags() & category; }
 
         bool handled = false;
     };
@@ -75,7 +72,7 @@ namespace Varak {
 
     inline std::ostream& operator<<(std::ostream& os, const Event& e)
     {
-        return os << e.toString();
+        return os << e.toString(); //
     }
 
 } // namespace Varak

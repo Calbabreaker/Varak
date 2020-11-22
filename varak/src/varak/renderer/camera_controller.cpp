@@ -39,8 +39,7 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
 
         EventDispatcher dispatcher(event);
-        dispatcher.dispatch<MouseScrolledEvent>(
-            VR_BIND_EVENT_FUNC(CameraController::onMouseScrolled));
+        dispatcher.dispatch<MouseScrolledEvent>(VR_BIND_EVENT_FUNC(CameraController::onMouseScrolled));
     }
 
     void CameraController::setZoomLevel(float zoomLevel)
@@ -56,12 +55,12 @@ namespace Varak {
 
     glm::mat4 CameraController::getTransform()
     {
-        return glm::translate(glm::mat4(1.0f), m_position);
+        return glm::translate(glm::mat4(1.0f), m_position); //
     }
 
     void CameraController::onResize(uint32_t width, uint32_t height)
     {
-        m_camera.setViewportSize(width, height);
+        m_camera.setViewportSize(width, height); //
     }
 
     bool CameraController::onMouseScrolled(MouseScrolledEvent& event)

@@ -17,10 +17,7 @@ namespace Varak {
         void setData(const void* data, uint32_t size) override;
 
         const BufferLayout& getLayout() const override { return m_layout; }
-        void setLayout(const BufferLayout& layout) override
-        {
-            m_layout = layout;
-        }
+        void setLayout(const BufferLayout& layout) override { m_layout = layout; }
 
     private:
         uint32_t m_rendererID;

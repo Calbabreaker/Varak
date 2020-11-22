@@ -48,8 +48,7 @@ namespace Varak {
 
         s_data.quadVertexArray = VertexArray::create();
 
-        s_data.quadVertexBufer = VertexBuffer::create(
-            sizeof(QuadVertex) * Renderer2DData::maxVertices);
+        s_data.quadVertexBufer = VertexBuffer::create(sizeof(QuadVertex) * Renderer2DData::maxVertices);
 
         s_data.quadVertexBufer->setLayout({
             { ShaderDataType::Float3, "a_position" },    //
@@ -60,8 +59,7 @@ namespace Varak {
         });
         s_data.quadVertexArray->addVertexBuffer(s_data.quadVertexBufer);
 
-        s_data.quadVertexBufferBase =
-            new QuadVertex[Renderer2DData::maxVertices];
+        s_data.quadVertexBufferBase = new QuadVertex[Renderer2DData::maxVertices];
 
         uint32_t* quadIndices = new uint32_t[Renderer2DData::maxIndices];
         uint32_t offset = 0;
@@ -79,8 +77,7 @@ namespace Varak {
             offset += 4;
         }
 
-        Ref<IndexBuffer> indexBuffer =
-            IndexBuffer::create(quadIndices, Renderer2DData::maxIndices);
+        Ref<IndexBuffer> indexBuffer = IndexBuffer::create(quadIndices, Renderer2DData::maxIndices);
         s_data.quadVertexArray->setIndexBuffer(indexBuffer);
         delete[] quadIndices;
 
@@ -95,8 +92,7 @@ namespace Varak {
         for (uint32_t i = 0; i < s_data.maxTextureSlots; i++)
             samplers[i] = i;
 
-        s_data.textureShader->setIntArray("u_textures", samplers,
-                                          s_data.maxTextureSlots);
+        s_data.textureShader->setIntArray("u_textures", samplers, s_data.maxTextureSlots);
 
         // white texture
         s_data.textureSlots[0] = s_data.whiteTexture;
@@ -119,8 +115,7 @@ namespace Varak {
         delete[] s_data.quadVertexBufferBase;
     }
 
-    void Renderer2D::beginScene(const Camera& camera,
-                                const glm::mat4& transform)
+    void Renderer2D::beginScene(const Camera& camera, const glm::mat4& transform)
     {
         VR_PROFILE_FUNCTION();
 
@@ -157,9 +152,8 @@ namespace Varak {
         if (s_data.quadIndicesCount == 0)
             return;
 
-        uint32_t size = static_cast<uint32_t>(
-            reinterpret_cast<uint8_t*>(s_data.quadVertexBufferPtr) -
-            reinterpret_cast<uint8_t*>(s_data.quadVertexBufferBase));
+        uint32_t size = static_cast<uint32_t>(reinterpret_cast<uint8_t*>(s_data.quadVertexBufferPtr) -
+                                              reinterpret_cast<uint8_t*>(s_data.quadVertexBufferBase));
 
         s_data.quadVertexBufer->setData(s_data.quadVertexBufferBase, size);
 
@@ -167,14 +161,12 @@ namespace Varak {
         for (uint32_t i = 0; i < s_data.textureSlotIndex; i++)
             s_data.textureSlots[i]->bind(i);
 
-        RenderCommand::drawIndexed(s_data.quadVertexArray,
-                                   s_data.quadIndicesCount);
+        RenderCommand::drawIndexed(s_data.quadVertexArray, s_data.quadIndicesCount);
 
         s_data.stats.drawCalls++;
     }
 
-    void Renderer2D::drawRect(const glm::mat4& transform,
-                              const glm::vec4& color)
+    void Renderer2D::drawRect(const glm::mat4& transform, const glm::vec4& color)
     {
         VR_PROFILE_FUNCTION();
 
@@ -183,11 +175,9 @@ namespace Varak {
 
         for (uint8_t i = 0; i < s_data.quadVertexPositions.size(); i++)
         {
-            s_data.quadVertexBufferPtr->position =
-                transform * s_data.quadVertexPositions[i];
+            s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
             s_data.quadVertexBufferPtr->color = color;
-            s_data.quadVertexBufferPtr->texCoord =
-                s_data.quadVertexTexCoords[i];
+            s_data.quadVertexBufferPtr->texCoord = s_data.quadVertexTexCoords[i];
             s_data.quadVertexBufferPtr->texIndex = 0.0f; // white texture
             s_data.quadVertexBufferPtr->tilingFactor = 1.0f;
 
@@ -199,8 +189,7 @@ namespace Varak {
         s_data.stats.quadCount++;
     }
 
-    void Renderer2D::drawTexture(const Ref<Texture>& texture,
-                                 const glm::mat4& transform, float tilingFactor,
+    void Renderer2D::drawTexture(const Ref<Texture>& texture, const glm::mat4& transform, float tilingFactor,
                                  const glm::vec4& tint)
     {
         VR_PROFILE_FUNCTION();
@@ -232,11 +221,9 @@ namespace Varak {
 
         for (uint8_t i = 0; i < s_data.quadVertexPositions.size(); i++)
         {
-            s_data.quadVertexBufferPtr->position =
-                transform * s_data.quadVertexPositions[i];
+            s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
             s_data.quadVertexBufferPtr->color = tint;
-            s_data.quadVertexBufferPtr->texCoord =
-                s_data.quadVertexTexCoords[i];
+            s_data.quadVertexBufferPtr->texCoord = s_data.quadVertexTexCoords[i];
             s_data.quadVertexBufferPtr->texIndex = textureIndex;
             s_data.quadVertexBufferPtr->tilingFactor = tilingFactor;
 
@@ -248,100 +235,77 @@ namespace Varak {
         s_data.stats.quadCount++;
     }
 
-    void Renderer2D::drawRect(const glm::vec2& position, const glm::vec2& size,
-                              const glm::vec4& color)
+    void Renderer2D::drawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
     {
         drawRect({ position.x, position.y, 0.0f }, size, color);
     }
 
-    void Renderer2D::drawRect(const glm::vec3& position, const glm::vec2& size,
-                              const glm::vec4& color)
+    void Renderer2D::drawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
         VR_PROFILE_FUNCTION();
 
         glm::mat4 transform =
-            glm::translate(glm::mat4(1.0f), position) *
-            glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+            glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         drawRect(transform, color);
     }
 
-    void Renderer2D::drawRotatedRect(const glm::vec2& position,
-                                     const glm::vec2& size, float rotation,
+    void Renderer2D::drawRotatedRect(const glm::vec2& position, const glm::vec2& size, float rotation,
                                      const glm::vec4& color)
     {
-        drawRotatedRect({ position.x, position.y, 0.0f }, size, rotation,
-                        color);
+        drawRotatedRect({ position.x, position.y, 0.0f }, size, rotation, color);
     }
 
-    void Renderer2D::drawRotatedRect(const glm::vec3& position,
-                                     const glm::vec2& size, float rotation,
+    void Renderer2D::drawRotatedRect(const glm::vec3& position, const glm::vec2& size, float rotation,
                                      const glm::vec4& color)
     {
         VR_PROFILE_FUNCTION();
 
-        glm::mat4 transform =
-            glm::translate(glm::mat4(1.0f), position) *
-            glm::rotate(glm::mat4(1.0f), glm::radians(rotation),
-                        { 0.0f, 0.0f, 1.0f }) *
-            glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+                              glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         drawRect(transform, color);
     }
 
-    void Renderer2D::drawTexture(const Ref<Texture>& texture,
-                                 const glm::vec2& position,
-                                 const glm::vec2& size, float tilingFactor,
-                                 const glm::vec4& tint)
+    void Renderer2D::drawTexture(const Ref<Texture>& texture, const glm::vec2& position, const glm::vec2& size,
+                                 float tilingFactor, const glm::vec4& tint)
     {
-        drawTexture(texture, { position.x, position.y, 0.0f }, size,
-                    tilingFactor, tint);
+        drawTexture(texture, { position.x, position.y, 0.0f }, size, tilingFactor, tint);
     }
 
-    void Renderer2D::drawTexture(const Ref<Texture>& texture,
-                                 const glm::vec3& position,
-                                 const glm::vec2& size, float tilingFactor,
-                                 const glm::vec4& tint)
+    void Renderer2D::drawTexture(const Ref<Texture>& texture, const glm::vec3& position, const glm::vec2& size,
+                                 float tilingFactor, const glm::vec4& tint)
     {
         VR_PROFILE_FUNCTION();
 
         glm::mat4 transform =
-            glm::translate(glm::mat4(1.0f), position) *
-            glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+            glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         drawTexture(texture, transform, tilingFactor, tint);
     }
 
-    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture,
-                                        const glm::vec2& position,
-                                        const glm::vec2& size, float rotation,
-                                        float tilingFactor,
-                                        const glm::vec4& tint)
+    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture, const glm::vec2& position, const glm::vec2& size,
+                                        float rotation, float tilingFactor, const glm::vec4& tint)
     {
-        drawRotatedTexture(texture, { position.x, position.y, 0.0f }, size,
-                           rotation, tilingFactor, tint);
+        drawRotatedTexture(texture, { position.x, position.y, 0.0f }, size, rotation, tilingFactor, tint);
     }
 
-    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture,
-                                        const glm::vec3& position,
-                                        const glm::vec2& size, float rotation,
-                                        float tilingFactor,
-                                        const glm::vec4& tint)
+    void Renderer2D::drawRotatedTexture(const Ref<Texture>& texture, const glm::vec3& position, const glm::vec2& size,
+                                        float rotation, float tilingFactor, const glm::vec4& tint)
     {
         VR_PROFILE_FUNCTION();
 
-        glm::mat4 transform =
-            glm::translate(glm::mat4(1.0f), position) *
-            glm::rotate(glm::mat4(1.0f), glm::radians(rotation),
-                        { 0.0f, 0.0f, 1.0f }) *
-            glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+                              glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         drawTexture(texture, transform, tilingFactor, tint);
     }
 
     void Renderer2D::resetStats()
     {
-        memset(&s_data.stats, 0, sizeof(Statistics));
+        memset(&s_data.stats, 0, sizeof(Statistics)); //
     }
 
     Renderer2D::Statistics Renderer2D::getStats()

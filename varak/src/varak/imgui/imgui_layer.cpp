@@ -21,14 +21,12 @@ namespace Varak {
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
         (void)io;
-        io.ConfigFlags |=
-            ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable
         // Gamepad Controls
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-        io.ConfigFlags |=
-            ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport /
-                                              // Platform Windows
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport /
+                                                            // Platform Windows
         // io.ConfigViewportsNoAutoMerge = true;
         // io.ConfigViewportsNoTaskBarIcon = true;
 
@@ -45,8 +43,7 @@ namespace Varak {
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 
-        GLFWwindow* nativeWindow = static_cast<GLFWwindow*>(
-            Application::get().getWindow().getNativeWindow());
+        GLFWwindow* nativeWindow = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(nativeWindow, true);
@@ -68,10 +65,8 @@ namespace Varak {
         if (m_blockEvents)
         {
             ImGuiIO& io = ImGui::GetIO();
-            event.handled |=
-                event.isInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-            event.handled |=
-                event.isInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+            event.handled |= event.isInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+            event.handled |= event.isInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
         }
     }
 
@@ -90,8 +85,7 @@ namespace Varak {
 
         ImGuiIO& io = ImGui::GetIO();
         Window& window = Application::get().getWindow();
-        io.DisplaySize = ImVec2(static_cast<float>(window.getWidth()),
-                                static_cast<float>(window.getHeight()));
+        io.DisplaySize = ImVec2(static_cast<float>(window.getWidth()), static_cast<float>(window.getHeight()));
 
         // Rendering
         ImGui::Render();

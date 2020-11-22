@@ -10,7 +10,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLTexture2D>(filepath);
         }
 
@@ -22,7 +22,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLTexture2D>(width, height);
         }
 

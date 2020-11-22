@@ -28,10 +28,8 @@ namespace Varak {
         uint32_t size;
         size_t offset;
 
-        BufferElement(ShaderDataType type, const std::string& name,
-                      bool normalized = false)
-            : type(type), name(name), normalized(normalized),
-              size(shaderTypeSize(type)), offset(0)
+        BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
+            : type(type), name(name), normalized(normalized), size(shaderTypeSize(type)), offset(0)
         {
         }
 
@@ -42,24 +40,18 @@ namespace Varak {
     {
     public:
         BufferLayout() {}
-        BufferLayout(std::initializer_list<BufferElement> elements)
-            : m_elements(elements)
+        BufferLayout(std::initializer_list<BufferElement> elements) : m_elements(elements)
         {
             calculateOffsetsAndStride();
         }
 
         uint32_t getStride() const { return m_stride; }
-        const std::vector<BufferElement>& getElements() const
-        {
-            return m_elements;
-        }
+        const std::vector<BufferElement>& getElements() const { return m_elements; }
 
-        // clang-format off
         std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
         std::vector<BufferElement>::iterator end() { return m_elements.end(); }
         std::vector<BufferElement>::const_iterator begin() const { return m_elements.begin(); }
-		std::vector<BufferElement>::const_iterator end() const { return m_elements.end(); }
-        // clang-format on
+        std::vector<BufferElement>::const_iterator end() const { return m_elements.end(); }
 
     private:
         void calculateOffsetsAndStride();

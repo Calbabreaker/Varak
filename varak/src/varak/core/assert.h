@@ -56,8 +56,7 @@ static inline void VR_DEBUGBREAK(void)
         #elif defined(_55_)
 static inline void VR_DEBUGBREAK(void)
 {
-    __asm__ __volatile__(
-        ";\n .if (.MNEMONIC)\n ESTOP_1\n .else\n ESTOP_1()\n .endif\n NOP");
+    __asm__ __volatile__(";\n .if (.MNEMONIC)\n ESTOP_1\n .else\n ESTOP_1()\n .endif\n NOP");
 }
         #elif defined(_64P_)
 static inline void VR_DEBUGBREAK(void)
@@ -69,8 +68,7 @@ static inline void VR_DEBUGBREAK(void)
 {
     __asm__ __volatile__("NOP\n .word 0x10000000");
 }
-        #elif defined(__STDC_HOSTED__) && (__STDC_HOSTED__ == 0) &&            \
-            defined(__GNUC__)
+        #elif defined(__STDC_HOSTED__) && (__STDC_HOSTED__ == 0) && defined(__GNUC__)
             #define VR_DEBUGBREAK() __builtin_trap()
         #else
             #include <signal.h>
@@ -88,26 +86,22 @@ static inline void VR_DEBUGBREAK(void)
     // VR_ASSERT will only have the expression, while VR_ASSERT_MSG will have
     // both the expression and a message. Core and app will have different
     // assertion macros.
-    #define VR_INTERNAL_ASSERT_IMPL(type, expr, ...)                           \
-        if (!(expr))                                                           \
+    #define VR_INTERNAL_ASSERT_IMPL(type, expr, ...)                                                                   \
+        if (!(expr))                                                                                                   \
         VR##type##ERROR(__VA_ARGS__), VR_DEBUGBREAK()
 
-    #define VR_INTERNAL_ASSERT_MSG_IMPL(type, expr, msg, ...)                  \
-        VR_INTERNAL_ASSERT_IMPL(                                               \
-            type, expr, std::string("Assertion failed: ") + msg, __VA_ARGS__)
+    #define VR_INTERNAL_ASSERT_MSG_IMPL(type, expr, msg, ...)                                                          \
+        VR_INTERNAL_ASSERT_IMPL(type, expr, std::string("Assertion failed: ") + msg, __VA_ARGS__)
 
-    #define VR_INTERNAL_ASSERT_NO_MSG_IMPL(type, expr)                         \
-        VR_INTERNAL_ASSERT_IMPL(                                               \
-            type, expr, "Assertion '{0}' failed at: {1}:{2}", #expr,                  \
-            std::filesystem::path(__FILE__).filename().string(), __LINE__)
+    #define VR_INTERNAL_ASSERT_NO_MSG_IMPL(type, expr)                                                                 \
+        VR_INTERNAL_ASSERT_IMPL(type, expr, "Assertion '{0}' failed at: {1}:{2}", #expr,                               \
+                                std::filesystem::path(__FILE__).filename().string(), __LINE__)
 
     #define VR_CORE_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_CORE_, expr)
-    #define VR_CORE_ASSERT_MSG(expr, msg, ...)                                 \
-        VR_INTERNAL_ASSERT_MSG_IMPL(_CORE_, expr, msg, __VA_ARGS__)
+    #define VR_CORE_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_CORE_, expr, msg, __VA_ARGS__)
 
     #define VR_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_, expr);
-    #define VR_ASSERT_MSG(expr, msg, ...)                                      \
-        VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, __VA_ARGS__)
+    #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, __VA_ARGS__)
 
 #else
     #define VR_CORE_ASSERT(expr, ...)

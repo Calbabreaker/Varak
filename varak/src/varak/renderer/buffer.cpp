@@ -10,7 +10,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLVertexBuffer>(vertices, size);
         }
 
@@ -22,7 +22,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLVertexBuffer>(size);
         }
 
@@ -34,7 +34,7 @@ namespace Varak {
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::API::OpenGL:
+        case RendererAPI::API::OpenGL: //
             return createRef<OpenGLIndexBuffer>(indicies, count);
         }
 

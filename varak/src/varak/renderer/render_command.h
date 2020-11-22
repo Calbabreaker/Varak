@@ -14,11 +14,10 @@ namespace Varak {
 
         static void setClearColor(const glm::vec4& color)
         {
-            s_rendererAPI->setClearColor(color);
+            s_rendererAPI->setClearColor(color); //
         };
 
-        static void setViewport(uint32_t x, uint32_t y, uint32_t width,
-                                uint32_t height)
+        static void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
         {
             s_rendererAPI->setViewport(x, y, width, height);
         }
