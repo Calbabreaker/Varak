@@ -25,9 +25,9 @@ namespace Varak {
         RenderCommand::setViewport(0, 0, width, height);
     }
 
-    void Renderer::beginScene(const OrthographicCamera& camera)
+    void Renderer::beginScene(const Camera& camera, const glm::mat4& transform)
     {
-        s_sceneData->viewProjection = camera.getViewProjection();
+        s_sceneData->viewProjection = camera.getProjection() * glm::inverse(transform);
     }
 
     void Renderer::endScene() {}

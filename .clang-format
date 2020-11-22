@@ -25,3 +25,4 @@ BraceWrapping:
     BeforeCatch: true
     BeforeElse: true
     AfterFunction: true
+    AfterCaseLabel: true

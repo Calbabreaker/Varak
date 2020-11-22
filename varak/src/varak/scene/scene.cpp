@@ -7,20 +7,23 @@
 
 namespace Varak {
 
-    Scene::Scene() {}
+    Scene::Scene(uint32_t width, uint32_t height)
+        : m_viewportWidth(width), m_viewportHeight(height)
+    {
+    }
 
     Scene::~Scene() {}
 
     void Scene::onUpdate(Timestep ts)
     {
-        // render
-        auto group =
-            m_registry.group<TransformComponent>(entt::get<SpriteComponent>);
+
+        auto group = m_registry.group<TransformComponent>(
+            entt::get<SpriteRendererComponent>);
 
         for (auto entity : group)
         {
             auto [transform, sprite] =
-                group.get<TransformComponent, SpriteComponent>(entity);
+                group.get<TransformComponent, SpriteRendererComponent>(entity);
             Renderer2D::drawRect(transform.transform, sprite.color);
         }
     }
@@ -32,6 +35,9 @@ namespace Varak {
         return entity;
     }
 
-    void Scene::destroyEntity(Entity& entity) { m_registry.destroy(entity); }
+    void Scene::destroyEntity(Entity& entity)
+    {
+        m_registry.destroy(entity); //
+    }
 
 } // namespace Varak

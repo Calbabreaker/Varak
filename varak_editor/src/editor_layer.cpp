@@ -6,18 +6,6 @@
 
 namespace Varak {
 
-    EditorLayer::EditorLayer()
-    {
-        VR_PROFILE_FUNCTION();
-
-        Window& window = Application::get().getWindow();
-        float aspectRatio = static_cast<float>(window.getWidth()) /
-                            static_cast<float>(window.getHeight());
-
-        m_cameraController =
-            createScope<OrthographicCameraController>(aspectRatio);
-    }
-
     void EditorLayer::onAttach()
     {
         VR_PROFILE_FUNCTION();
@@ -25,15 +13,22 @@ namespace Varak {
         m_vTexture = Texture2D::create("assets/textures/v.png");
         m_patternTexture = Texture2D::create("assets/textures/pattern.png");
 
+        Window& window = Application::get().getWindow();
+        uint32_t width = window.getWidth();
+        uint32_t height = window.getHeight();
+
+        m_cameraController = createScope<CameraController>(width, height);
+
         FrameBufferProperties props;
-        props.width = 1280;
-        props.height = 720;
+        props.width = width;
+        props.height = height;
         m_frameBuffer = FrameBuffer::create(props);
 
-        m_scene = createRef<Scene>();
+        m_scene = createRef<Scene>(width, height);
         m_squareEntity = m_scene->createEntity();
 
-        m_squareEntity.addComponent<SpriteComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        m_squareEntity.addComponent<SpriteRendererComponent>(
+            glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     }
 
     void EditorLayer::onDetach()
@@ -51,9 +46,11 @@ namespace Varak {
             (props.width != m_viewportSize.x ||
              props.height != m_viewportSize.y))
         {
-            m_frameBuffer->resize(static_cast<uint32_t>(m_viewportSize.x),
-                                  static_cast<uint32_t>(m_viewportSize.y));
-            m_cameraController->onResize(m_viewportSize.x, m_viewportSize.y);
+            uint32_t width = static_cast<uint32_t>(m_viewportSize.x);
+            uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
+
+            m_frameBuffer->resize(width, height);
+            m_cameraController->onResize(width, height);
         }
 
         // update
@@ -66,10 +63,9 @@ namespace Varak {
         RenderCommand::clear();
 
         Renderer2D::resetStats();
-        Renderer2D::beginScene(m_cameraController->getCamera());
 
+        Renderer2D::beginScene(m_cameraController->getCamera(), m_cameraController->getTransform());
         m_scene->onUpdate(ts);
-
         Renderer2D::endScene();
 
         m_frameBuffer->unbind();

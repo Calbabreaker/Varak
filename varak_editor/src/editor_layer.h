@@ -7,8 +7,6 @@ namespace Varak {
     class EditorLayer : public Layer
     {
     public:
-        EditorLayer();
-
         void onAttach() override;
         void onDetach() override;
 
@@ -21,7 +19,7 @@ namespace Varak {
         Ref<Texture> m_patternTexture;
         Ref<FrameBuffer> m_frameBuffer;
 
-        Scope<OrthographicCameraController> m_cameraController;
+        Scope<CameraController> m_cameraController;
 
         Ref<Scene> m_scene;
         Entity m_squareEntity;

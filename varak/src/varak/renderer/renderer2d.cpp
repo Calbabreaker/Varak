@@ -119,13 +119,15 @@ namespace Varak {
         delete[] s_data.quadVertexBufferBase;
     }
 
-    void Renderer2D::beginScene(const OrthographicCamera& camera)
+    void Renderer2D::beginScene(const Camera& camera,
+                                const glm::mat4& transform)
     {
         VR_PROFILE_FUNCTION();
 
+        glm::mat4 viewProj = camera.getProjection() * glm::inverse(transform);
+
         s_data.textureShader->bind();
-        s_data.textureShader->setMat4("u_viewProjection",
-                                      camera.getViewProjection());
+        s_data.textureShader->setMat4("u_viewProjection", viewProj);
 
         startBatch();
     }

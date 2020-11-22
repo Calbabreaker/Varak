@@ -20,14 +20,13 @@
 // -- rendering --
 #include "varak/renderer/renderer.h"
 #include "varak/renderer/renderer2d.h"
+#include "varak/renderer/camera_controller.h"
 
 #include "varak/renderer/buffer.h"
 #include "varak/renderer/framebuffer.h"
 #include "varak/renderer/shader.h"
 #include "varak/renderer/texture.h"
 #include "varak/renderer/vertex_array.h"
-
-#include "varak/renderer/orthographic_camera_controller.h"
 
 // -- scene --
 #include "varak/scene/components.h"

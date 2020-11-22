@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include "varak/renderer/camera.h"
+
 namespace Varak {
 
     struct TransformComponent
@@ -12,12 +14,12 @@ namespace Varak {
         TransformComponent(const glm::mat4& transform) : transform(transform) {}
     };
 
-    struct SpriteComponent
+    struct SpriteRendererComponent
     {
         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-        SpriteComponent() = default;
-        SpriteComponent(const glm::vec4& color) : color(color) {}
+        SpriteRendererComponent() = default;
+        SpriteRendererComponent(const glm::vec4& color) : color(color) {}
     };
 
 } // namespace Varak

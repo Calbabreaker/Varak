@@ -11,7 +11,7 @@ namespace Varak {
     class Scene
     {
     public:
-        Scene();
+        Scene(uint32_t width, uint32_t height);
         ~Scene();
 
         void onUpdate(Timestep ts);
@@ -21,6 +21,8 @@ namespace Varak {
 
     private:
         entt::registry m_registry;
+        
+        uint32_t m_viewportWidth, m_viewportHeight;
 
         friend class Entity;
     };
