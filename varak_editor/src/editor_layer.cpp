@@ -29,6 +29,10 @@ namespace Varak {
 
         m_squareEntity.addComponent<SpriteRendererComponent>(
             glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+        m_cameraEntity = m_scene->createEntity();
+        CameraComponent& camera =
+            m_cameraEntity.addComponent<CameraComponent>();
     }
 
     void EditorLayer::onDetach()
@@ -51,6 +55,7 @@ namespace Varak {
 
             m_frameBuffer->resize(width, height);
             m_cameraController->onResize(width, height);
+            m_scene->onViewportResize(width, height);
         }
 
         // update
@@ -64,9 +69,8 @@ namespace Varak {
 
         Renderer2D::resetStats();
 
-        Renderer2D::beginScene(m_cameraController->getCamera(), m_cameraController->getTransform());
+        // camera controller will be back after add play button
         m_scene->onUpdate(ts);
-        Renderer2D::endScene();
 
         m_frameBuffer->unbind();
     }

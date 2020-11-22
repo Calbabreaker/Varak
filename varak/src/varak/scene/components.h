@@ -6,6 +6,12 @@
 
 namespace Varak {
 
+    struct TestComponent
+    {
+        float aaa = 1.0f;
+        TestComponent() = default;
+    };
+
     struct TransformComponent
     {
         glm::mat4 transform = glm::mat4(1.0f);
@@ -20,6 +26,13 @@ namespace Varak {
 
         SpriteRendererComponent() = default;
         SpriteRendererComponent(const glm::vec4& color) : color(color) {}
+    };
+
+    struct CameraComponent
+    {
+        Camera camera;
+        bool fixedAspectRatio = false;
+        bool primary = true; // TODO: move this into scene
     };
 
 } // namespace Varak

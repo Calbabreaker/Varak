@@ -23,6 +23,7 @@ namespace Varak {
 
         Ref<Scene> m_scene;
         Entity m_squareEntity;
+        Entity m_cameraEntity;
 
         glm::vec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;

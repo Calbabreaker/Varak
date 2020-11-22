@@ -4128,10 +4128,12 @@ public:
      *
      * @return An iterator to the first entity of the internal packed array.
      */
+    #pragma warning(push, 0)
     [[nodiscard]] iterator begin() const ENTT_NOEXCEPT {
         const typename traits_type::difference_type pos = packed.size();
         return iterator{packed, pos};
     }
+    #pragma warning(pop)
 
     /**
      * @brief Returns an iterator to the end.

@@ -15,7 +15,10 @@ namespace Varak {
         {
             VR_CORE_ASSERT_MSG(!hasComponent<T>(),
                                "Entity already has component!");
-            return m_scene->m_registry.emplace<T>(m_handle, std::forward<Args>(args)...);
+            T& component = m_scene->m_registry.emplace<T>(
+                m_handle, std::forward<Args>(args)...);
+            m_scene->onComponentAdded<T>(*this, component);
+            return component;
         }
 
         template <typename T>
