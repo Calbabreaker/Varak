@@ -6,10 +6,12 @@
 
 namespace Varak {
 
-    struct TestComponent
+    struct IdentifierComponent
     {
-        float aaa = 1.0f;
-        TestComponent() = default;
+        std::string name;
+
+        IdentifierComponent() = default;
+        IdentifierComponent(const std::string& name) : name(name) {}
     };
 
     struct TransformComponent
@@ -33,6 +35,8 @@ namespace Varak {
         Camera camera;
         bool fixedAspectRatio = false;
         bool primary = true; // TODO: move this into scene
+
+        CameraComponent() = default;
     };
 
 } // namespace Varak

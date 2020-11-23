@@ -5,7 +5,7 @@
 
 #define VR_BIT(x) (1 << x)
 
-#define VR_BIND_EVENT_FUNC(func) std::bind(&func, this, std::placeholders::_1)
+#define VR_BIND_EVENT_FUNC(func) [this](auto&&... args) -> decltype(auto) { return this->func(std::forward<decltype(args)>(args)...); }
 
 namespace Varak {
 

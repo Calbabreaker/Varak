@@ -70,9 +70,10 @@ namespace Varak {
         }
     }
 
-    Entity Scene::createEntity()
+    Entity Scene::createEntity(const std::string& name)
     {
         Entity entity(m_registry.create(), this);
+        entity.addComponent<IdentifierComponent>(name);
         entity.addComponent<TransformComponent>();
         return entity;
     }
@@ -86,6 +87,11 @@ namespace Varak {
     void Scene::onComponentAdded(Entity& entity, T& component)
     {
         static_assert(false);
+    }
+
+    template <>
+    void Scene::onComponentAdded<IdentifierComponent>(Entity& entity, IdentifierComponent& component)
+    {
     }
 
     template <>

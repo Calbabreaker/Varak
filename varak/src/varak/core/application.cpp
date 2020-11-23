@@ -28,7 +28,7 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        Renderer::shutdown(); //
+        Renderer::shutdown(); 
     }
 
     void Application::run()
