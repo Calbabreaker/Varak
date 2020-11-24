@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "platform/windows/windows_window.h"
 
 #include "varak/events/key_event.h"

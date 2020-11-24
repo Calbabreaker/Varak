@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/vertex_array.h"
 
 #include "varak/renderer/renderer.h"

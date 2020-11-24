@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/core/layer_stack.h"
 
 namespace Varak {

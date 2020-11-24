@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "editor_layer.h"
 
 #include <glm/gtc/matrix_transform.hpp>

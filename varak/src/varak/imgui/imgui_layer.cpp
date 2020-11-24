@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/imgui/imgui_layer.h"
 
 #include "varak/core/application.h"

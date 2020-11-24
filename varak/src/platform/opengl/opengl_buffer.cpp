@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "platform/opengl/opengl_buffer.h"
 
 #include <glad/glad.h>

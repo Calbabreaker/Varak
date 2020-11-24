@@ -61,5 +61,3 @@ project "Varak"
 		runtime "Release"
 		optimize "on"
 
-	filter "action:vs*" 
-        buildoptions {"/FI vrpch.h"}

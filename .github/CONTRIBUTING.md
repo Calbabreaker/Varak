@@ -1,3 +1,3 @@
-# Contributing
+# Contributing to Varak!
 
 TODO

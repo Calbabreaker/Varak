@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/rendering_context.h"
 
 #include "varak/renderer/renderer.h"

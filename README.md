@@ -1,4 +1,4 @@
-# Varak
+# Varak Engine
 
 Varak is a powerful cross-platform engine that can make applications such as games.  
 
@@ -12,7 +12,7 @@ Start by cloning Varak: `git clone --recursive https://github.com/Calbabreaker/V
 
 Make sure it's `--recursive` to clone the submodules. If it wasn't then do `git submodule update --init`
 
-Run the script for your build tool in `scripts/`.
+Run the correct script for your specific build tool in `scripts/`.
 
 Now build it or open the project file!
 

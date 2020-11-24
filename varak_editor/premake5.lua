@@ -6,8 +6,11 @@ project "VarakEditor"
 	systemversion "latest"
 
 	targetdir ("%{outputdir}/%{prj.name}")
-	objdir ("%{outputdir}/premake_files/%{prj.name}")
-
+    objdir ("%{outputdir}/premake_files/%{prj.name}")
+    
+    pchheader "vrpch.h"
+    pchsource "src/vrpch.cpp"
+    
 	files 
 	{
 		"src/**.h",
@@ -43,3 +46,4 @@ project "VarakEditor"
 		defines "VR_DISTRIBUTION"
 		runtime "Release"
         optimize "on"
+

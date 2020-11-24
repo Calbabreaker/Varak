@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/scene/entity.h"
 
 namespace Varak {

@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "editor_layer.h"
 
 #include "varak/core/entry_point.h"

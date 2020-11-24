@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/renderer.h"
 
 #include "platform/opengl/opengl_renderer_api.h"

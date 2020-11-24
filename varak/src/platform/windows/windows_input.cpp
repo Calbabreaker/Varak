@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/core/application.h"
 #include "varak/core/input.h"
 

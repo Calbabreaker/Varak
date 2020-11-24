@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/renderer2d.h"
 
 #include <glm/gtc/matrix_transform.hpp>

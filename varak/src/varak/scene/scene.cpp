@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/scene/scene.h"
 
 #include "varak/scene/components.h"

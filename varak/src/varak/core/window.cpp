@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/core/window.h"
 
 #include "varak/core/platform_detection.h"

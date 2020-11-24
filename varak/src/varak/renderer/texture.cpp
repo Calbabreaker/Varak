@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/texture.h"
 
 #include "varak/renderer/renderer.h"

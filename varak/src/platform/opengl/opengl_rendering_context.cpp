@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "platform/opengl/opengl_rendering_context.h"
 
 #include <GLFW/glfw3.h>

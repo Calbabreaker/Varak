@@ -1,3 +1,5 @@
+#include "vrpch.h"
+
 #include "varak/renderer/camera_controller.h"
 
 #include "varak/core/input.h"
