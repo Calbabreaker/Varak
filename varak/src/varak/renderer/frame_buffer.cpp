@@ -1,10 +1,10 @@
 #include "vrpch.h"
 
-#include "varak/renderer/framebuffer.h"
+#include "varak/renderer/frame_buffer.h"
 
 #include "varak/renderer/renderer.h"
 
-#include "platform/opengl/opengl_framebuffer.h"
+#include "platform/opengl/opengl_frame_buffer.h"
 
 namespace Varak {
 

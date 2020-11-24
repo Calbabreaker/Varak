@@ -6,6 +6,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/io.hpp>
 
+#include <imgui.h>
+
 namespace Varak {
 
     void EditorLayer::onAttach()
@@ -34,7 +36,7 @@ namespace Varak {
         m_cameraEntity = m_scene->createEntity("Camera");
         CameraComponent& camera = m_cameraEntity.addComponent<CameraComponent>();
 
-        VR_CORE_TRACE(m_cameraEntity.getComponent<IdentifierComponent>().name);
+        m_sceneHierarchyPanel.setScene(m_scene);
     }
 
     void EditorLayer::onDetach()
@@ -121,6 +123,8 @@ namespace Varak {
 
             ImGui::EndMenuBar();
         }
+
+        m_sceneHierarchyPanel.onImGuiRender();
 
         ImGui::Begin("Stats");
 

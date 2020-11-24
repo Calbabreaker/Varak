@@ -31,6 +31,7 @@ namespace Varak {
         uint32_t m_viewportWidth, m_viewportHeight;
 
         friend class Entity;
+        friend class SceneHierarchyPanel;
     };
 
 } // namespace Varak

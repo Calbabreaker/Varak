@@ -23,7 +23,7 @@
 #include "varak/renderer/renderer2d.h"
 
 #include "varak/renderer/buffer.h"
-#include "varak/renderer/framebuffer.h"
+#include "varak/renderer/frame_buffer.h"
 #include "varak/renderer/shader.h"
 #include "varak/renderer/texture.h"
 #include "varak/renderer/vertex_array.h"

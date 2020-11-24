@@ -1,6 +1,6 @@
 #pragma once
 
-#include "varak/renderer/framebuffer.h"
+#include "varak/renderer/frame_buffer.h"
 
 namespace Varak {
 

@@ -3,6 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <imgui.h>
+
 Sandbox2D::Sandbox2D()
 {
     VR_PROFILE_FUNCTION();

@@ -14,7 +14,8 @@ project "VarakEditor"
 	files 
 	{
 		"src/**.h",
-		"src/**.cpp"
+        "src/**.cpp",
+        "src/panels/*.cpp"
     }
     
 	includedirs 

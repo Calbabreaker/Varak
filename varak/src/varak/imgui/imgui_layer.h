@@ -5,8 +5,6 @@
 #include "varak/events/key_event.h"
 #include "varak/events/mouse_event.h"
 
-#include <imgui.h>
-
 namespace Varak {
 
     class ImGuiLayer : public Layer
