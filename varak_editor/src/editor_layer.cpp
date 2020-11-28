@@ -34,7 +34,7 @@ namespace Varak {
         m_squareEntity.addComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
         m_cameraEntity = m_scene->createEntity("Camera");
-        CameraComponent& camera = m_cameraEntity.addComponent<CameraComponent>();
+        auto& camera = m_cameraEntity.addComponent<CameraComponent>();
 
         m_sceneHierarchyPanel.setScene(m_scene);
     }
@@ -107,8 +107,8 @@ namespace Varak {
         ImGuiIO& io = ImGui::GetIO();
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
-            ImGuiID dockspace_id = ImGui::GetID("DockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspaceFlags);
+            ImGuiID dockspaceId = ImGui::GetID("DockSpace");
+            ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
         }
 
         if (ImGui::BeginMenuBar())

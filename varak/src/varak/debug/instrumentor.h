@@ -143,26 +143,26 @@ namespace Varak {
 
 } // namespace Varak
 
-#if VR_PROFILE == 1
-    #if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) ||  \
-        defined(__ghs__)
-        #define VR_FUNC_SIG __PRETTY_FUNCTION__
-    #elif defined(__DMC__) && (__DMC__ >= 0x810)
-        #define VR_FUNC_SIG __PRETTY_FUNCTION__
-    #elif (defined(__FUNCSIG__) || (_MSC_VER))
-        #define VR_FUNC_SIG __FUNCSIG__
-    #elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
-        #define VR_FUNC_SIG __FUNCTION__
-    #elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
-        #define VR_FUNC_SIG __FUNC__
-    #elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901)
-        #define VR_FUNC_SIG __func__
-    #elif defined(__cplusplus) && (__cplusplus >= 201103)
-        #define VR_FUNC_SIG __func__
-    #else
-        #error "Function Signature Unknown!"
-    #endif
+#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) ||      \
+    defined(__ghs__)
+    #define VR_FUNC_SIG __PRETTY_FUNCTION__
+#elif defined(__DMC__) && (__DMC__ >= 0x810)
+    #define VR_FUNC_SIG __PRETTY_FUNCTION__
+#elif (defined(__FUNCSIG__) || (_MSC_VER))
+    #define VR_FUNC_SIG __FUNCSIG__
+#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
+    #define VR_FUNC_SIG __FUNCTION__
+#elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+    #define VR_FUNC_SIG __FUNC__
+#elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901)
+    #define VR_FUNC_SIG __func__
+#elif defined(__cplusplus) && (__cplusplus >= 201103)
+    #define VR_FUNC_SIG __func__
+#else
+    #error "Function Signature Unknown!"
+#endif
 
+#if VR_PROFILE == 1
     #define VR_PROFILE_SCOPE(name) ::Varak::InstrumentationTimer timer##__LINE__(name)
     #define VR_PROFILE_FUNCTION() VR_PROFILE_SCOPE(VR_FUNC_SIG)
     #define VR_PROFILE_BEGIN_SESSION(name, filepath) ::Varak::Instrumentor::get().beginSession(name, filepath)

@@ -16,7 +16,8 @@ namespace Varak {
         void onImGuiRender();
 
     private:
-        void drawEntityNode(Entity& entity);
+        void drawEntityNode(Entity entity);
+        void drawComponents(Entity entity);
 
     private:
         Ref<Scene> m_scene;

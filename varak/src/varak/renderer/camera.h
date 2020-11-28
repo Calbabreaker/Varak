@@ -9,8 +9,8 @@ namespace Varak {
     public:
         enum class ProjectionType
         {
-            Perpective,
-            Orthographic
+            Perpective = 0,
+            Orthographic = 1
         };
 
     public:
@@ -21,12 +21,26 @@ namespace Varak {
         const glm::mat4& getProjection() const { return m_projection; };
 
         // clang-format off
+        void setPerpectiveFOV(float fov) {m_perpectiveFOV = fov; recalculateProjection(); }
+        void setPerpectiveNearClip(float nearClip) { m_perpectiveNear = nearClip; recalculateProjection(); }
+        void setPerpectiveFarClip(float farClip) { m_perpectiveFar = farClip; recalculateProjection(); }
+
         void setOrthographicSize(float size) { m_orthographicSize = size; recalculateProjection(); }
-        float getOrthographicSize() const { return m_orthographicSize; }
+        void setOrthographicNearClip(float nearClip) { m_orthographicNear = nearClip; recalculateProjection(); }
+        void setOrthographicFarClip(float farClip) { m_orthographicFar = farClip; recalculateProjection(); }
 
         void setProjectionType(ProjectionType type) { m_projectionType = type; recalculateProjection(); }
-        ProjectionType getProjectionType() const { return m_projectionType; }
         // clang-format on
+
+        float getPerpectiveFOV() const { return m_perpectiveFOV; }
+        float getPerpectiveNearClip() const { return m_perpectiveNear; }
+        float getPerpectiveFarClip() const { return m_perpectiveFar; }
+
+        float getOrthographicSize() const { return m_orthographicSize; }
+        float getOrthographicNearClip() const { return m_orthographicNear; }
+        float getOrthographicFarClip() const { return m_orthographicFar; }
+
+        ProjectionType getProjectionType() const { return m_projectionType; }
 
     private:
         void recalculateProjection();

@@ -19,21 +19,28 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        glm::vec3 velocity = { 0.0f, 0.0f, 0.0f };
-        if (Input::isKeyPressed(KeyCode::A))
-            velocity.x -= 1.0f;
-        if (Input::isKeyPressed(KeyCode::D))
-            velocity.x += 1.0f;
+        if (m_camera.getProjectionType() == Camera::ProjectionType::Perpective)
+        {
+            // TODO: perspective camera move
+        }
+        else if (m_camera.getProjectionType() == Camera::ProjectionType::Orthographic)
+        {
+            glm::vec3 velocity = { 0.0f, 0.0f, 0.0f };
+            if (Input::isKeyPressed(KeyCode::A))
+                velocity.x -= 1.0f;
+            if (Input::isKeyPressed(KeyCode::D))
+                velocity.x += 1.0f;
 
-        if (Input::isKeyPressed(KeyCode::S))
-            velocity.y -= 1.0f;
-        if (Input::isKeyPressed(KeyCode::W))
-            velocity.y += 1.0f;
+            if (Input::isKeyPressed(KeyCode::S))
+                velocity.y -= 1.0f;
+            if (Input::isKeyPressed(KeyCode::W))
+                velocity.y += 1.0f;
 
-        if (glm::length(velocity) != 0)
-            velocity = glm::normalize(velocity) * m_moveSpeed * ts.getSeconds();
+            if (glm::length(velocity) != 0)
+                velocity = glm::normalize(velocity) * m_moveSpeed * ts.getSeconds();
 
-        m_position += velocity;
+            m_position += velocity;
+        }
     }
 
     void CameraController::onEvent(Event& event)

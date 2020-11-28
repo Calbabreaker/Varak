@@ -19,11 +19,11 @@ namespace Varak {
         void onViewportResize(uint32_t width, uint32_t height);
 
         Entity createEntity(const std::string& name = "Unnamed Entity");
-        void destroyEntity(Entity& entity);
+        void destroyEntity(Entity entity);
 
     private:
         template <typename T>
-        void onComponentAdded(Entity& entity, T& component);
+        void onComponentAdded(Entity entity, T& component);
 
     private:
         entt::registry m_registry;

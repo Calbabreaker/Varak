@@ -80,35 +80,35 @@ namespace Varak {
         return entity;
     }
 
-    void Scene::destroyEntity(Entity& entity)
+    void Scene::destroyEntity(Entity entity)
     {
         m_registry.destroy(entity); //
     }
 
     template <typename T>
-    void Scene::onComponentAdded(Entity& entity, T& component)
+    void Scene::onComponentAdded(Entity entity, T& component)
     {
         static_assert(false);
     }
 
     template <>
-    void Scene::onComponentAdded<IdentifierComponent>(Entity& entity, IdentifierComponent& component)
+    void Scene::onComponentAdded<IdentifierComponent>(Entity entity, IdentifierComponent& component)
     {
     }
 
     template <>
-    void Scene::onComponentAdded<TransformComponent>(Entity& entity, TransformComponent& component)
+    void Scene::onComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
     {
     }
 
     template <>
-    void Scene::onComponentAdded<CameraComponent>(Entity& entity, CameraComponent& component)
+    void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
     {
         component.camera.setViewportSize(m_viewportWidth, m_viewportHeight);
     }
 
     template <>
-    void Scene::onComponentAdded<SpriteRendererComponent>(Entity& entity, SpriteRendererComponent& component)
+    void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
     {
     }
 

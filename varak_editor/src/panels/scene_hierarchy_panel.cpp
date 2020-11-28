@@ -4,6 +4,7 @@
 
 #include "scene_hierarchy_panel.h"
 
+#include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
 namespace Varak {
@@ -22,18 +23,29 @@ namespace Varak {
             drawEntityNode(entity);
         });
 
+        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+            m_selectedEntity = {};
+
+        ImGui::End();
+
+        ImGui::Begin("Inspector");
+
+        if (m_selectedEntity)
+        {
+            drawComponents(m_selectedEntity);
+        }
+
         ImGui::End();
     }
 
-    void SceneHierarchyPanel::drawEntityNode(Entity& entity)
+    void SceneHierarchyPanel::drawEntityNode(Entity entity)
     {
-        IdentifierComponent& idComponent = entity.getComponent<IdentifierComponent>();
+        auto& identifierComponent = entity.getComponent<IdentifierComponent>();
 
-        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
         flags |= m_selectedEntity == entity ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
-        flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 
-        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, idComponent.name.c_str());
+        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, identifierComponent.name.c_str());
         if (ImGui::IsItemClicked())
         {
             m_selectedEntity = entity;
@@ -45,4 +57,82 @@ namespace Varak {
         }
     }
 
+    void SceneHierarchyPanel::drawComponents(Entity entity)
+    {
+        if (entity.hasComponent<TransformComponent>())
+        {
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(TransformComponent).hash_code()),
+                                  ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+            {
+                glm::mat4& transform = entity.getComponent<TransformComponent>().transform;
+                ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.5f);
+
+                ImGui::TreePop();
+            }
+        }
+
+        if (entity.hasComponent<CameraComponent>())
+        {
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(CameraComponent).hash_code()),
+                                  ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+            {
+                auto& cameraComponent = entity.getComponent<CameraComponent>();
+                Camera& camera = cameraComponent.camera;
+
+                const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
+                const char* currentProjectionTypeString =
+                    projectionTypeStrings[static_cast<int>(camera.getProjectionType())];
+                if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
+                {
+                    for (int i = 0; i < std::size(projectionTypeStrings); i++)
+                    {
+                        bool isSelected = currentProjectionTypeString == projectionTypeStrings[i];
+                        if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
+                        {
+                            camera.setProjectionType(static_cast<Camera::ProjectionType>(i));
+                            break;
+                        }
+
+                        if (isSelected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+
+                    ImGui::EndCombo();
+                }
+
+                if (camera.getProjectionType() == Camera::ProjectionType::Perpective)
+                {
+                    float perpectiveFOV = glm::degrees(camera.getPerpectiveFOV());
+                    if (ImGui::DragFloat("FOV", &perpectiveFOV))
+                        camera.setPerpectiveFOV(glm::radians(perpectiveFOV));
+
+                    float perpectiveNear = camera.getPerpectiveNearClip();
+                    if (ImGui::DragFloat("Near", &perpectiveNear))
+                        camera.setPerpectiveNearClip(perpectiveNear);
+
+                    float perpectiveFar = camera.getPerpectiveFarClip();
+                    if (ImGui::DragFloat("Far", &perpectiveFar))
+                        camera.setPerpectiveFarClip(perpectiveFar);
+                }
+                else if (camera.getProjectionType() == Camera::ProjectionType::Orthographic)
+                {
+                    float orthographicSize = camera.getOrthographicSize();
+                    if (ImGui::DragFloat("Size", &orthographicSize))
+                        camera.setOrthographicSize(orthographicSize);
+
+                    float orthographicNear = camera.getOrthographicNearClip();
+                    if (ImGui::DragFloat("Near", &orthographicNear))
+                        camera.setOrthographicNearClip(orthographicNear);
+
+                    float orthographicFar = camera.getOrthographicFarClip();
+                    if (ImGui::DragFloat("Far", &orthographicFar))
+                        camera.setOrthographicFarClip(orthographicFar);
+
+                    ImGui::Checkbox("Fixed Aspect Ratio", &cameraComponent.fixedAspectRatio);
+                }
+
+                ImGui::TreePop();
+            }
+        }
+    }
 } // namespace Varak
