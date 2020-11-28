@@ -1,7 +1,7 @@
 #include "vrpch.h"
 
-#include "varak/imgui/imgui_layer.h"
 #include "../editor_gui.h"
+#include "varak/imgui/imgui_layer.h"
 
 #include "scene_hierarchy_panel.h"
 
@@ -27,6 +27,15 @@ namespace Varak {
         if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
             m_selectedEntity = {};
 
+        ImGuiPopupFlags popupFlags = ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
+        if (ImGui::BeginPopupContextWindow(0, popupFlags))
+        {
+            if (ImGui::MenuItem("Create Empty"))
+                m_scene->createEntity();
+
+            ImGui::EndPopup();
+        }
+
         ImGui::End();
 
         ImGui::Begin("Inspector");
@@ -34,6 +43,26 @@ namespace Varak {
         if (m_selectedEntity)
         {
             drawComponents(m_selectedEntity);
+
+            if (ImGui::Button("Add Component"))
+                ImGui::OpenPopup("AddComponent");
+
+            if (ImGui::BeginPopup("AddComponent"))
+            {
+                if (!m_selectedEntity.hasComponent<CameraComponent>() && ImGui::MenuItem("Camera"))
+                {
+                    m_selectedEntity.addComponent<CameraComponent>();
+                    ImGui::CloseCurrentPopup();
+                }
+
+                if (!m_selectedEntity.hasComponent<SpriteRendererComponent>() && ImGui::MenuItem("Sprite Renderer"))
+                {
+                    m_selectedEntity.addComponent<SpriteRendererComponent>();
+                    ImGui::CloseCurrentPopup();
+                }
+
+                ImGui::EndPopup();
+            }
         }
 
         ImGui::End();
@@ -43,13 +72,25 @@ namespace Varak {
     {
         auto& component = entity.getComponent<IdentifierComponent>();
 
-        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-        flags |= m_selectedEntity == entity ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
+        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+        treeNodeFlags |= m_selectedEntity == entity ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
 
-        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, component.name.c_str());
+        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, component.name.c_str());
         if (ImGui::IsItemClicked())
         {
             m_selectedEntity = entity;
+        }
+
+        if (ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::MenuItem("Destroy Entity"))
+            {
+                m_scene->destroyEntity(entity);
+                if (entity == m_selectedEntity)
+                    m_selectedEntity = {};
+            }
+
+            ImGui::EndPopup();
         }
 
         if (opened)
@@ -60,10 +101,12 @@ namespace Varak {
 
     void SceneHierarchyPanel::drawComponents(Entity entity)
     {
+        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+
         if (entity.hasComponent<TransformComponent>())
         {
-            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(TransformComponent).hash_code()),
-                                  ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(TransformComponent).hash_code()), treeNodeFlags,
+                                  "Transform"))
             {
                 auto& component = entity.getComponent<TransformComponent>();
 
@@ -79,11 +122,13 @@ namespace Varak {
 
         if (entity.hasComponent<CameraComponent>())
         {
-            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(CameraComponent).hash_code()),
-                                  ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(CameraComponent).hash_code()), treeNodeFlags,
+                                  "Camera"))
             {
                 auto& component = entity.getComponent<CameraComponent>();
                 Camera& camera = component.camera;
+
+                ImGui::Checkbox("Primary", &component.primary);
 
                 const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
                 const char* currentProjectionTypeString =
@@ -143,11 +188,29 @@ namespace Varak {
 
         if (entity.hasComponent<SpriteRendererComponent>())
         {
-            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(SpriteRendererComponent).hash_code()),
-                                  ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(SpriteRendererComponent).hash_code()), treeNodeFlags,
+                                  "Sprite Renderer"))
             {
                 auto& component = entity.getComponent<SpriteRendererComponent>();
+
+                if (ImGui::Button("+"))
+                    ImGui::OpenPopup("ComponentSettings");
+
+                bool componentRemoved = false;
+                if (ImGui::BeginPopup("ComponentSettings"))
+                {
+                    if (ImGui::MenuItem("RemoveComponent"))
+                        componentRemoved = true;
+
+                    ImGui::EndPopup();
+                }
+
                 ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
+
+                if (componentRemoved)
+                {
+                    entity.removeComponent<SpriteRendererComponent>();
+                }
 
                 ImGui::TreePop();
             }

@@ -18,7 +18,7 @@ namespace Varak {
 
         void onViewportResize(uint32_t width, uint32_t height);
 
-        Entity createEntity(const std::string& name = "Unnamed Entity");
+        Entity createEntity(const std::string& name = "Empty Entity");
         void destroyEntity(Entity entity);
 
     private:
