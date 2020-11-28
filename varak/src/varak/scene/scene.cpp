@@ -33,7 +33,7 @@ namespace Varak {
                 if (cameraComponent.primary)
                 {
                     mainCamera = &cameraComponent.camera;
-                    cameraTransform = transformComponent.transform;
+                    cameraTransform = transformComponent.getTransform();
                     break;
                 }
             }
@@ -47,8 +47,8 @@ namespace Varak {
 
             for (auto entity : group)
             {
-                auto [transformComponent, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-                Renderer2D::drawRect(transformComponent.transform, sprite.color);
+                auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                Renderer2D::drawRect(transformComponent.getTransform(), spriteComponent.color);
             }
 
             Renderer2D::endScene();

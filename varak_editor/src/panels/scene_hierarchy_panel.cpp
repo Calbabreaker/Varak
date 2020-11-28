@@ -1,6 +1,7 @@
 #include "vrpch.h"
 
 #include "varak/imgui/imgui_layer.h"
+#include "../editor_gui.h"
 
 #include "scene_hierarchy_panel.h"
 
@@ -40,12 +41,12 @@ namespace Varak {
 
     void SceneHierarchyPanel::drawEntityNode(Entity entity)
     {
-        auto& identifierComponent = entity.getComponent<IdentifierComponent>();
+        auto& component = entity.getComponent<IdentifierComponent>();
 
         ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
         flags |= m_selectedEntity == entity ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
 
-        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, identifierComponent.name.c_str());
+        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, component.name.c_str());
         if (ImGui::IsItemClicked())
         {
             m_selectedEntity = entity;
@@ -64,8 +65,13 @@ namespace Varak {
             if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(TransformComponent).hash_code()),
                                   ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
             {
-                glm::mat4& transform = entity.getComponent<TransformComponent>().transform;
-                ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.5f);
+                auto& component = entity.getComponent<TransformComponent>();
+
+                EditorGui::drawVec3Control("Translation", component.translation);
+                glm::vec3 rotation = glm::degrees(component.rotation);
+                EditorGui::drawVec3Control("Rotation", rotation, 0.5f);
+                component.rotation = glm::radians(rotation);
+                EditorGui::drawVec3Control("Scale", component.scale, 0.5f);
 
                 ImGui::TreePop();
             }
@@ -76,8 +82,8 @@ namespace Varak {
             if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(CameraComponent).hash_code()),
                                   ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
             {
-                auto& cameraComponent = entity.getComponent<CameraComponent>();
-                Camera& camera = cameraComponent.camera;
+                auto& component = entity.getComponent<CameraComponent>();
+                Camera& camera = component.camera;
 
                 const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
                 const char* currentProjectionTypeString =
@@ -128,8 +134,20 @@ namespace Varak {
                     if (ImGui::DragFloat("Far", &orthographicFar))
                         camera.setOrthographicFarClip(orthographicFar);
 
-                    ImGui::Checkbox("Fixed Aspect Ratio", &cameraComponent.fixedAspectRatio);
+                    ImGui::Checkbox("Fixed Aspect Ratio", &component.fixedAspectRatio);
                 }
+
+                ImGui::TreePop();
+            }
+        }
+
+        if (entity.hasComponent<SpriteRendererComponent>())
+        {
+            if (ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(SpriteRendererComponent).hash_code()),
+                                  ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer"))
+            {
+                auto& component = entity.getComponent<SpriteRendererComponent>();
+                ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
 
                 ImGui::TreePop();
             }

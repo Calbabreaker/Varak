@@ -10,7 +10,7 @@ Varak currently is only expected to work on visual studio 2019 only. Other tools
 
 Start by cloning Varak: `git clone --recursive https://github.com/Calbabreaker/Varak`.
 
-Make sure it's `--recursive` to clone the submodules. If it wasn't then do `git submodule update --init`
+Make sure it's `--recursive` to clone the submodules. If it wasn't then do `git submodule update --init`.
 
 Run the correct script for your specific build tool in `scripts/`.
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "varak/renderer/camera.h"
 
@@ -16,10 +17,20 @@ namespace Varak {
 
     struct TransformComponent
     {
-        glm::mat4 transform = glm::mat4(1.0f);
+        glm::vec3 translation = { 0.0f, 0.0f, 0.0f };
+        glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
+        glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
 
         TransformComponent() = default;
-        TransformComponent(const glm::mat4& transform) : transform(transform) {}
+
+        glm::mat4 getTransform() const
+        {
+            glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f }) *
+                                       glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f }) *
+                                       glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
+
+            return glm::translate(glm::mat4(1.0f), translation) * rotationMatrix * glm::scale(glm::mat4(1.0f), scale);
+        }
     };
 
     struct SpriteRendererComponent
