@@ -55,8 +55,8 @@ namespace Varak {
     public:
         EventDispatcher(Event& event) : m_event(event) {}
 
-        template <typename T, typename F>
-        bool dispatch(const F& func)
+        template <typename T, typename EventFunc>
+        bool dispatch(const EventFunc& func)
         {
             if (m_event.getEventType() == T::getStaticType())
             {

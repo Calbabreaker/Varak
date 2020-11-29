@@ -85,8 +85,8 @@ namespace Varak {
         m_registry.destroy(entity); //
     }
 
-    template <typename T>
-    void Scene::onComponentAdded(Entity entity, T& component)
+    template <typename Component>
+    void Scene::onComponentAdded(Entity entity, Component& component)
     {
         static_assert(false);
     }

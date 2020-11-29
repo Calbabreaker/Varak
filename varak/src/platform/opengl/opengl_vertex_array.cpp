@@ -6,30 +6,26 @@
 
 namespace Varak {
 
-    namespace {
-
-        GLenum shaderTypeOpenGL(ShaderDataType type)
+    static GLenum shaderTypeOpenGL(ShaderDataType type)
+    {
+        switch (type)
         {
-            switch (type)
-            {
-            case ShaderDataType::Float1: return GL_FLOAT;
-            case ShaderDataType::Float2: return GL_FLOAT;
-            case ShaderDataType::Float3: return GL_FLOAT;
-            case ShaderDataType::Float4: return GL_FLOAT;
-            case ShaderDataType::Mat3: return GL_FLOAT;
-            case ShaderDataType::Mat4: return GL_FLOAT;
-            case ShaderDataType::Int1: return GL_INT;
-            case ShaderDataType::Int2: return GL_INT;
-            case ShaderDataType::Int3: return GL_INT;
-            case ShaderDataType::Int4: return GL_INT;
-            case ShaderDataType::Bool: return GL_BOOL;
-            }
-
-            VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
-            return GL_NONE;
+        case ShaderDataType::Float1: return GL_FLOAT;
+        case ShaderDataType::Float2: return GL_FLOAT;
+        case ShaderDataType::Float3: return GL_FLOAT;
+        case ShaderDataType::Float4: return GL_FLOAT;
+        case ShaderDataType::Mat3: return GL_FLOAT;
+        case ShaderDataType::Mat4: return GL_FLOAT;
+        case ShaderDataType::Int1: return GL_INT;
+        case ShaderDataType::Int2: return GL_INT;
+        case ShaderDataType::Int3: return GL_INT;
+        case ShaderDataType::Int4: return GL_INT;
+        case ShaderDataType::Bool: return GL_BOOL;
         }
 
-    } // namespace
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
+        return GL_NONE;
+    }
 
     OpenGLVertexArray::OpenGLVertexArray()
     {

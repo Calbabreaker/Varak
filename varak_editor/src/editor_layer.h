@@ -3,12 +3,15 @@
 #include "varak.h"
 
 #include "panels/scene_hierarchy_panel.h"
+#include "panels/inspector_panel/inspector_panel.h"
 
 namespace Varak {
 
     class EditorLayer : public Layer
     {
     public:
+        EditorLayer();
+
         void onAttach() override;
         void onDetach() override;
 
@@ -27,6 +30,7 @@ namespace Varak {
         Entity m_squareEntity;
         Entity m_cameraEntity;
 
+        InspectorPanel m_inspectorPanel;
         SceneHierarchyPanel m_sceneHierarchyPanel;
 
         glm::vec2 m_viewportSize;

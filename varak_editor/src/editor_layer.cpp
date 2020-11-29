@@ -10,6 +10,8 @@
 
 namespace Varak {
 
+    EditorLayer::EditorLayer() : m_sceneHierarchyPanel(&m_inspectorPanel) {}
+
     void EditorLayer::onAttach()
     {
         VR_PROFILE_FUNCTION();
@@ -125,6 +127,7 @@ namespace Varak {
         }
 
         m_sceneHierarchyPanel.onImGuiRender();
+        m_inspectorPanel.onImGuiRender();
 
         ImGui::Begin("Stats");
 

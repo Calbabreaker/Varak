@@ -10,33 +10,33 @@ namespace Varak {
         Entity() = default;
         Entity(entt::entity handle, Scene* scene);
 
-        template <typename T, typename... Args>
-        T& addComponent(Args&&... args)
+        template <typename Component, typename... Args>
+        Component& addComponent(Args&&... args)
         {
-            VR_CORE_ASSERT_MSG(!hasComponent<T>(), "Entity already has component!");
-            T& component = m_scene->m_registry.emplace<T>(m_handle, std::forward<Args>(args)...);
-            m_scene->onComponentAdded<T>(*this, component);
+            VR_CORE_ASSERT_MSG(!hasComponent<Component>(), "Entity already has component!");
+            Component& component = m_scene->m_registry.emplace<Component>(m_handle, std::forward<Args>(args)...);
+            m_scene->onComponentAdded<Component>(*this, component);
             return component;
         }
 
-        template <typename T>
-        T& getComponent()
+        template <typename Component>
+        Component& getComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<T>(), "Entity does not have component!");
-            return m_scene->m_registry.get<T>(m_handle);
+            VR_CORE_ASSERT_MSG(hasComponent<Component>(), "Entity does not have component!");
+            return m_scene->m_registry.get<Component>(m_handle);
         }
 
-        template <typename T>
+        template <typename Component>
         void removeComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<T>(), "Entity does not have component!");
-            return m_scene->m_registry.remove<T>(m_handle);
+            VR_CORE_ASSERT_MSG(hasComponent<Component>(), "Entity does not have component!");
+            return m_scene->m_registry.remove<Component>(m_handle);
         }
 
-        template <typename T>
+        template <typename Component>
         bool hasComponent()
         {
-            return m_scene->m_registry.has<T>(m_handle);
+            return m_scene->m_registry.has<Component>(m_handle);
         }
 
         operator entt::entity() { return m_handle; }

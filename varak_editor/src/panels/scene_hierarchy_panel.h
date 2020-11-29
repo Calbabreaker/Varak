@@ -4,12 +4,14 @@
 #include "varak/scene/entity.h"
 #include "varak/scene/scene.h"
 
+#include "inspector_panel/inspector_panel.h"
+
 namespace Varak {
 
     class SceneHierarchyPanel
     {
     public:
-        SceneHierarchyPanel() = default;
+        SceneHierarchyPanel(InspectorPanel* panel);
 
         void setScene(const Ref<Scene>& scene);
 
@@ -17,12 +19,10 @@ namespace Varak {
 
     private:
         void drawEntityNode(Entity entity);
-        void drawComponents(Entity entity);
 
     private:
         Ref<Scene> m_scene;
-
-        Entity m_selectedEntity;
+        InspectorPanel* m_inspectorPanel;
     };
 
 } // namespace Varak

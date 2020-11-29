@@ -22,8 +22,8 @@ namespace Varak {
         void destroyEntity(Entity entity);
 
     private:
-        template <typename T>
-        void onComponentAdded(Entity entity, T& component);
+        template <typename Component>
+        void onComponentAdded(Entity entity, Component& component);
 
     private:
         entt::registry m_registry;
