@@ -10,21 +10,30 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
+#include <imgui_internal.h>
 
 namespace Varak {
 
     template <typename Component, typename UIFunc>
     static void drawComponent(const std::string& name, Entity entity, UIFunc uiFunc)
     {
-        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap;
+        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap |
+                                           ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth |
+                                           ImGuiTreeNodeFlags_FramePadding;
         if (entity.hasComponent<Component>())
         {
             auto& component = entity.getComponent<Component>();
+            ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
+            float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2;
+            ImGui::Separator();
             bool opened =
                 ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(Component).hash_code()), treeNodeFlags, name.c_str());
+            ImGui::PopStyleVar();
 
-            if (ImGui::Button("+"))
+            ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
+            if (ImGui::Button("+", ImVec2(lineHeight, lineHeight)))
                 ImGui::OpenPopup("ComponentSettings");
 
             bool removeComponent = false;
@@ -120,26 +129,28 @@ namespace Varak {
         });
     }
 
+    template <typename Component>
+    static void addComponentMenuItem(Entity entity, const char* label)
+    {
+        if (!entity.hasComponent<Component>() && ImGui::MenuItem(label))
+        {
+            entity.addComponent<Component>();
+            ImGui::CloseCurrentPopup();
+        }
+    }
+
     void InspectorPanel::drawProperties(Entity entity)
     {
         drawComponents(entity);
 
+        ImGui::Separator();
         if (ImGui::Button("Add Component"))
             ImGui::OpenPopup("AddComponent");
 
         if (ImGui::BeginPopup("AddComponent"))
         {
-            if (!entity.hasComponent<CameraComponent>() && ImGui::MenuItem("Camera"))
-            {
-                entity.addComponent<CameraComponent>();
-                ImGui::CloseCurrentPopup();
-            }
-
-            if (!entity.hasComponent<SpriteRendererComponent>() && ImGui::MenuItem("Sprite Renderer"))
-            {
-                entity.addComponent<SpriteRendererComponent>();
-                ImGui::CloseCurrentPopup();
-            }
+            addComponentMenuItem<CameraComponent>(entity, "Camera");
+            addComponentMenuItem<SpriteRendererComponent>(entity, "Sprite Renderer");
 
             ImGui::EndPopup();
         }
