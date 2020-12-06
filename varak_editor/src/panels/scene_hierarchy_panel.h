@@ -23,6 +23,8 @@ namespace Varak {
     private:
         Ref<Scene> m_scene;
         InspectorPanel* m_inspectorPanel;
+
+        bool m_isNameBeingEdited = false;
     };
 
 } // namespace Varak

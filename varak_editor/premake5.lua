@@ -17,6 +17,11 @@ project "VarakEditor"
         "src/**.cpp",
         "src/panels/*.cpp"
     }
+
+    defines
+	{
+        "_CRT_SECURE_NO_WARNINGS"
+	}
     
 	includedirs 
 	{

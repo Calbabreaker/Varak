@@ -107,11 +107,14 @@ namespace Varak {
 
         // DockSpace
         ImGuiIO& io = ImGui::GetIO();
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(300.0f, 50.0f));
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
             ImGuiID dockspaceId = ImGui::GetID("DockSpace");
             ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
         }
+
+        ImGui::PopStyleVar();
 
         if (ImGui::BeginMenuBar())
         {

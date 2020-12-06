@@ -24,7 +24,7 @@ namespace Varak {
             ImGui::NextColumn();
 
             ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-            
+
             ImGui::PushFont(boldFont);
             ImGui::Text("X");
             ImGui::PopFont();
@@ -53,6 +53,27 @@ namespace Varak {
             ImGui::PopID();
         }
 
-    } // namespace EditorGui
+        bool drawInputText(std::string& text, const ImVec2& size, ImGuiInputTextFlags flags, int id)
+        {
+            bool returnVal = false;
+
+            ImGui::PushID(id);
+            char buffer[256];
+            memset(buffer, 0, sizeof(char));
+            std::strncpy(buffer, text.c_str(), sizeof(buffer));
+
+            ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+            if (ImGui::InputTextEx("##text", NULL, buffer, sizeof(buffer), size, flags, NULL, NULL))
+            {
+                text = std::string(buffer);
+                returnVal = true;
+            }
+
+            ImGui::PopStyleVar();
+            ImGui::PopID();
+            return returnVal;
+        }
+
+    } // namespace ImGuiHelper
 
 } // namespace Varak

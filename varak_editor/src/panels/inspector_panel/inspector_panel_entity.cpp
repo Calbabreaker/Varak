@@ -33,6 +33,7 @@ namespace Varak {
             ImGui::PopStyleVar();
 
             ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
+
             if (ImGui::Button("+", ImVec2(lineHeight, lineHeight)))
                 ImGui::OpenPopup("ComponentSettings");
 
@@ -58,6 +59,12 @@ namespace Varak {
 
     static void drawComponents(Entity entity)
     {
+        if (entity.hasComponent<IdentifierComponent>())
+        {
+            ImVec2 size(ImGui::GetContentRegionAvail().x, 0.0f);
+            ImGuiHelper::drawInputText(entity.getComponent<IdentifierComponent>().name, size);
+        }
+
         drawComponent<TransformComponent>("Transform", entity, [](auto& component) {
             ImGuiHelper::drawVec3Control("Translation", component.translation);
             glm::vec3 rotation = glm::degrees(component.rotation);
@@ -143,9 +150,16 @@ namespace Varak {
     {
         drawComponents(entity);
 
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 10.0f));
         ImGui::Separator();
-        if (ImGui::Button("Add Component"))
+
+        float availWidth = ImGui::GetContentRegionAvail().x;
+        ImVec2 buttonSize(availWidth / 2.0f, 0.0f);
+        ImGui::Indent(availWidth / 2 - buttonSize.x / 2);
+
+        if (ImGui::Button("Add Component", buttonSize))
             ImGui::OpenPopup("AddComponent");
+        ImGui::PopStyleVar();
 
         if (ImGui::BeginPopup("AddComponent"))
         {

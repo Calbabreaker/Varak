@@ -26,8 +26,10 @@ namespace Varak {
             drawEntityNode(entity);
         });
 
-        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowHovered())
+        {
             m_inspectorPanel->setSelected({});
+        }
 
         ImGuiPopupFlags popupFlags = ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
         if (ImGui::BeginPopupContextWindow(0, popupFlags))
@@ -38,36 +40,72 @@ namespace Varak {
             ImGui::EndPopup();
         }
 
+        ImGui::ShowDemoWindow();
+
         ImGui::End();
     }
 
     void SceneHierarchyPanel::drawEntityNode(Entity entity)
     {
-        auto& component = entity.getComponent<IdentifierComponent>();
+        std::string& name = entity.getComponent<IdentifierComponent>().name;
 
-        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-        treeNodeFlags |= m_inspectorPanel->getSelected() == entity ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
-        bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, component.name.c_str());
-        if (ImGui::IsItemClicked())
+        if (m_isNameBeingEdited && m_inspectorPanel->getSelected() == entity)
         {
-            m_inspectorPanel->setSelected({entity});
+            ImVec2 size(ImGui::GetContentRegionAvail().x, 0.0f);
+            ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+            if (ImGuiHelper::drawInputText(name, size, flags, (uint32_t)entity))
+                m_isNameBeingEdited = false;
+            ImGui::PopStyleVar();
+
+            if (!ImGui::IsItemFocused())
+                ImGui::SetKeyboardFocusHere(0);
+
+            if (!ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+                m_isNameBeingEdited = false;
         }
-
-        if (ImGui::BeginPopupContextItem())
+        else
         {
-            if (ImGui::MenuItem("Destroy Entity"))
+            ImGuiTreeNodeFlags treeNodeFlags =
+                ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
+            if (m_inspectorPanel->getSelected() == entity)
+                treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
+
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+            bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, name.c_str());
+            ImGui::PopStyleVar();
+
+            if (m_inspectorPanel->getSelected() == entity)
             {
-                m_scene->destroyEntity(entity);
-                if (entity == m_inspectorPanel->getSelected())
-                    m_inspectorPanel->setSelected({});
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+                    m_isNameBeingEdited = true;
+            }
+            else
+            {
+                if (ImGui::IsItemClicked())
+                    m_inspectorPanel->setSelected({ entity });
             }
 
-            ImGui::EndPopup();
-        }
+            if (ImGui::BeginPopupContextItem())
+            {
+                if (ImGui::MenuItem("Rename"))
+                    m_isNameBeingEdited = true;
 
-        if (opened)
-        {
-            ImGui::TreePop();
+                if (ImGui::MenuItem("Destroy Entity"))
+                {
+                    m_scene->destroyEntity(entity);
+                    if (entity == m_inspectorPanel->getSelected())
+                        m_inspectorPanel->setSelected({});
+                }
+
+                ImGui::EndPopup();
+            }
+
+            if (opened)
+            {
+                ImGui::TreePop();
+            }
         }
     }
 
