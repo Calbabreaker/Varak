@@ -22,6 +22,8 @@ namespace Varak {
 
         void blockEvents(bool block) { m_blockEvents = block; }
 
+        void setDarkThemeColors();
+
     private:
         bool m_blockEvents = false;
     };
