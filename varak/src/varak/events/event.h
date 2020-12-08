@@ -19,7 +19,7 @@ namespace Varak {
 
     enum EventCategory 
     {
-        EventCategoryNone = 0,
+        EventCategoryNone =               0,
         EventCategoryWindow =      VR_BIT(0),
         EventCategoryInput =       VR_BIT(1),
         EventCategoryKeyboard =    VR_BIT(2),

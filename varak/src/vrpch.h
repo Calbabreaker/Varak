@@ -7,16 +7,17 @@
 #include <memory>
 #include <utility>
 
-// -- data structures --
+// -- Data Structures --
 #include <array>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
-#include <vector>
 #include <variant>
+#include <vector>
 
-// -- Varak engine --
+// -- Varak Engine --
 #include "varak/core/base.h"
 #include "varak/core/log.h"
 #include "varak/debug/instrumentor.h"

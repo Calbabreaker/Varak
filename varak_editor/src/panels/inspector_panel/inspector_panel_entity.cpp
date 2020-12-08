@@ -61,27 +61,30 @@ namespace Varak {
     {
         if (entity.hasComponent<IdentifierComponent>())
         {
-            ImVec2 size(ImGui::GetContentRegionAvail().x, 0.0f);
-            ImGuiHelper::drawInputText(entity.getComponent<IdentifierComponent>().name, size);
+            ImGui::PushItemWidth(-1);
+            ImGuiHelper::drawInputText(entity.getComponent<IdentifierComponent>().name, "");
+            ImGui::PopItemWidth();
         }
 
         drawComponent<TransformComponent>("Transform", entity, [](auto& component) {
             ImGuiHelper::drawVec3Control("Translation", component.translation);
+
             glm::vec3 rotation = glm::degrees(component.rotation);
-            ImGuiHelper::drawVec3Control("Rotation", rotation, 0.5f);
-            component.rotation = glm::radians(rotation);
-            ImGuiHelper::drawVec3Control("Scale", component.scale, 0.5f);
+            if (ImGuiHelper::drawVec3Control("Rotation", rotation))
+                component.rotation = glm::radians(rotation);
+
+            ImGuiHelper::drawVec3Control("Scale", component.scale, 1.0f);
         });
 
         drawComponent<CameraComponent>("Camera", entity, [](auto& component) {
             Camera& camera = component.camera;
 
-            ImGui::Checkbox("Primary", &component.primary);
-
-            const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
+            ImGuiHelper::drawCheckbox("Primary", component.primary);
+            constexpr const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
             const char* currentProjectionTypeString =
                 projectionTypeStrings[static_cast<int>(camera.getProjectionType())];
-            if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
+
+            if (ImGuiHelper::drawComboBegin("Projection", currentProjectionTypeString))
             {
                 for (int i = 0; i < std::size(projectionTypeStrings); i++)
                 {
@@ -102,37 +105,37 @@ namespace Varak {
             if (camera.getProjectionType() == Camera::ProjectionType::Perpective)
             {
                 float perpectiveFOV = glm::degrees(camera.getPerpectiveFOV());
-                if (ImGui::DragFloat("FOV", &perpectiveFOV))
+                if (ImGuiHelper::drawDragFloat("FOV", perpectiveFOV))
                     camera.setPerpectiveFOV(glm::radians(perpectiveFOV));
 
                 float perpectiveNear = camera.getPerpectiveNearClip();
-                if (ImGui::DragFloat("Near", &perpectiveNear))
+                if (ImGuiHelper::drawDragFloat("Near", perpectiveNear))
                     camera.setPerpectiveNearClip(perpectiveNear);
 
                 float perpectiveFar = camera.getPerpectiveFarClip();
-                if (ImGui::DragFloat("Far", &perpectiveFar))
+                if (ImGuiHelper::drawDragFloat("Far", perpectiveFar))
                     camera.setPerpectiveFarClip(perpectiveFar);
             }
             else if (camera.getProjectionType() == Camera::ProjectionType::Orthographic)
             {
                 float orthographicSize = camera.getOrthographicSize();
-                if (ImGui::DragFloat("Size", &orthographicSize))
+                if (ImGuiHelper::drawDragFloat("Size", orthographicSize))
                     camera.setOrthographicSize(orthographicSize);
 
                 float orthographicNear = camera.getOrthographicNearClip();
-                if (ImGui::DragFloat("Near", &orthographicNear))
+                if (ImGuiHelper::drawDragFloat("Near", orthographicNear))
                     camera.setOrthographicNearClip(orthographicNear);
 
                 float orthographicFar = camera.getOrthographicFarClip();
-                if (ImGui::DragFloat("Far", &orthographicFar))
+                if (ImGuiHelper::drawDragFloat("Far", orthographicFar))
                     camera.setOrthographicFarClip(orthographicFar);
 
-                ImGui::Checkbox("Fixed Aspect Ratio", &component.fixedAspectRatio);
+                ImGuiHelper::drawCheckbox("Fixed Aspect Ratio", component.fixedAspectRatio);
             }
         });
 
         drawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
-            ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
+            ImGuiHelper::drawColorEdit4("Color", component.color);
         });
     }
 

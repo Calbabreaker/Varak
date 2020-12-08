@@ -40,24 +40,24 @@ namespace Varak {
             ImGui::EndPopup();
         }
 
-        ImGui::ShowDemoWindow();
-
         ImGui::End();
     }
 
     void SceneHierarchyPanel::drawEntityNode(Entity entity)
     {
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 2.0f));
+
         std::string& name = entity.getComponent<IdentifierComponent>().name;
 
         if (m_isNameBeingEdited && m_inspectorPanel->getSelected() == entity)
         {
-            ImVec2 size(ImGui::GetContentRegionAvail().x, 0.0f);
-            ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
-
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
-            if (ImGuiHelper::drawInputText(name, size, flags, (uint32_t)entity))
+            ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+            ImGui::PushItemWidth(-1);
+            if (ImGuiHelper::drawInputText(name, "", inputFlags))
                 m_isNameBeingEdited = false;
-            ImGui::PopStyleVar();
+            ImGui::PopItemWidth();
+            ImGui::PopStyleVar(2);
 
             if (!ImGui::IsItemFocused())
                 ImGui::SetKeyboardFocusHere(0);
@@ -72,9 +72,8 @@ namespace Varak {
             if (m_inspectorPanel->getSelected() == entity)
                 treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
 
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
             bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, name.c_str());
-            ImGui::PopStyleVar();
+            ImGui::PopStyleVar(2);
 
             if (m_inspectorPanel->getSelected() == entity)
             {
