@@ -14,9 +14,9 @@ project "VarakEditor"
 	files 
 	{
 		"src/**.h",
-        "src/**.cpp",
-        "src/panels/*.cpp"
-    }
+		"src/**.cpp",
+		"src/panels/*.cpp"
+  }
 
     defines
 	{
@@ -28,7 +28,7 @@ project "VarakEditor"
 		"%{varakdir}/src",
 		
 		"%{vendordir}/spdlog/include",
-        "%{vendordir}/glm",
+		"%{vendordir}/glm",
 		"%{vendordir}/imgui",
 		"%{vendordir}/entt"
 	}
@@ -51,5 +51,5 @@ project "VarakEditor"
 	filter "configurations:Distribution"
 		defines "VR_DISTRIBUTION"
 		runtime "Release"
-        optimize "on"
+			optimize "on"
 

@@ -61,9 +61,7 @@ namespace Varak {
     {
         if (entity.hasComponent<IdentifierComponent>())
         {
-            ImGui::PushItemWidth(-1);
-            ImGuiHelper::drawInputText(entity.getComponent<IdentifierComponent>().name, "");
-            ImGui::PopItemWidth();
+            ImGuiHelper::drawInputText("", entity.getComponent<IdentifierComponent>().name);
         }
 
         drawComponent<TransformComponent>("Transform", entity, [](auto& component) {
@@ -134,9 +132,8 @@ namespace Varak {
             }
         });
 
-        drawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
-            ImGuiHelper::drawColorEdit4("Color", component.color);
-        });
+        drawComponent<SpriteRendererComponent>(
+            "Sprite Renderer", entity, [](auto& component) { ImGuiHelper::drawColorEdit4("Color", component.color); });
     }
 
     template <typename Component>

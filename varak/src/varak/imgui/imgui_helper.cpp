@@ -22,6 +22,7 @@ namespace Varak {
         template <typename Func>
         static bool inputWithLabel(std::string_view label, const Func& func)
         {
+            ImGui::PushID(label.data());
             bool hasInputed = false;
             ImVec2 textSize = ImGui::CalcTextSize(label.data());
             if (textSize.x > 0.0f)
@@ -32,8 +33,11 @@ namespace Varak {
                 ImGui::NextColumn();
             }
 
+            ImGui::PushItemWidth(-1);
             hasInputed = func();
+            ImGui::PopItemWidth();
             ImGui::Columns(1);
+            ImGui::PopID();
             return hasInputed;
         }
 
@@ -43,11 +47,10 @@ namespace Varak {
                 bool hasInputed = false;
 
                 ImGuiIO& io = ImGui::GetIO();
-                auto boldFont = io.Fonts->Fonts[0];
+                ImFont* boldFont = io.Fonts->Fonts[0];
 
-                ImGui::PushID(label.data());
-
-                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+                ImGui::BeginGroup();
+                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f);
 
                 ImGui::PushFont(boldFont);
                 ImGuiHelper::drawLabel("X");
@@ -69,12 +72,12 @@ namespace Varak {
                 hasInputed |= ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
                 ImGui::PopItemWidth();
 
-                ImGui::PopID();
+                ImGui::EndGroup();
                 return hasInputed;
             });
         }
 
-        bool drawInputText(std::string& text, const std::string& label, ImGuiInputTextFlags flags)
+        bool drawInputText(std::string_view label, std::string& text, ImGuiInputTextFlags flags)
         {
             return inputWithLabel(label, [&]() {
                 char buffer[256];
@@ -83,7 +86,7 @@ namespace Varak {
 
                 bool hasInputed = false;
                 ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-                if (ImGui::InputText(("##" + label).c_str(), buffer, sizeof(buffer), flags))
+                if (ImGui::InputText("", buffer, sizeof(buffer), flags))
                 {
                     text = std::string(buffer);
                     hasInputed = true;
@@ -94,32 +97,32 @@ namespace Varak {
             });
         }
 
-        bool drawCheckbox(const std::string& label, bool& value)
+        bool drawCheckbox(std::string_view label, bool& value)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::Checkbox(("##" + label).c_str(), &value); //
+                return ImGui::Checkbox("", &value); //
             });
         }
 
-        bool drawComboBegin(const std::string& label, std::string_view previewValue, ImGuiComboFlags flags)
+        bool drawComboBegin(std::string_view label, std::string_view previewValue, ImGuiComboFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::BeginCombo(("##" + label).c_str(), previewValue.data(), flags); //
+                return ImGui::BeginCombo("", previewValue.data(), flags); //
             });
         }
 
-        bool drawDragFloat(const std::string& label, float& value, float speed, float min, float max,
+        bool drawDragFloat(std::string_view label, float& value, float speed, float min, float max,
                            std::string_view format, ImGuiSliderFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::DragFloat(("##" + label).c_str(), &value, speed, min, max, format.data(), flags); //
+                return ImGui::DragFloat("", &value, speed, min, max, format.data(), flags); //
             });
         }
 
-        bool drawColorEdit4(const std::string& label, glm::vec4& values, ImGuiColorEditFlags flags)
+        bool drawColorEdit4(std::string_view label, glm::vec4& values, ImGuiColorEditFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::ColorEdit4(("##" + label).c_str(), glm::value_ptr(values), flags); //
+                return ImGui::ColorEdit4("", glm::value_ptr(values), flags); //
             });
         }
 
