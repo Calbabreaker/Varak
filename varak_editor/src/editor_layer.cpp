@@ -23,7 +23,7 @@ namespace Varak {
         uint32_t width = window.getWidth();
         uint32_t height = window.getHeight();
 
-        m_cameraController = createScope<CameraController>(width, height);
+        m_editorCamera.setViewportSize(width, height);
 
         FrameBufferProperties props;
         props.width = width;
@@ -59,13 +59,13 @@ namespace Varak {
             uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
 
             m_frameBuffer->resize(width, height);
-            m_cameraController->onResize(width, height);
+            m_editorCamera.setViewportSize(width, height);
             m_scene->onViewportResize(width, height);
         }
 
         // update
         if (m_viewportFocused)
-            m_cameraController->onUpdate(ts);
+            m_editorCamera.onUpdate(ts);
 
         // render
         m_frameBuffer->bind();
@@ -74,8 +74,7 @@ namespace Varak {
 
         Renderer2D::resetStats();
 
-        // camera controller will be back after add play button
-        m_scene->onUpdate(ts);
+        m_scene->onUpdateEditor(ts, m_editorCamera);
 
         m_frameBuffer->unbind();
     }
@@ -164,7 +163,7 @@ namespace Varak {
 
     void EditorLayer::onEvent(Event& event)
     {
-        m_cameraController->onEvent(event); //
+        m_editorCamera.onEvent(event); //
     }
 
 } // namespace Varak

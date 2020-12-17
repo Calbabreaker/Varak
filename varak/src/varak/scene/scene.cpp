@@ -16,12 +16,28 @@ namespace Varak {
 
     Scene::~Scene() {}
 
-    void Scene::onUpdate(Timestep ts)
+    void Scene::onUpdateEditor(Timestep ts, EditorCamera& camera)
+    {
+        // render 2d
+        auto group = m_registry.group<TransformComponent, SpriteRendererComponent>();
+
+        Renderer2D::beginScene(camera.getViewProjection());
+
+        for (auto entity : group)
+        {
+            auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+            Renderer2D::drawRect(transformComponent.getTransform(), spriteComponent.color);
+        }
+
+        Renderer2D::endScene();
+    }
+
+    void Scene::onUpdateRuntime(Timestep ts)
     {
         // render 2d
 
         // TODO: this should not be a loop but a pointer
-        Camera* mainCamera = nullptr;
+        CameraComponent* mainCamera = nullptr;
         glm::mat4 cameraTransform;
         {
             auto view = m_registry.view<TransformComponent, CameraComponent>();
@@ -32,7 +48,7 @@ namespace Varak {
 
                 if (cameraComponent.primary)
                 {
-                    mainCamera = &cameraComponent.camera;
+                    mainCamera = &cameraComponent;
                     cameraTransform = transformComponent.getTransform();
                     break;
                 }
@@ -43,11 +59,13 @@ namespace Varak {
         {
             auto group = m_registry.group<TransformComponent, SpriteRendererComponent>();
 
-            Renderer2D::beginScene(*mainCamera, cameraTransform);
+            glm::mat4 viewMatrix = glm::inverse(cameraTransform);
+            Renderer2D::beginScene(mainCamera->getProjection() * viewMatrix);
 
             for (auto entity : group)
             {
-                auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                auto [transformComponent, spriteComponent] =
+                    group.get<TransformComponent, SpriteRendererComponent>(entity);
                 Renderer2D::drawRect(transformComponent.getTransform(), spriteComponent.color);
             }
 
@@ -67,7 +85,7 @@ namespace Varak {
             auto& cameraComponent = view.get<CameraComponent>(entity);
             if (!cameraComponent.fixedAspectRatio)
             {
-                cameraComponent.camera.setViewportSize(width, height);
+                cameraComponent.setViewportSize(width, height);
             }
         }
     }
@@ -104,7 +122,7 @@ namespace Varak {
     template <>
     void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
     {
-        component.camera.setViewportSize(m_viewportWidth, m_viewportHeight);
+        component.setViewportSize(m_viewportWidth, m_viewportHeight);
     }
 
     template <>

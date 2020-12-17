@@ -18,7 +18,7 @@ namespace Varak {
         s_instance = this;
 
         m_window = Window::create(WindowProperties(name));
-        m_window->setEventCallback(VR_BIND_EVENT_FUNC(Application::onEvent));
+        m_window->setEventCallback(VR_BIND_FUNC(Application::onEvent));
 
         Renderer::init();
 
@@ -72,8 +72,8 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
 
         EventDispatcher dispatcher(event);
-        dispatcher.dispatch<WindowClosedEvent>(VR_BIND_EVENT_FUNC(Application::onWindowClosed));
-        dispatcher.dispatch<WindowResizedEvent>(VR_BIND_EVENT_FUNC(Application::onWindowResized));
+        dispatcher.dispatch<WindowClosedEvent>(VR_BIND_FUNC(Application::onWindowClosed));
+        dispatcher.dispatch<WindowResizedEvent>(VR_BIND_FUNC(Application::onWindowResized));
 
         for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); it++)
         {

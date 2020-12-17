@@ -23,8 +23,7 @@ namespace Varak {
         Ref<Texture> m_vTexture;
         Ref<Texture> m_patternTexture;
         Ref<FrameBuffer> m_frameBuffer;
-
-        Scope<CameraController> m_cameraController;
+        EditorCamera m_editorCamera;
 
         Ref<Scene> m_scene;
         Entity m_squareEntity;

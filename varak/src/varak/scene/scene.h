@@ -1,6 +1,7 @@
 #pragma once
 
 #include "varak/core/timestep.h"
+#include "varak/renderer/editor_camera.h"
 
 #include <entt.hpp>
 
@@ -14,7 +15,8 @@ namespace Varak {
         Scene(uint32_t viewportWidth, uint32_t viewportHeight);
         ~Scene();
 
-        void onUpdate(Timestep ts);
+        void onUpdateEditor(Timestep ts, EditorCamera& camera);
+        void onUpdateRuntime(Timestep ts);
 
         void onViewportResize(uint32_t width, uint32_t height);
 
