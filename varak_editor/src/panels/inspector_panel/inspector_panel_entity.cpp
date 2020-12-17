@@ -61,7 +61,7 @@ namespace Varak {
     {
         if (entity.hasComponent<IdentifierComponent>())
         {
-            ImGuiHelper::drawInputText("", entity.getComponent<IdentifierComponent>().name);
+            ImGuiHelper::drawInputText("##name", entity.getComponent<IdentifierComponent>().name);
         }
 
         drawComponent<TransformComponent>("Transform", entity, [](auto& transform) {

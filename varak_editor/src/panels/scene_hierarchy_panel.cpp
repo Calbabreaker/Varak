@@ -53,7 +53,7 @@ namespace Varak {
         if (m_isNameBeingEdited && m_inspectorPanel->getSelected() == entity)
         {
             ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
-            if (ImGuiHelper::drawInputText("", name, inputFlags))
+            if (ImGuiHelper::drawInputText("##name", name, inputFlags))
                 m_isNameBeingEdited = false;
             ImGui::PopStyleVar(2);
 

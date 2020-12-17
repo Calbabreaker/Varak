@@ -24,7 +24,7 @@ namespace Varak {
         {
             ImGui::PushID(label.data());
             bool hasInputed = false;
-            ImVec2 textSize = ImGui::CalcTextSize(label.data());
+            ImVec2 textSize = ImGui::CalcTextSize(label.data(), static_cast<const char*>(0), true);
             if (textSize.x > 0.0f)
             {
                 drawLabel(label);
