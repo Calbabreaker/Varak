@@ -3,6 +3,9 @@
 #include "varak/core/mouse_codes.h"
 #include "varak/events/event.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtx/io.hpp>
+
 namespace Varak {
 
     class MouseButtonEvent : public Event
@@ -51,15 +54,14 @@ namespace Varak {
     class MouseMovedEvent : public Event
     {
     public:
-        MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {}
+        MouseMovedEvent(const glm::vec2& offset) : m_offset(offset) {}
 
-        float getX() const { return m_mouseX; }
-        float getY() const { return m_mouseY; }
+        const glm::vec2& getOffset() { return m_offset; }
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseMovedEvent: " << m_mouseX << ", " << m_mouseY;
+            ss << "MouseMovedEvent: " << m_offset;
             return ss.str();
         }
 
@@ -67,21 +69,20 @@ namespace Varak {
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
-        float m_mouseX, m_mouseY;
+        glm::vec2 m_offset;
     };
 
     class MouseScrolledEvent : public Event
     {
     public:
-        MouseScrolledEvent(float xOffset, float yOffset) : m_xOffSet(xOffset), m_yOffset(yOffset) {}
+        MouseScrolledEvent(const glm::vec2& offset) : m_offset(offset) {}
 
-        float getXOffset() const { return m_xOffSet; }
-        float getYOffset() const { return m_yOffset; }
+        const glm::vec2& getOffset() const { return m_offset; }
 
         std::string toString() const override
         {
             std::stringstream ss;
-            ss << "MouseMovedEvent: " << m_xOffSet << ", " << m_yOffset;
+            ss << "MouseMovedEvent: " << m_offset;
             return ss.str();
         }
 
@@ -89,7 +90,7 @@ namespace Varak {
         MAKE_EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
-        float m_xOffSet, m_yOffset;
+        glm::vec2 m_offset;
     };
 
 } // namespace Varak

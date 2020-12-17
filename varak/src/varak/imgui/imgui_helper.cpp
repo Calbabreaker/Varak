@@ -47,10 +47,11 @@ namespace Varak {
                 bool hasInputed = false;
 
                 ImGuiIO& io = ImGui::GetIO();
+                ImGuiStyle& style = ImGui::GetStyle();
                 ImFont* boldFont = io.Fonts->Fonts[0];
 
                 ImGui::BeginGroup();
-                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f);
+                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f - style.ItemSpacing.x);
 
                 ImGui::PushFont(boldFont);
                 ImGuiHelper::drawLabel("X");
@@ -115,7 +116,7 @@ namespace Varak {
                            std::string_view format, ImGuiSliderFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::DragFloat("", &value, speed, min, max, format.data(), flags); //
+                return ImGui::DragFloat("##", &value, speed, min, max, format.data(), flags); //
             });
         }
 

@@ -27,9 +27,9 @@ namespace Varak {
         RenderCommand::setViewport(0, 0, width, height); //
     }
 
-    void Renderer::beginScene(const Camera& camera, const glm::mat4& transform)
+    void Renderer::beginScene(const glm::mat4& viewProj)
     {
-        s_sceneData->viewProjection = camera.getProjection() * glm::inverse(transform);
+        s_sceneData->viewProjection = viewProj; //
     }
 
     void Renderer::endScene() {}

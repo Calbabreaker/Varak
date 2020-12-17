@@ -19,7 +19,7 @@ namespace Varak {
 
         static void onWindowResized(uint32_t width, uint32_t height);
 
-        static void beginScene(const Camera& camera, const glm::mat4& transform);
+        static void beginScene(const glm::mat4& viewProj);
         static void endScene();
 
         static void submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader,

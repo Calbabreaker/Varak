@@ -41,9 +41,8 @@ namespace Varak {
         SpriteRendererComponent(const glm::vec4& color) : color(color) {}
     };
 
-    struct CameraComponent
+    struct CameraComponent : public Camera
     {
-        Camera camera;
         bool fixedAspectRatio = false;
         bool primary = true; // TODO: move this into scene
 

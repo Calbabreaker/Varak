@@ -150,14 +150,19 @@ namespace Varak {
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) {
             WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-            MouseScrolledEvent event(static_cast<float>(xOffset), static_cast<float>(yOffset));
+            MouseScrolledEvent event({ static_cast<float>(xOffset), static_cast<float>(yOffset) });
             data.eventCallback(event);
         });
 
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
             WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-            MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
+            glm::vec2 position = { static_cast<float>(xPos), static_cast<float>(yPos) };
+            static glm::vec2 lastMousePos = position;
+            glm::vec2 offset = position - lastMousePos;
+            lastMousePos = position;
+
+            MouseMovedEvent event(offset);
             data.eventCallback(event);
         });
     }

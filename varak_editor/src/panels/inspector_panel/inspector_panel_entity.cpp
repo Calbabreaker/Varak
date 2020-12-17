@@ -64,20 +64,18 @@ namespace Varak {
             ImGuiHelper::drawInputText("", entity.getComponent<IdentifierComponent>().name);
         }
 
-        drawComponent<TransformComponent>("Transform", entity, [](auto& component) {
-            ImGuiHelper::drawVec3Control("Translation", component.translation);
+        drawComponent<TransformComponent>("Transform", entity, [](auto& transform) {
+            ImGuiHelper::drawVec3Control("Translation", transform.translation);
 
-            glm::vec3 rotation = glm::degrees(component.rotation);
+            glm::vec3 rotation = glm::degrees(transform.rotation);
             if (ImGuiHelper::drawVec3Control("Rotation", rotation))
-                component.rotation = glm::radians(rotation);
+                transform.rotation = glm::radians(rotation);
 
-            ImGuiHelper::drawVec3Control("Scale", component.scale, 1.0f);
+            ImGuiHelper::drawVec3Control("Scale", transform.scale, 1.0f);
         });
 
-        drawComponent<CameraComponent>("Camera", entity, [](auto& component) {
-            Camera& camera = component.camera;
-
-            ImGuiHelper::drawCheckbox("Primary", component.primary);
+        drawComponent<CameraComponent>("Camera", entity, [](auto& camera) {
+            ImGuiHelper::drawCheckbox("Primary", camera.primary);
             constexpr const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
             const char* currentProjectionTypeString =
                 projectionTypeStrings[static_cast<int>(camera.getProjectionType())];
@@ -128,12 +126,13 @@ namespace Varak {
                 if (ImGuiHelper::drawDragFloat("Far", orthographicFar))
                     camera.setOrthographicFarClip(orthographicFar);
 
-                ImGuiHelper::drawCheckbox("Fixed Aspect Ratio", component.fixedAspectRatio);
+                ImGuiHelper::drawCheckbox("Fixed Aspect Ratio", camera.fixedAspectRatio);
             }
         });
 
-        drawComponent<SpriteRendererComponent>(
-            "Sprite Renderer", entity, [](auto& component) { ImGuiHelper::drawColorEdit4("Color", component.color); });
+        drawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& sprite) {
+            ImGuiHelper::drawColorEdit4("Color", sprite.color); //
+        });
     }
 
     template <typename Component>

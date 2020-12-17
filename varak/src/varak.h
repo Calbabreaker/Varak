@@ -18,7 +18,7 @@
 #include "varak/imgui/imgui_layer.h"
 
 // -- rendering --
-#include "varak/renderer/camera_controller.h"
+#include "varak/renderer/editor_camera.h"
 #include "varak/renderer/renderer.h"
 #include "varak/renderer/renderer2d.h"
 
