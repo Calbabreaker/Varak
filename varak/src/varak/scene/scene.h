@@ -16,6 +16,8 @@ namespace Varak {
         ~Scene();
 
         void onUpdateEditor(Timestep ts, EditorCamera& camera);
+        void onPlayRuntime();
+        void onStopRuntime();
         void onUpdateRuntime(Timestep ts);
 
         void onViewportResize(uint32_t width, uint32_t height);

@@ -10,6 +10,10 @@ namespace Varak {
 
     namespace ImGuiHelper {
 
+        // disables items within push and pop
+        void pushDisabled(bool disabled = true);
+        void popDisabled(bool disabled = true);
+
         // label on left side instead of right for imgui
         void drawLabel(std::string_view label);
 

@@ -7,9 +7,31 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
+constexpr float disabledAlphaMult = 0.5f;
+
+constexpr float labelIndentWidth = 120.0f;
+
 namespace Varak {
 
     namespace ImGuiHelper {
+
+        void pushDisabled(bool disabled)
+        {
+            if (disabled)
+            {
+                ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * disabledAlphaMult);
+            }
+        }
+
+        void popDisabled(bool disabled)
+        {
+            if (disabled)
+            {
+                ImGui::PopItemFlag();
+                ImGui::PopStyleVar();
+            }
+        }
 
         void drawLabel(std::string_view label)
         {
@@ -24,15 +46,18 @@ namespace Varak {
         {
             ImGui::PushID(label.data());
             bool hasInputed = false;
+
+            // draw label if text is visible
             ImVec2 textSize = ImGui::CalcTextSize(label.data(), static_cast<const char*>(0), true);
             if (textSize.x > 0.0f)
             {
                 drawLabel(label);
                 ImGui::Columns(2, static_cast<const char*>(0), false);
-                ImGui::SetColumnWidth(0, 120.0f);
+                ImGui::SetColumnWidth(0, labelIndentWidth);
                 ImGui::NextColumn();
             }
 
+            // span availiable width
             ImGui::PushItemWidth(-1);
             hasInputed = func();
             ImGui::PopItemWidth();
@@ -51,7 +76,8 @@ namespace Varak {
                 ImFont* boldFont = io.Fonts->Fonts[0];
 
                 ImGui::BeginGroup();
-                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f - style.ItemSpacing.x);
+                ImGui::PushMultiItemsWidths(3,
+                                            ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f - style.ItemSpacing.x);
 
                 ImGui::PushFont(boldFont);
                 ImGuiHelper::drawLabel("X");
@@ -116,7 +142,7 @@ namespace Varak {
                            std::string_view format, ImGuiSliderFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                return ImGui::DragFloat("##", &value, speed, min, max, format.data(), flags); //
+                return ImGui::DragFloat("", &value, speed, min, max, format.data(), flags); //
             });
         }
 

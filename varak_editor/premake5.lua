@@ -16,7 +16,7 @@ project "VarakEditor"
 		"src/**.h",
 		"src/**.cpp",
 		"src/panels/*.cpp"
-  }
+    }
 
     defines
 	{
@@ -30,7 +30,8 @@ project "VarakEditor"
 		"%{vendordir}/spdlog/include",
 		"%{vendordir}/glm",
 		"%{vendordir}/imgui",
-		"%{vendordir}/entt"
+		"%{vendordir}/entt/include",
+		"%{vendordir}/fontawesome/include"
 	}
 
 	links

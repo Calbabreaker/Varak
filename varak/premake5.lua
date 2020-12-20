@@ -35,7 +35,8 @@ project "Varak"
 		"%{vendordir}/glm",
 		"%{vendordir}/imgui",
         "%{vendordir}/stb_image",
-		"%{vendordir}/entt"
+        "%{vendordir}/entt/include",
+		"%{vendordir}/fontawesome/include"
 	}
 
 	links

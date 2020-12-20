@@ -20,10 +20,7 @@ namespace Varak {
         void onEvent(Event& event) override;
 
     private:
-        Ref<Texture> m_vTexture;
-        Ref<Texture> m_patternTexture;
         Ref<FrameBuffer> m_frameBuffer;
-        EditorCamera m_editorCamera;
 
         Ref<Scene> m_scene;
         Entity m_squareEntity;
@@ -31,9 +28,12 @@ namespace Varak {
 
         InspectorPanel m_inspectorPanel;
         SceneHierarchyPanel m_sceneHierarchyPanel;
+        EditorCamera m_editorCamera;
 
         glm::vec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;
+
+        bool m_isPlaying = false;
     };
 
 } // namespace Varak

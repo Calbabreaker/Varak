@@ -1,10 +1,13 @@
 #include "vrpch.h"
 
 #include "editor_layer.h"
+#include "varak/imgui/imgui_helper.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/io.hpp>
+
+#include <fontawesome/fontawesome_icons.h>
 
 #include <imgui.h>
 
@@ -15,9 +18,6 @@ namespace Varak {
     void EditorLayer::onAttach()
     {
         VR_PROFILE_FUNCTION();
-
-        m_vTexture = Texture2D::create("assets/textures/v.png");
-        m_patternTexture = Texture2D::create("assets/textures/pattern.png");
 
         Window& window = Application::get().getWindow();
         uint32_t width = window.getWidth();
@@ -31,14 +31,13 @@ namespace Varak {
         m_frameBuffer = FrameBuffer::create(props);
 
         m_scene = createRef<Scene>(width, height);
-        m_squareEntity = m_scene->createEntity();
+        m_sceneHierarchyPanel.setScene(m_scene);
 
+        m_squareEntity = m_scene->createEntity();
         m_squareEntity.addComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
         m_cameraEntity = m_scene->createEntity("Camera");
-        auto& camera = m_cameraEntity.addComponent<CameraComponent>();
-
-        m_sceneHierarchyPanel.setScene(m_scene);
+        m_cameraEntity.addComponent<CameraComponent>();
     }
 
     void EditorLayer::onDetach()
@@ -74,7 +73,10 @@ namespace Varak {
 
         Renderer2D::resetStats();
 
-        m_scene->onUpdateEditor(ts, m_editorCamera);
+        if (m_isPlaying)
+            m_scene->onUpdateRuntime(ts);
+        else
+            m_scene->onUpdateEditor(ts, m_editorCamera);
 
         m_frameBuffer->unbind();
     }
@@ -84,9 +86,9 @@ namespace Varak {
         VR_PROFILE_FUNCTION();
 
         static bool dockSpaceOpen = true;
-        static ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
-
-        ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
+        ImGuiIO& io = ImGui::GetIO();
+        ImGuiStyle& style = ImGui::GetStyle();
 
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->GetWorkPos());
@@ -105,18 +107,21 @@ namespace Varak {
         ImGui::PopStyleVar(2);
 
         // DockSpace
-        ImGuiIO& io = ImGui::GetIO();
         ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(300.0f, 50.0f));
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
             ImGuiID dockspaceId = ImGui::GetID("DockSpace");
-            ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
+            ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
         }
 
         ImGui::PopStyleVar();
 
-        if (ImGui::BeginMenuBar())
+        // Menu Bar
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f)); // for menubar
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+        if (ImGui::BeginMainMenuBar())
         {
+            // Dropdowns
             if (ImGui::BeginMenu("File"))
             {
                 if (ImGui::MenuItem("Exit"))
@@ -125,8 +130,29 @@ namespace Varak {
                 ImGui::EndMenu();
             }
 
-            ImGui::EndMenuBar();
+            // Play, pause, stop scene
+            ImGuiHelper::pushDisabled(m_isPlaying);
+            if (ImGui::Button(ICON_FA_PLAY))
+            {
+                m_isPlaying = true;
+                m_scene->onPlayRuntime();
+                ImGuiHelper::pushDisabled();
+            }
+            ImGuiHelper::popDisabled(m_isPlaying);
+
+            ImGuiHelper::pushDisabled(!m_isPlaying);
+            if (ImGui::Button(ICON_FA_STOP))
+            {
+                m_isPlaying = false;
+                m_scene->onStopRuntime();
+                ImGuiHelper::pushDisabled();
+            }
+            ImGuiHelper::popDisabled(!m_isPlaying);
+
+            ImGui::EndMainMenuBar();
         }
+
+        ImGui::PopStyleVar(2);
 
         m_sceneHierarchyPanel.onImGuiRender();
         m_inspectorPanel.onImGuiRender();
@@ -157,6 +183,8 @@ namespace Varak {
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
+
+        ImGui::ShowDemoWindow();
 
         ImGui::End(); // Dockspace
     }

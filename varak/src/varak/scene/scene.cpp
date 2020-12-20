@@ -32,6 +32,15 @@ namespace Varak {
         Renderer2D::endScene();
     }
 
+    void Scene::onPlayRuntime()
+    {
+        VR_CORE_INFO("played"); //
+    }
+
+void Scene::onStopRuntime() {
+    VR_CORE_INFO("stoped"); //
+}
+
     void Scene::onUpdateRuntime(Timestep ts)
     {
         // render 2d
