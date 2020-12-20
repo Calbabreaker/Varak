@@ -33,7 +33,7 @@ namespace Varak {
         ImFontConfig fontConfig;
         fontConfig.MergeMode = true;
         static ImWchar iconRanges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-        io.Fonts->AddFontFromFileTTF("assets/fonts/fontawesome/fa-solid-900.ttf", 16.0f, &fontConfig, iconRanges);
+        io.Fonts->AddFontFromFileTTF("assets/fonts/fontawesome/fa-solid-900.ttf", 12.0f, &fontConfig, iconRanges);
 
         ImGuiStyle& style = ImGui::GetStyle();
         style.FrameRounding = 2.0f;

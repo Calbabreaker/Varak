@@ -4,10 +4,12 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <imgui_internal.h>
 
-constexpr float disabledAlphaMult = 0.5f;
+constexpr float disabledAlphaMult = 0.3f;
 
 constexpr float labelIndentWidth = 120.0f;
 
@@ -48,11 +50,10 @@ namespace Varak {
             bool hasInputed = false;
 
             // draw label if text is visible
-            ImVec2 textSize = ImGui::CalcTextSize(label.data(), static_cast<const char*>(0), true);
+            ImVec2 textSize = ImGui::CalcTextSize(label.data(), nullptr, true);
             if (textSize.x > 0.0f)
             {
                 drawLabel(label);
-                ImGui::Columns(2, static_cast<const char*>(0), false);
                 ImGui::SetColumnWidth(0, labelIndentWidth);
                 ImGui::NextColumn();
             }
@@ -113,13 +114,12 @@ namespace Varak {
 
                 bool hasInputed = false;
                 ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-                if (ImGui::InputText("", buffer, sizeof(buffer), flags))
-                {
-                    text = std::string(buffer);
-                    hasInputed = true;
-                }
-
+                hasInputed = ImGui::InputText("", buffer, sizeof(buffer), flags);
                 ImGui::PopStyleVar();
+
+                if (hasInputed)
+                    text = std::string(buffer);
+
                 return hasInputed;
             });
         }
@@ -150,6 +150,22 @@ namespace Varak {
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
                 return ImGui::ColorEdit4("", glm::value_ptr(values), flags); //
+            });
+        }
+
+        bool drawClickableText(std::string_view label, std::string_view text)
+        {
+            return ImGuiHelper::inputWithLabel(label, [&]() {
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+                bool hasInputed = false;
+                hasInputed = ImGui::Button(text.data());
+
+                ImGui::PopStyleColor(3);
+
+                return hasInputed;
             });
         }
 

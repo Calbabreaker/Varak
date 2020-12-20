@@ -25,6 +25,7 @@ namespace Varak {
         bool drawDragFloat(std::string_view label, float& value, float speed = 1.0f, float min = 0.0f,
                            float max = 0.0f, std::string_view format = "%.3f", ImGuiSliderFlags flags = 0);
         bool drawColorEdit4(std::string_view label, glm::vec4& values, ImGuiColorEditFlags flags = 0);
+        bool drawClickableText(std::string_view label, std::string_view text);
 
     } // namespace ImGuiHelper
 

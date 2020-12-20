@@ -154,7 +154,7 @@ namespace Varak {
 
         float availWidth = ImGui::GetContentRegionAvail().x;
         ImVec2 buttonSize(availWidth / 2.0f, 0.0f);
-        ImGui::Indent(availWidth / 2 - buttonSize.x / 2);
+        ImGui::Indent(availWidth / 2.0f - buttonSize.x / 2.0f);
 
         if (ImGui::Button("Add Component", buttonSize))
             ImGui::OpenPopup("AddComponent");

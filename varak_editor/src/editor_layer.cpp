@@ -132,7 +132,8 @@ namespace Varak {
 
             // Play, pause, stop scene
             ImGuiHelper::pushDisabled(m_isPlaying);
-            if (ImGui::Button(ICON_FA_PLAY))
+            ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x / 2.0f - ImGui::CalcTextSize(ICON_FA_PLAY).x * 2.0f);
+            if (ImGuiHelper::drawClickableText("##play", ICON_FA_PLAY))
             {
                 m_isPlaying = true;
                 m_scene->onPlayRuntime();
@@ -141,7 +142,7 @@ namespace Varak {
             ImGuiHelper::popDisabled(m_isPlaying);
 
             ImGuiHelper::pushDisabled(!m_isPlaying);
-            if (ImGui::Button(ICON_FA_STOP))
+            if (ImGuiHelper::drawClickableText("##stop", ICON_FA_STOP))
             {
                 m_isPlaying = false;
                 m_scene->onStopRuntime();
