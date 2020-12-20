@@ -7,10 +7,10 @@
 #include "varak/scene/components.h"
 #include "varak/scene/entity.h"
 
+#include <fontawesome/fontawesome_icons.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
-#include <imgui_internal.h>
 
 namespace Varak {
 
@@ -23,10 +23,11 @@ namespace Varak {
         if (entity.hasComponent<Component>())
         {
             auto& component = entity.getComponent<Component>();
+            ImGuiStyle& style = ImGui::GetStyle();
             ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
-            float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2;
+            float lineHeight = ImGui::GetFontSize() + style.FramePadding.y * 2;
             ImGui::Separator();
             bool opened =
                 ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(Component).hash_code()), treeNodeFlags, name.c_str());
@@ -34,7 +35,8 @@ namespace Varak {
 
             ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 
-            if (ImGui::Button("+", ImVec2(lineHeight, lineHeight)))
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Right) ||
+                ImGuiHelper::drawClickableText("##extra", ICON_FA_ELLIPSIS_V, ImVec2(lineHeight, lineHeight)))
                 ImGui::OpenPopup("ComponentSettings");
 
             bool removeComponent = false;

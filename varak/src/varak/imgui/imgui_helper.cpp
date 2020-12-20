@@ -11,7 +11,7 @@
 
 constexpr float disabledAlphaMult = 0.3f;
 
-constexpr float labelIndentWidth = 120.0f;
+constexpr float labelIndentWidth = 160.0f;
 
 namespace Varak {
 
@@ -54,16 +54,23 @@ namespace Varak {
             if (textSize.x > 0.0f)
             {
                 drawLabel(label);
-                ImGui::SetColumnWidth(0, labelIndentWidth);
-                ImGui::NextColumn();
+                ImGui::SameLine(labelIndentWidth);
             }
 
             // span availiable width
             ImGui::PushItemWidth(-1);
+
+            // save window to pop because of potential popup
+            ImGuiWindow* window = ImGui::GetCurrentWindow();
             hasInputed = func();
-            ImGui::PopItemWidth();
-            ImGui::Columns(1);
-            ImGui::PopID();
+
+            // item width
+            window->DC.ItemWidthStack.pop_back();
+            window->DC.ItemWidth =
+                window->DC.ItemWidthStack.empty() ? window->ItemWidthDefault : window->DC.ItemWidthStack.back();
+            // pop id
+            window->IDStack.pop_back();
+            
             return hasInputed;
         }
 
@@ -153,7 +160,7 @@ namespace Varak {
             });
         }
 
-        bool drawClickableText(std::string_view label, std::string_view text)
+        bool drawClickableText(std::string_view label, std::string_view text, const ImVec2& size)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
@@ -161,7 +168,7 @@ namespace Varak {
                 ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
                 bool hasInputed = false;
-                hasInputed = ImGui::Button(text.data());
+                hasInputed = ImGui::Button(text.data(), size);
 
                 ImGui::PopStyleColor(3);
 
