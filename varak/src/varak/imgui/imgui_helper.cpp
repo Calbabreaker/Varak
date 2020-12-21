@@ -64,7 +64,7 @@ namespace Varak {
             ImGuiWindow* window = ImGui::GetCurrentWindow();
             hasInputed = func();
 
-            // item width
+            // pop item width
             window->DC.ItemWidthStack.pop_back();
             window->DC.ItemWidth =
                 window->DC.ItemWidthStack.empty() ? window->ItemWidthDefault : window->DC.ItemWidthStack.back();
@@ -160,19 +160,38 @@ namespace Varak {
             });
         }
 
-        bool drawClickableText(std::string_view label, std::string_view text, const ImVec2& size)
+        bool drawClickableText(std::string_view label, std::string_view text, const ImVec2& sizeArg, ImGuiButtonFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+                ImGuiWindow* window = ImGui::GetCurrentWindow();
+                ImGuiStyle& style = ImGui::GetStyle();
+                ImGuiID id = window->GetID(text.data());
+                ImVec2 textSize = ImGui::CalcTextSize(text.data(), nullptr, true);
 
-                bool hasInputed = false;
-                hasInputed = ImGui::Button(text.data(), size);
+                ImVec2 pos = window->DC.CursorPos;
+                    pos.y += window->DC.CurrLineTextBaseOffset - style.FramePadding.y;
+                ImVec2 size = ImGui::CalcItemSize(sizeArg, textSize.x + style.FramePadding.x * 2.0f,
+                                           textSize.y + style.FramePadding.y * 2.0f);
 
-                ImGui::PopStyleColor(3);
+                const ImRect bb(pos, pos + size);
+                ImGui::ItemSize(size, style.FramePadding.y);
+                if (!ImGui::ItemAdd(bb, id))
+                    return false;
 
-                return hasInputed;
+                if (window->DC.ItemFlags & ImGuiItemFlags_ButtonRepeat)
+                    flags |= ImGuiButtonFlags_Repeat;
+                bool hovered, held;
+                bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, flags);
+
+                // Render
+                if (hovered)
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.26f, 0.59f, 0.98f, 1.00f));
+                ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, text.data(), nullptr, &textSize,
+                                  style.ButtonTextAlign, &bb);
+                if (hovered)
+                    ImGui::PopStyleColor();
+
+                return pressed;
             });
         }
 
