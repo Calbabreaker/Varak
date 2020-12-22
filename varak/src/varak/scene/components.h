@@ -23,7 +23,7 @@ namespace Varak {
 
         TransformComponent() = default;
 
-        glm::mat4 getTransform() const
+        glm::mat4 getMatrix() const
         {
             glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f }) *
                                        glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f }) *

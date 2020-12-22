@@ -26,7 +26,7 @@ namespace Varak {
         for (auto entity : group)
         {
             auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::drawRect(transformComponent.getTransform(), spriteComponent.color);
+            Renderer2D::drawRect(transformComponent.getMatrix(), spriteComponent.color);
         }
 
         Renderer2D::endScene();
@@ -37,9 +37,10 @@ namespace Varak {
         VR_CORE_INFO("played"); //
     }
 
-void Scene::onStopRuntime() {
-    VR_CORE_INFO("stoped"); //
-}
+    void Scene::onStopRuntime()
+    {
+        VR_CORE_INFO("stoped"); //
+    }
 
     void Scene::onUpdateRuntime(Timestep ts)
     {
@@ -58,7 +59,7 @@ void Scene::onStopRuntime() {
                 if (cameraComponent.primary)
                 {
                     mainCamera = &cameraComponent;
-                    cameraTransform = transformComponent.getTransform();
+                    cameraTransform = transformComponent.getMatrix();
                     break;
                 }
             }
@@ -75,7 +76,7 @@ void Scene::onStopRuntime() {
             {
                 auto [transformComponent, spriteComponent] =
                     group.get<TransformComponent, SpriteRendererComponent>(entity);
-                Renderer2D::drawRect(transformComponent.getTransform(), spriteComponent.color);
+                Renderer2D::drawRect(transformComponent.getMatrix(), spriteComponent.color);
             }
 
             Renderer2D::endScene();

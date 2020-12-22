@@ -60,5 +60,4 @@ project "Varak"
 	filter "configurations:Distribution"
 		defines "VR_DISTRIBUTION"
 		runtime "Release"
-		optimize "on"
-
+        optimize "on"
