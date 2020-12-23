@@ -1,5 +1,6 @@
 # build output
-build/
+bin/
+obj_files/
 
 # varak output
 **.log

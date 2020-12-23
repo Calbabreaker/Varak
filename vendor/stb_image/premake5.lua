@@ -5,8 +5,8 @@ project "stb_image"
     staticruntime "on"
     systemversion "latest"
 
-    targetdir ("%{outputdir}/%{prj.name}")
-	objdir ("%{outputdir}/premake_files/%{prj.name}")
+	targetdir(binDir)
+	objdir(objFilesDir)
 
     files 
     {
@@ -23,6 +23,6 @@ project "stb_image"
 		runtime "Debug"
 		symbols "on"
 
-	filter "configurations:Release"
+	filter "configurations:Release or Distribution"
 		runtime "Release"
 		optimize "on"

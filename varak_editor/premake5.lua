@@ -5,8 +5,8 @@ project "VarakEditor"
 	staticruntime "on"
 	systemversion "latest"
 
-	targetdir ("%{outputdir}/%{prj.name}")
-    objdir ("%{outputdir}/premake_files/%{prj.name}")
+	targetdir(binDir)
+	objdir(objFilesDir)
     
     pchheader "vrpch.h"
     pchsource "src/vrpch.cpp"
@@ -25,13 +25,13 @@ project "VarakEditor"
     
 	includedirs 
 	{
-		"%{varakdir}/src",
+		"%{varakDir}/src",
 		
-		"%{vendordir}/spdlog/include",
-		"%{vendordir}/glm",
-		"%{vendordir}/imgui",
-		"%{vendordir}/entt/include",
-		"%{vendordir}/fontawesome/include"
+		"%{vendorDir}/spdlog/include",
+		"%{vendorDir}/glm",
+		"%{vendorDir}/imgui",
+		"%{vendorDir}/entt/include",
+		"%{vendorDir}/fontawesome/include"
 	}
 
 	links

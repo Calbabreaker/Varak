@@ -7,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/io.hpp>
 
-#include <fontawesome/fontawesome_icons.h>
+#include <fontawesome/fontawesome5_icons.h>
 
 #include <imgui.h>
 

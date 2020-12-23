@@ -20,8 +20,9 @@ workspace "Varak"
         ".editorconfig"
     }
 
-outputdir = "%{wks.location}/build/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-vendordir = "%{wks.location}/vendor"
+binDir = "%{wks.location}/bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+objFilesDir = "%{wks.location}/obj_files/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
+vendorDir = "%{wks.location}/vendor"
 
 group "Vendor"
 	include "vendor/glfw"

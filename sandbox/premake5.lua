@@ -5,8 +5,8 @@ project "Sandbox"
 	staticruntime "on"
 	systemversion "latest"
 
-	targetdir ("%{outputdir}/%{prj.name}")
-	objdir ("%{outputdir}/premake_files/%{prj.name}")
+	targetdir(binDir)
+	objdir(objFilesDir)
 
 	files 
 	{
@@ -16,12 +16,12 @@ project "Sandbox"
 
 	includedirs 
 	{
-		"%{varakdir}/src",
+		"%{varakDir}/src",
 		
-		"%{vendordir}/spdlog/include",
-        "%{vendordir}/glm",
-        "%{vendordir}/imgui",
-		"%{vendordir}/entt"
+		"%{vendorDir}/spdlog/include",
+        "%{vendorDir}/glm",
+        "%{vendorDir}/imgui",
+		"%{vendorDir}/entt"
 	}
 
 	links

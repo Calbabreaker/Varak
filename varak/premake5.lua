@@ -1,4 +1,4 @@
-varakdir = "%{wks.location}/varak"
+varakDir = "%{wks.location}/varak"
 
 project "Varak"
 	kind "StaticLib"
@@ -7,8 +7,8 @@ project "Varak"
 	staticruntime "on"
 	systemversion "latest"
 
-	targetdir ("%{outputdir}/%{prj.name}")
-	objdir ("%{outputdir}/premake_files/%{prj.name}")
+	targetdir(binDir)
+	objdir(objFilesDir)
 
 	pchheader "vrpch.h"
 	pchsource "src/vrpch.cpp"
@@ -29,14 +29,14 @@ project "Varak"
 	{
 		"src",
 		
-		"%{vendordir}/spdlog/include",
-		"%{vendordir}/glad/include",
-		"%{vendordir}/glfw/include",
-		"%{vendordir}/glm",
-		"%{vendordir}/imgui",
-        "%{vendordir}/stb_image",
-        "%{vendordir}/entt/include",
-		"%{vendordir}/fontawesome/include"
+		"%{vendorDir}/spdlog/include",
+		"%{vendorDir}/glad/include",
+		"%{vendorDir}/glfw/include",
+		"%{vendorDir}/glm",
+		"%{vendorDir}/imgui",
+        "%{vendorDir}/stb_image",
+        "%{vendorDir}/entt/include",
+		"%{vendorDir}/fontawesome/include"
 	}
 
 	links
