@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
-
 #include "varak/core/base.h"
+
+#include <string>
 
 namespace Varak {
 

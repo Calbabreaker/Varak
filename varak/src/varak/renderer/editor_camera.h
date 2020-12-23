@@ -20,7 +20,7 @@ namespace Varak {
 
         void setViewportSize(uint32_t width, uint32_t height) override;
 
-        const glm::mat4& getViewProjection() const { return m_viewProjection; }
+        glm::mat4 getViewProjection() const;
 
         glm::vec3 getPosition() const { return m_focalPoint - getForwardDirection() * m_distance; }
         glm::vec3 getUpDirection() const { return glm::rotate(getOrientation(), glm::vec3(0.0f, 1.0f, 0.0f)); }
@@ -29,8 +29,6 @@ namespace Varak {
         glm::quat getOrientation() const { return glm::quat(glm::vec3(m_yaw, m_pitch, 0.0f)); }
 
     private:
-        void updateViewProjection();
-
         void calcMousePan(const glm::vec2& offset);
         void calcMouseRotate(const glm::vec2& offset);
         void calcMouseZoom(float offset);
@@ -39,8 +37,6 @@ namespace Varak {
         bool onMouseScrolled(MouseScrolledEvent& event);
 
     private:
-        glm::mat4 m_viewProjection;
-
         float m_rotationSpeed = 0.8f;
         glm::vec2 m_panSpeed = { 0.0f, 0.0f };
 

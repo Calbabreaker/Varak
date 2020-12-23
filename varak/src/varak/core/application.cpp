@@ -30,7 +30,13 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        Renderer::shutdown(); 
+        for (Layer* layer : m_layerStack)
+        {
+            layer->onDetach();
+            delete layer;
+        }
+
+        Renderer::shutdown();
     }
 
     void Application::run()
@@ -97,6 +103,26 @@ namespace Varak {
 
         m_layerStack.pushOverlay(overlay);
         overlay->onAttach();
+    }
+
+    void Application::popLayer(Layer* layer)
+    {
+        VR_PROFILE_FUNCTION();
+
+        if (m_layerStack.popLayer(layer))
+            layer->onDetach();
+        else
+            VR_CORE_ASSERT_MSG(false, "Failed to pop layer!");
+    }
+
+    void Application::popOverlay(Layer* overlay)
+    {
+        VR_PROFILE_FUNCTION();
+
+        if (m_layerStack.popLayer(overlay))
+            overlay->onDetach();
+        else
+            VR_CORE_ASSERT_MSG(false, "Failed to pop overlay!");
     }
 
     void Application::close()

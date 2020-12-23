@@ -1,5 +1,10 @@
 #pragma once
 
+#include "varak/core/base.h"
+
+#include <string>
+#include <vector>
+
 namespace Varak {
 
     enum class ShaderDataType

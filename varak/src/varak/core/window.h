@@ -3,6 +3,9 @@
 #include "varak/core/base.h"
 #include "varak/events/event.h"
 
+#include <functional>
+#include <string>
+
 namespace Varak {
 
     struct WindowProperties

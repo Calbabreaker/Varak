@@ -1,10 +1,13 @@
 #pragma once
 
+#include "varak/core/base.h"
 #include "varak/core/layer_stack.h"
 #include "varak/core/window.h"
 
 #include "varak/events/window_event.h"
 #include "varak/imgui/imgui_layer.h"
+
+#include <string>
 
 namespace Varak {
 
@@ -20,6 +23,8 @@ namespace Varak {
 
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* overlay);
+        void popLayer(Layer* layer);
+        void popOverlay(Layer* overlay);
 
         void close();
 

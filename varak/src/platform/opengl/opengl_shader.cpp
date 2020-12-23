@@ -35,21 +35,21 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        glDeleteProgram(m_rendererID); //
+        glDeleteProgram(m_rendererID);
     }
 
     void OpenGLShader::bind() const
     {
         VR_PROFILE_FUNCTION();
 
-        glUseProgram(m_rendererID); //
+        glUseProgram(m_rendererID);
     }
 
     void OpenGLShader::unbind() const
     {
         VR_PROFILE_FUNCTION();
 
-        glUseProgram(GL_NONE); //
+        glUseProgram(GL_NONE);
     }
 
     void OpenGLShader::setFloat1(const std::string& name, float value)
@@ -117,8 +117,7 @@ namespace Varak {
             glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled);
             if (isCompiled == GL_FALSE)
             {
-                // no need to get error because error callback will be called
-                // with error message anyways
+                // no need to get error because error callback will log error message anyways
 
                 VR_CORE_ASSERT_MSG(false, "Failed to compile a shader in '{0}' shader!", m_name);
                 break;
@@ -136,6 +135,7 @@ namespace Varak {
         glGetProgramiv(m_rendererID, GL_LINK_STATUS, &isLinked);
         if (isLinked == GL_FALSE)
         {
+            // clean up
             glDeleteProgram(m_rendererID);
             for (auto shaderID : shaderIDs)
                 glDeleteShader(shaderID);

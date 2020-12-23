@@ -9,8 +9,7 @@ namespace Varak {
 
     EditorCamera::EditorCamera()
     {
-        setProjectionType(Camera::ProjectionType::Perpective);
-        updateViewProjection();
+        projectionType = Camera::ProjectionType::Perpective;
     }
 
     void EditorCamera::onUpdate(Timestep ts) {}
@@ -33,22 +32,20 @@ namespace Varak {
         m_panSpeed = { xFactor, yFactor };
 
         Camera::setViewportSize(width, height);
-        updateViewProjection();
     }
 
-    void EditorCamera::updateViewProjection()
+    glm::mat4 EditorCamera::getViewProjection() const
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), getPosition()) * glm::toMat4(getOrientation());
         glm::mat4 view = glm::inverse(transform);
 
-        m_viewProjection = getProjection() * view;
+        return getProjection() * view;
     }
 
     void EditorCamera::calcMousePan(const glm::vec2& offset)
     {
         m_focalPoint += -getRightDirection() * offset.x * m_panSpeed.x * m_distance;
         m_focalPoint += getUpDirection() * offset.y * m_panSpeed.y * m_distance;
-        updateViewProjection();
     }
 
     void EditorCamera::calcMouseRotate(const glm::vec2& offset)
@@ -56,7 +53,6 @@ namespace Varak {
         float yawSign = glm::sign(getUpDirection().y);
         m_yaw -= yawSign * offset.y * m_rotationSpeed;
         m_pitch -= offset.x * m_rotationSpeed;
-        updateViewProjection();
     }
 
     void EditorCamera::calcMouseZoom(float offset)
@@ -70,8 +66,6 @@ namespace Varak {
             m_focalPoint += getForwardDirection();
             m_distance = 1.0f;
         }
-
-        updateViewProjection();
     }
 
     bool EditorCamera::onMouseMoved(MouseMovedEvent& event)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "varak/core/base.h"
+
 namespace Varak {
 
     struct FrameBufferProperties
