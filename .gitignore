@@ -4,6 +4,7 @@ obj_files/
 
 # varak output
 **.log
+**/imgui.ini
 
 # visual studio files
 .vs/
