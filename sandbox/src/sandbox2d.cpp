@@ -8,11 +8,6 @@
 Sandbox2D::Sandbox2D()
 {
     VR_PROFILE_FUNCTION();
-
-    Varak::Window& window = Varak::Application::get().getWindow();
-    float aspectRatio = static_cast<float>(window.getWidth()) / static_cast<float>(window.getHeight());
-
-    m_cameraController = Varak::createScope<Varak::CameraController>(aspectRatio);
 }
 
 void Sandbox2D::onAttach()
@@ -21,6 +16,9 @@ void Sandbox2D::onAttach()
 
     m_vTexture = Varak::Texture2D::create("assets/textures/v.png");
     m_patternTexture = Varak::Texture2D::create("assets/textures/pattern.png");
+
+    Varak::Window& window = Varak::Application::get().getWindow();
+    m_editorCamera.setViewportSize(window.getWidth(), window.getHeight());
 }
 
 void Sandbox2D::onDetach()
@@ -36,7 +34,7 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
     {
         VR_PROFILE_SCOPE("Update");
 
-        m_cameraController->onUpdate(ts);
+        m_editorCamera.onUpdate(ts);
     }
 
     // render
@@ -63,7 +61,7 @@ void Sandbox2D::onUpdate(Varak::Timestep ts)
             colorIncrease = 0.5f;
 
         Varak::Renderer2D::resetStats();
-        Varak::Renderer2D::beginScene(m_cameraController->getCamera(), , m_cameraController->getTransform());
+        Varak::Renderer2D::beginScene(m_editorCamera.getViewProjection());
 
         for (uint32_t x = 0; x < 10; x++)
         {
@@ -106,5 +104,14 @@ void Sandbox2D::onImGuiRender()
 
 void Sandbox2D::onEvent(Varak::Event& event)
 {
-    m_cameraController->onEvent(event);
+    Varak::EventDispatcher dispatcher(event);
+    dispatcher.dispatch<Varak::WindowResizedEvent>(VR_BIND_FUNC(Sandbox2D::onWindowResizedEvent));
+
+    m_editorCamera.onEvent(event);
+}
+
+bool Sandbox2D::onWindowResizedEvent(Varak::WindowResizedEvent& event)
+{
+    m_editorCamera.setViewportSize(event.getWidth(), event.getHeight());
+    return false;
 }

@@ -15,10 +15,13 @@ public:
     void onEvent(Varak::Event& event) override;
 
 private:
+    bool onWindowResizedEvent(Varak::WindowResizedEvent& event);
+
+private:
     Varak::Ref<Varak::Texture> m_vTexture;
     Varak::Ref<Varak::Texture> m_patternTexture;
 
-    Varak::Scope<Varak::CameraController> m_cameraController;
+    Varak::EditorCamera m_editorCamera;
 
     glm::vec4 m_squareColor = { 0.0f, 0.4f, 0.2f, 1.0f };
 };
