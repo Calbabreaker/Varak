@@ -26,7 +26,11 @@ project "Sandbox"
 
 	links
 	{
-		"Varak"
+		"Varak",
+		"ImGui",
+		"Glad",
+        "GLFW",
+        "stb_image"
 	}
 
 	filter "configurations:Debug"

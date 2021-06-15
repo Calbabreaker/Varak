@@ -15,7 +15,7 @@ namespace Varak {
             {
             case GL_DEBUG_SEVERITY_LOW: VR_CORE_WARN(message); return;
             case GL_DEBUG_SEVERITY_MEDIUM: VR_CORE_ERROR(message); return;
-            case GL_DEBUG_SEVERITY_HIGH: VR_CORE_ASSERT_MSG(false, message); return;
+            case GL_DEBUG_SEVERITY_HIGH: VR_CORE_CRITICAL(message); return;
             case GL_DEBUG_SEVERITY_NOTIFICATION: VR_CORE_TRACE(message); return;
             }
 

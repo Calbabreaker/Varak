@@ -79,9 +79,6 @@ static inline void VR_DEBUGBREAK(void)
             #endif
         #endif
     #endif
-    #if !defined(VR_DEBUGBREAK)
-        #error "Debugbreak not supported on platform!"
-    #endif
 
     // VR_ASSERT will only have the expression, while VR_ASSERT_MSG will have
     // both the expression and a message. Core and app will have different
@@ -91,17 +88,17 @@ static inline void VR_DEBUGBREAK(void)
         VR##type##ERROR(__VA_ARGS__), VR_DEBUGBREAK()
 
     #define VR_INTERNAL_ASSERT_MSG_IMPL(type, expr, msg, ...)                                                          \
-        VR_INTERNAL_ASSERT_IMPL(type, expr, std::string("Assertion failed: ") + msg, __VA_ARGS__)
+        VR_INTERNAL_ASSERT_IMPL(type, expr, "Assertion failed: " msg, ##__VA_ARGS__)
 
     #define VR_INTERNAL_ASSERT_NO_MSG_IMPL(type, expr)                                                                 \
         VR_INTERNAL_ASSERT_IMPL(type, expr, "Assertion '{0}' failed at: {1}:{2}", #expr,                               \
                                 std::filesystem::path(__FILE__).filename().string(), __LINE__)
 
     #define VR_CORE_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_CORE_, expr)
-    #define VR_CORE_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_CORE_, expr, msg, __VA_ARGS__)
+    #define VR_CORE_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_CORE_, expr, msg, ##__VA_ARGS__)
 
-    #define VR_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_, expr);
-    #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, __VA_ARGS__)
+    #define VR_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_, expr)
+    #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, ##__VA_ARGS__)
 
 #else
     #define VR_CORE_ASSERT(expr, ...)

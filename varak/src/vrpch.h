@@ -22,6 +22,3 @@
 #include "varak/core/log.h"
 #include "varak/debug/instrumentor.h"
 
-#ifdef VR_PLATFORM_WINDOWS
-    #include <Windows.h>
-#endif
