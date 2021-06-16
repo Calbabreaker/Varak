@@ -1,4 +1,6 @@
 #include "vrpch.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 #include "varak/renderer/texture.h"
 

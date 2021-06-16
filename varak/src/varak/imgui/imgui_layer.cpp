@@ -1,13 +1,13 @@
 #include "vrpch.h"
 
+#include "varak/core/application.h"
+#include "varak/imgui/fontawesome5_icons.h"
+#include "varak/imgui/imgui_impl_glfw.h"
+#include "varak/imgui/imgui_impl_opengl3.h"
 #include "varak/imgui/imgui_layer.h"
 
-#include "varak/core/application.h"
-
 #include <GLFW/glfw3.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
-#include <fontawesome/fontawesome5_icons.h>
+#include <imgui.h>
 
 namespace Varak {
 

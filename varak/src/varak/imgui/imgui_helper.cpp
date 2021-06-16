@@ -178,8 +178,6 @@ namespace Varak {
                 if (!ImGui::ItemAdd(bb, id))
                     return false;
 
-                if (window->DC.ItemFlags & ImGuiItemFlags_ButtonRepeat)
-                    flags |= ImGuiButtonFlags_Repeat;
                 bool hovered, held;
                 bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, flags);
 

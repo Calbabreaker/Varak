@@ -1,11 +1,11 @@
-// include this only in your main sandbox app cpp file
+// include this only in your main app cpp file
 
 #include "varak/core/application.h"
 #include "varak/core/base.h"
 
 #include "varak/debug/instrumentor.h"
 
-int main(int argc, char* argv)
+int main(int argc, char** argv)
 {
     Varak::Log::init();
 

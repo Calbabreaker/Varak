@@ -39,10 +39,16 @@ namespace Varak {
         {
             VR_PROFILE_SCOPE("glfwCreateWindow - WindowsWindow::WindowsWindow");
 
+            if (Renderer::getAPI() == RendererAPI::API::OpenGL) 
+            {
+                // make glfw use OpenGL 4.5
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef VR_DEBUG
-            if (Renderer::getAPI() == RendererAPI::API::OpenGL)
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
+            }
 
             m_window = glfwCreateWindow(static_cast<int>(m_data.width), static_cast<int>(m_data.height),
                                         m_data.title.c_str(), nullptr, nullptr);

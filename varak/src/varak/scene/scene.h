@@ -3,7 +3,7 @@
 #include "varak/core/timestep.h"
 #include "varak/renderer/editor_camera.h"
 
-#include <entt.hpp>
+#include <entt/entt.hpp>
 
 namespace Varak {
 

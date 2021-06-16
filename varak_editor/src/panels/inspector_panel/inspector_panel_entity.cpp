@@ -7,7 +7,7 @@
 #include "varak/scene/components.h"
 #include "varak/scene/entity.h"
 
-#include <fontawesome/fontawesome5_icons.h>
+#include <varak/imgui/fontawesome5_icons.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>

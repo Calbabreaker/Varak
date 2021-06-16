@@ -101,7 +101,11 @@ static inline void VR_DEBUGBREAK(void)
     #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, ##__VA_ARGS__)
 
 #else
-    #define VR_CORE_ASSERT(expr, ...)
-    #define VR_ASSERT(expr, ...)
+    #define VR_CORE_ASSERT(expr)
+    #define VR_CORE_ASSERT_MSG(expr, ...)
+
+    #define VR_ASSERT(expr)
+    #define VR_ASSERT_MSG(expr, ...)
+
     #define VR_DEBUGBREAK()
 #endif

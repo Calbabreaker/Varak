@@ -36,7 +36,7 @@ namespace Varak {
         template <typename Component>
         bool hasComponent()
         {
-            return m_scene->m_registry.has<Component>(m_handle);
+            return m_scene->m_registry.any_of<Component>(m_handle);
         }
 
         operator entt::entity() { return m_handle; }
