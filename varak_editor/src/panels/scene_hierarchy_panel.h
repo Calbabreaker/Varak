@@ -1,9 +1,5 @@
 #pragma once
 
-#include "varak/scene/components.h"
-#include "varak/scene/entity.h"
-#include "varak/scene/scene.h"
-
 #include "inspector_panel/inspector_panel.h"
 
 namespace Varak {

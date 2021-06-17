@@ -1,7 +1,4 @@
-#include "vrpch.h"
-
 #include "editor_layer.h"
-#include "varak/imgui/imgui_helper.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -81,9 +78,11 @@ namespace Varak {
         m_frameBuffer->unbind();
     }
 
-    void EditorLayer::onImGuiRender()
+    void EditorLayer::Render()
     {
         VR_PROFILE_FUNCTION();
+
+        beginImGui();
 
         static bool dockSpaceOpen = true;
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
@@ -173,7 +172,7 @@ namespace Varak {
 
         m_viewportFocused = ImGui::IsWindowFocused();
         m_viewportHovered = ImGui::IsWindowHovered();
-        Application::get().getImGuiLayer()->blockEvents(!m_viewportHovered || !m_viewportFocused);
+        blockEvents(!m_viewportHovered || !m_viewportFocused);
 
         ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
         m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
@@ -185,6 +184,8 @@ namespace Varak {
         ImGui::PopStyleVar();
 
         ImGui::End(); // Dockspace
+
+        endImGui();
     }
 
     void EditorLayer::onEvent(Event& event)

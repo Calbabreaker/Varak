@@ -1,7 +1,4 @@
-#include "vrpch.h"
-
-#include "varak/imgui/imgui_helper.h"
-#include "varak/imgui/imgui_layer.h"
+#include "varak_imgui.h"
 
 #include "scene_hierarchy_panel.h"
 

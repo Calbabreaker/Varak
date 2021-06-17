@@ -1,13 +1,6 @@
-#include "vrpch.h"
-
 #include "inspector_panel.h"
+#include "varak_imgui.h"
 
-#include "varak/imgui/imgui_helper.h"
-#include "varak/imgui/imgui_layer.h"
-#include "varak/scene/components.h"
-#include "varak/scene/entity.h"
-
-#include <varak/imgui/fontawesome5_icons.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>

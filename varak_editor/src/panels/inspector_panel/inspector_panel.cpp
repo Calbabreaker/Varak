@@ -1,5 +1,3 @@
-#include "vrpch.h"
-
 #include "inspector_panel.h"
 
 #include <imgui.h>

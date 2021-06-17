@@ -1,4 +1,4 @@
-add_library(ImGui 
+add_library(imgui 
     src/imgui_demo.cpp 
     src/imgui_draw.cpp 
     src/imgui_tables.cpp 

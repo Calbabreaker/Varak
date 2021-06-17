@@ -4,6 +4,8 @@ add_executable(VarakEditor
     ${SOURCES}
 )
 
-target_link_libraries(VarakEditor PRIVATE Varak)
-target_include_directories(Varak PRIVATE "src/")
+target_include_directories(VarakEditor PRIVATE "src/")
 set_project_flags(VarakEditor)
+target_link_libraries(VarakEditor 
+    VarakScene VarakImGui VarakApp
+)

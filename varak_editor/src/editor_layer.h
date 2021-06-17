@@ -1,13 +1,13 @@
 #pragma once
 
-#include "varak.h"
+#include "varak_app.h"
 
 #include "panels/scene_hierarchy_panel.h"
 #include "panels/inspector_panel/inspector_panel.h"
 
 namespace Varak {
 
-    class EditorLayer : public Layer
+    class EditorLayer : public ImGuiLayer
     {
     public:
         EditorLayer();
@@ -16,6 +16,7 @@ namespace Varak {
         void onDetach() override;
 
         void onUpdate(Timestep ts) override;
+        void onRender() override;
         void onImGuiRender() override;
         void onEvent(Event& event) override;
 

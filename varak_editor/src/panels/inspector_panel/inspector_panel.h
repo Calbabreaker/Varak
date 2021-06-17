@@ -1,6 +1,6 @@
 #pragma once
 
-#include "varak/scene/entity.h"
+#include "varak_scene.h"
 
 #include <variant>
 
