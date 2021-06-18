@@ -18,6 +18,5 @@
 #include <vector>
 
 // -- Varak Engine --
-#include "log.h"
 #include "instrumentor.h"
-
+#include "log.h"

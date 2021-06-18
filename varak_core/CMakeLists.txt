@@ -4,9 +4,10 @@ add_library(VarakCore
 
 set_project_flags(VarakCore)
 target_include_directories(VarakCore PRIVATE "src/")
-target_precompile_headers(VarakCore PUBLIC "src/vrpch.h")
+target_include_directories(VarakCore INTERFACE "./")
+target_precompile_headers(VarakCore PRIVATE "src/vrpch.h")
 
-target_link_libraries(VarakCore stdc++fs spdlog)
+target_link_libraries(VarakCore ${CONAN_LIBS})
 
 # Debug Mode will define VR_DEBUG and Release Mode will define VR_RELEASE
 target_compile_definitions(VarakCore PUBLIC "$<$<CONFIG:DEBUG>:VR_DEBUG>")

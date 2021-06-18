@@ -13,9 +13,9 @@ namespace Varak {
 
         virtual void onAttach() {}
         virtual void onDetach() {}
-        virtual void onUpdate(Timestep ts) {}
+        virtual void onUpdate(Timestep ts) { VR_UNUSED(ts); }
         virtual void onRender() {}
-        virtual void onEvent(Event& event) {}
+        virtual void onEvent(Event& event) { VR_UNUSED(event); }
     };
 
 } // namespace Varak

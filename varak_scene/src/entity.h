@@ -41,7 +41,7 @@ namespace Varak {
 
         operator entt::entity() { return m_handle; }
         operator bool() { return m_handle != entt::null; }
-        operator uint32_t() {return static_cast<uint32_t>(m_handle); }
+        operator uint32_t() { return static_cast<uint32_t>(m_handle); }
 
         bool operator==(const Entity& other)
         {

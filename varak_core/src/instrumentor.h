@@ -13,6 +13,7 @@
 #include <thread>
 
 #include "core.h"
+#include "log.h"
 
 namespace Varak {
 
@@ -33,7 +34,8 @@ namespace Varak {
 
             if (m_sessionActive)
             {
-                VR_CORE_ERROR("Cannot begin session {0} when {1} already active!", name, m_sessionName);
+                VR_CORE_ERROR("Cannot begin session {0} when {1} already active!", name,
+                              m_sessionName);
                 endSession();
             }
 
@@ -125,12 +127,16 @@ namespace Varak {
         {
             auto endTimepoint = std::chrono::steady_clock::now();
 
-            auto highResStart = std::chrono::duration<double, std::micro>({ m_startTimepoint.time_since_epoch() });
+            auto highResStart =
+                std::chrono::duration<double, std::micro>({ m_startTimepoint.time_since_epoch() });
             auto elapsedTime =
-                std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() -
-                std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch();
+                std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint)
+                    .time_since_epoch() -
+                std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint)
+                    .time_since_epoch();
 
-            Instrumentor::get().writeProfile({ m_name, highResStart, elapsedTime, std::this_thread::get_id() });
+            Instrumentor::get().writeProfile(
+                { m_name, highResStart, elapsedTime, std::this_thread::get_id() });
 
             m_stopped = true;
         }
@@ -143,14 +149,15 @@ namespace Varak {
 
 } // namespace Varak
 
-#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) ||      \
-    defined(__ghs__)
+#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) ||                        \
+    (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
     #define VR_FUNC_SIG __PRETTY_FUNCTION__
 #elif defined(__DMC__) && (__DMC__ >= 0x810)
     #define VR_FUNC_SIG __PRETTY_FUNCTION__
 #elif (defined(__FUNCSIG__) || (_MSC_VER))
     #define VR_FUNC_SIG __FUNCSIG__
-#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) || (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
+#elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) ||                                  \
+    (defined(__IBMCPP__) && (__IBMCPP__ >= 500))
     #define VR_FUNC_SIG __FUNCTION__
 #elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
     #define VR_FUNC_SIG __FUNC__
@@ -165,7 +172,8 @@ namespace Varak {
 #if VR_PROFILE == 1
     #define VR_PROFILE_SCOPE(name) ::Varak::InstrumentationTimer timer##__LINE__(name)
     #define VR_PROFILE_FUNCTION() VR_PROFILE_SCOPE(VR_FUNC_SIG)
-    #define VR_PROFILE_BEGIN_SESSION(name, filepath) ::Varak::Instrumentor::get().beginSession(name, filepath)
+    #define VR_PROFILE_BEGIN_SESSION(name, filepath)                                               \
+        ::Varak::Instrumentor::get().beginSession(name, filepath)
     #define VR_PROFILE_END_SESSION() ::Varak::Instrumentor::get().endSession()
 #else
     #define VR_PROFILE_SCOPE(name)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "varak_core.h"
+
 namespace Varak {
 
     class RenderingContext

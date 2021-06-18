@@ -2,9 +2,14 @@
 
 #include "assert.h"
 
-#define VR_BIT(x) (1 << x)
+#include <memory>
 
-#define VR_BIND_FUNC(func) [this](auto&&... args) -> decltype(auto) { return this->func(std::forward<decltype(args)>(args)...); }
+#define VR_BIT(x) (1 << x)
+#define VR_UNUSED(...) (void)(__VA_ARGS__)
+#define VR_BIND_FUNC(func)                                                                         \
+    [this](auto&&... args) -> decltype(auto) {                                                     \
+        return this->func(std::forward<decltype(args)>(args)...);                                  \
+    }
 
 namespace Varak {
 

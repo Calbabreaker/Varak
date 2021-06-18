@@ -12,7 +12,7 @@ namespace Varak {
         std::string name;
 
         IdentifierComponent() = default;
-        IdentifierComponent(const std::string& name) : name(name) {}
+        IdentifierComponent(const std::string& p_name) : name(p_name) {}
     };
 
     struct TransformComponent
@@ -38,7 +38,7 @@ namespace Varak {
         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
         SpriteRendererComponent() = default;
-        SpriteRendererComponent(const glm::vec4& color) : color(color) {}
+        SpriteRendererComponent(const glm::vec4& p_color) : color(p_color) {}
     };
 
     struct CameraComponent : public Camera

@@ -29,8 +29,8 @@ conan_basic_setup()
 
 include(cmake/project_flags.cmake)
 
-add_subdirectory(varak_app)
 add_subdirectory(varak_core)
+add_subdirectory(varak_app)
 add_subdirectory(varak_event)
 add_subdirectory(varak_imgui)
 add_subdirectory(varak_renderer)

@@ -6,10 +6,14 @@ namespace Varak {
 
     class VarakEditor : public Application
     {
+    private:
+        ImGuiLayer* m_imguiLayer;
+
     public:
-        VarakEditor() : Application("Varak Editor")
+        VarakEditor() : Application("Varak Editor"), m_imguiLayer(new ImGuiLayer())
         {
-            pushOverlay(new EditorLayer()); 
+            pushOverlay(m_imguiLayer); 
+            pushLayer(new EditorLayer(m_imguiLayer)); 
         };
 
         ~VarakEditor(){};

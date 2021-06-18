@@ -1,10 +1,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include "texture.h"
-#include "renderer.h"
-
 #include "opengl/opengl_texture.h"
+#include "renderer.h"
+#include "texture.h"
 
 namespace Varak {
 

@@ -56,9 +56,10 @@ namespace Varak {
         case ShaderDataType::Int3: return 4 * 3;
         case ShaderDataType::Int4: return 4 * 4;
         case ShaderDataType::Bool: return 1;
+        default: break;
         }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!"); 
         return 0;
     }
 
@@ -87,9 +88,10 @@ namespace Varak {
         case ShaderDataType::Int3: return 3;
         case ShaderDataType::Int4: return 4;
         case ShaderDataType::Bool: return 1;
+        default: break;
         }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!"); 
         return 0;
     }
 

@@ -14,7 +14,7 @@ namespace Varak {
         VR_CORE_ASSERT_MSG(!s_instance, "Aplication already exists!");
         s_instance = this;
 
-        m_window = Window::create(WindowProperties(name));
+        m_window = createScope<Window>(WindowProperties(name));
         m_window->setEventCallback(VR_BIND_FUNC(Application::onEvent));
 
         Renderer::init();

@@ -1,4 +1,6 @@
 build/
+compile_commands.json
+compile_flags.txt
 
 # varak output
 **.log

@@ -1,6 +1,6 @@
 #pragma once
 
-// recommended type conversion uint8_t
+#include <cstdint>
 
 namespace Varak {
 

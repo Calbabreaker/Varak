@@ -23,6 +23,7 @@ add_library(VarakRenderer
 set_project_flags(VarakRenderer)
 target_include_directories(VarakRenderer PRIVATE "src/")
 target_include_directories(VarakRenderer INTERFACE "./")
+target_precompile_headers(VarakRenderer REUSE_FROM VarakCore)
 target_link_libraries(VarakRenderer 
-    VarakCore glm
+    VarakCore 
 )

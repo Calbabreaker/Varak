@@ -1,5 +1,7 @@
 #pragma once
 
+#include "varak_core.h"
+
 #include <string>
 #include <vector>
 
@@ -31,8 +33,9 @@ namespace Varak {
         uint32_t size;
         size_t offset;
 
-        BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-            : type(type), name(name), normalized(normalized), size(shaderTypeSize(type)), offset(0)
+        BufferElement(ShaderDataType p_type, const std::string& p_name, bool p_normalized = false)
+            : type(p_type), name(p_name), normalized(p_normalized), size(shaderTypeSize(p_type)),
+              offset(0)
         {
         }
 

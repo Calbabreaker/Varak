@@ -1,5 +1,4 @@
 #include "frame_buffer.h"
-
 #include "renderer.h"
 
 #include "opengl/opengl_frame_buffer.h"

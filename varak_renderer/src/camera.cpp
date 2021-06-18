@@ -11,19 +11,25 @@ namespace Varak {
 
     glm::mat4 Camera::getProjection() const
     {
-        if (projectionType == ProjectionType::Perpective)
-        {
-            return glm::perspective(perpectiveFOV, m_aspectRatio, perpectiveNear, perpectiveFar);
-        }
-        else if (projectionType == ProjectionType::Orthographic)
-        {
-            float orthoLeft = -orthographicSize * m_aspectRatio;
-            float orthoRight = orthographicSize * m_aspectRatio;
-            float orthoBottom = -orthographicSize;
-            float orthoTop = orthographicSize;
+        switch(projectionType) {
+            case ProjectionType::Perpective: 
+            {
+                return glm::perspective(perpectiveFOV, m_aspectRatio, perpectiveNear, perpectiveFar);
+            }
 
-            return glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthographicNear, orthographicFar);
+            case ProjectionType::Orthographic: 
+            {
+                float orthoLeft = -orthographicSize * m_aspectRatio;
+                float orthoRight = orthographicSize * m_aspectRatio;
+                float orthoBottom = -orthographicSize;
+                float orthoTop = orthographicSize;
+                return glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthographicNear, orthographicFar);
+            }
+
+            default: break;
         }
+
+        return glm::mat4();
     }
 
 } // namespace Varak

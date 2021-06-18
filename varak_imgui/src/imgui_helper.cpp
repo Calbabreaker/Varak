@@ -20,7 +20,8 @@ namespace Varak {
             if (disabled)
             {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-                ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * disabledAlphaMult);
+                ImGui::PushStyleVar(ImGuiStyleVar_Alpha,
+                                    ImGui::GetStyle().Alpha * disabledAlphaMult);
             }
         }
 
@@ -64,11 +65,12 @@ namespace Varak {
 
             // pop item width
             window->DC.ItemWidthStack.pop_back();
-            window->DC.ItemWidth =
-                window->DC.ItemWidthStack.empty() ? window->ItemWidthDefault : window->DC.ItemWidthStack.back();
+            window->DC.ItemWidth = window->DC.ItemWidthStack.empty()
+                                       ? window->ItemWidthDefault
+                                       : window->DC.ItemWidthStack.back();
             // pop id
             window->IDStack.pop_back();
-            
+
             return hasInputed;
         }
 
@@ -82,8 +84,8 @@ namespace Varak {
                 ImFont* boldFont = io.Fonts->Fonts[0];
 
                 ImGui::BeginGroup();
-                ImGui::PushMultiItemsWidths(3,
-                                            ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f - style.ItemSpacing.x);
+                ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - boldFont->FontSize * 3.0f -
+                                                   style.ItemSpacing.x);
 
                 ImGui::PushFont(boldFont);
                 ImGuiHelper::drawLabel("X");
@@ -136,7 +138,8 @@ namespace Varak {
             });
         }
 
-        bool drawComboBegin(std::string_view label, std::string_view previewValue, ImGuiComboFlags flags)
+        bool drawComboBegin(std::string_view label, std::string_view previewValue,
+                            ImGuiComboFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
                 return ImGui::BeginCombo("", previewValue.data(), flags); //
@@ -158,7 +161,8 @@ namespace Varak {
             });
         }
 
-        bool drawClickableText(std::string_view label, std::string_view text, const ImVec2& sizeArg, ImGuiButtonFlags flags)
+        bool drawClickableText(std::string_view label, std::string_view text, const ImVec2& sizeArg,
+                               ImGuiButtonFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
                 ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -167,9 +171,9 @@ namespace Varak {
                 ImVec2 textSize = ImGui::CalcTextSize(text.data(), nullptr, true);
 
                 ImVec2 pos = window->DC.CursorPos;
-                    pos.y += window->DC.CurrLineTextBaseOffset - style.FramePadding.y;
+                pos.y += window->DC.CurrLineTextBaseOffset - style.FramePadding.y;
                 ImVec2 size = ImGui::CalcItemSize(sizeArg, textSize.x + style.FramePadding.x * 2.0f,
-                                           textSize.y + style.FramePadding.y * 2.0f);
+                                                  textSize.y + style.FramePadding.y * 2.0f);
 
                 const ImRect bb(pos, pos + size);
                 ImGui::ItemSize(size, style.FramePadding.y);
@@ -182,8 +186,9 @@ namespace Varak {
                 // Render
                 if (hovered)
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.26f, 0.59f, 0.98f, 1.00f));
-                ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, text.data(), nullptr, &textSize,
-                                  style.ButtonTextAlign, &bb);
+                ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding,
+                                         text.data(), nullptr, &textSize, style.ButtonTextAlign,
+                                         &bb);
                 if (hovered)
                     ImGui::PopStyleColor();
 

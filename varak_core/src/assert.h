@@ -83,22 +83,23 @@ static inline void VR_DEBUGBREAK(void)
     // VR_ASSERT will only have the expression, while VR_ASSERT_MSG will have
     // both the expression and a message. Core and app will have different
     // assertion macros.
-    #define VR_INTERNAL_ASSERT_IMPL(type, expr, ...)                                                                   \
-        if (!(expr))                                                                                                   \
+    #define VR_INTERNAL_ASSERT(type, expr, ...)                                                    \
+        if (!(expr))                                                                               \
         VR##type##ERROR(__VA_ARGS__), VR_DEBUGBREAK()
 
-    #define VR_INTERNAL_ASSERT_MSG_IMPL(type, expr, msg, ...)                                                          \
-        VR_INTERNAL_ASSERT_IMPL(type, expr, "Assertion failed: " msg, ##__VA_ARGS__)
+    #define VR_INTERNAL_ASSERT_MSG(type, expr, msg, ...)                                           \
+        VR_INTERNAL_ASSERT(type, expr, "Assertion failed: " msg, ##__VA_ARGS__)
 
-    #define VR_INTERNAL_ASSERT_NO_MSG_IMPL(type, expr)                                                                 \
-        VR_INTERNAL_ASSERT_IMPL(type, expr, "Assertion '{0}' failed at: {1}:{2}", #expr,                               \
-                                std::filesystem::path(__FILE__).filename().string(), __LINE__)
+    #define VR_INTERNAL_ASSERT_NO_MSG(type, expr)                                                  \
+        VR_INTERNAL_ASSERT(type, expr, "Assertion '{0}' failed at: {1}:{2}", #expr,                \
+                           std::filesystem::path(__FILE__).filename().string(), __LINE__)
 
-    #define VR_CORE_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_CORE_, expr)
-    #define VR_CORE_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_CORE_, expr, msg, ##__VA_ARGS__)
+    #define VR_CORE_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG(_CORE_, expr)
+    #define VR_CORE_ASSERT_MSG(expr, msg, ...)                                                     \
+        VR_INTERNAL_ASSERT_MSG(_CORE_, expr, msg, ##__VA_ARGS__)
 
-    #define VR_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG_IMPL(_, expr)
-    #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG_IMPL(_, expr, msg, ##__VA_ARGS__)
+    #define VR_ASSERT(expr) VR_INTERNAL_ASSERT_NO_MSG(_, expr)
+    #define VR_ASSERT_MSG(expr, msg, ...) VR_INTERNAL_ASSERT_MSG(_, expr, msg, ##__VA_ARGS__)
 
 #else
     #define VR_CORE_ASSERT(expr)
@@ -109,3 +110,14 @@ static inline void VR_DEBUGBREAK(void)
 
     #define VR_DEBUGBREAK()
 #endif
+
+// These asserts will not be removed from release builds
+// TODO: make this use a popup error message box
+#define VR_INTERNAL_ASSERT_RELEASE(type, expr, msg, ...)                                           \
+    if (!(expr))                                                                                   \
+    VR##type##ERROR("ERROR: " msg, ##__VA_ARGS__), exit(-1)
+
+#define VR_CORE_ASSERT_RELEASE(expr, msg, ...)                                                     \
+    VR_INTERNAL_ASSERT_RELEASE(_CORE_, expr, msg, ##__VA_ARGS__)
+
+#define VR_ASSERT_RELEASE(expr, msg, ...) VR_INTERNAL_ASSERT_RELEASE(_, expr, msg, ##__VA_ARGS__)

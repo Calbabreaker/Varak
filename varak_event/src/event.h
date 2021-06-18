@@ -1,5 +1,7 @@
 #pragma once
 
+#include "varak_core.h"
+
 #include <functional>
 #include <sstream>
 #include <string>
@@ -27,17 +29,19 @@ namespace Varak {
 
     // clang-format on
 
-#define MAKE_EVENT_CLASS_TYPE(type)                                                                                    \
-    static EventType getStaticType() { return EventType::type; }                                                       \
-    EventType getEventType() const override { return getStaticType(); }                                                \
+#define MAKE_EVENT_CLASS_TYPE(type)                                                                \
+    static EventType getStaticType() { return EventType::type; }                                   \
+    EventType getEventType() const override { return getStaticType(); }                            \
     const char* getName() const override { return #type; }
 
-#define MAKE_EVENT_CLASS_CATEGORY(category)                                                                            \
+#define MAKE_EVENT_CLASS_CATEGORY(category)                                                        \
     int getCategoryFlags() const override { return category; }
 
     class Event
     {
     public:
+        virtual ~Event() = default;
+
         virtual EventType getEventType() const = 0;
         virtual const char* getName() const = 0;
         virtual int getCategoryFlags() const = 0;

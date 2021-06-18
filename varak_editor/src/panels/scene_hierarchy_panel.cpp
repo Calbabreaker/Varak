@@ -16,7 +16,11 @@ namespace Varak {
 
     void SceneHierarchyPanel::onImGuiRender()
     {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 1.0f));
+
         ImGui::Begin("Hierarchy");
+
+        ImGui::PopStyleVar();
 
         m_scene->m_registry.each([&](entt::entity entityID) {
             Entity entity(entityID, m_scene.get());
@@ -28,7 +32,8 @@ namespace Varak {
             m_inspectorPanel->setSelected({});
         }
 
-        ImGuiPopupFlags popupFlags = ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
+        ImGuiPopupFlags popupFlags =
+            ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
         if (ImGui::BeginPopupContextWindow(0, popupFlags))
         {
             if (ImGui::MenuItem("Create Empty"))
@@ -49,7 +54,8 @@ namespace Varak {
 
         if (m_isNameBeingEdited && m_inspectorPanel->getSelected() == entity)
         {
-            ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
+            ImGuiInputTextFlags inputFlags =
+                ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
             if (ImGuiHelper::drawInputText("##name", name, inputFlags))
                 m_isNameBeingEdited = false;
             ImGui::PopStyleVar(2);
@@ -62,12 +68,14 @@ namespace Varak {
         }
         else
         {
-            ImGuiTreeNodeFlags treeNodeFlags =
-                ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
+            ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_OpenOnArrow |
+                                               ImGuiTreeNodeFlags_SpanAvailWidth |
+                                               ImGuiTreeNodeFlags_FramePadding;
             if (m_inspectorPanel->getSelected() == entity)
                 treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
 
-            bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, name.c_str());
+            bool opened =
+                ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, name.c_str());
             ImGui::PopStyleVar(2);
 
             if (m_inspectorPanel->getSelected() == entity)

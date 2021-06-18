@@ -4,13 +4,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/io.hpp>
 
-#include <varak/imgui/fontawesome5_icons.h>
-
 #include <imgui.h>
 
 namespace Varak {
 
-    EditorLayer::EditorLayer() : m_sceneHierarchyPanel(&m_inspectorPanel) {}
+    EditorLayer::EditorLayer(ImGuiLayer* imguiLayer)
+        : m_sceneHierarchyPanel(&m_inspectorPanel), m_imguiLayer(imguiLayer)
+    {
+    }
 
     void EditorLayer::onAttach()
     {
@@ -78,11 +79,11 @@ namespace Varak {
         m_frameBuffer->unbind();
     }
 
-    void EditorLayer::Render()
+    void EditorLayer::onRender()
     {
         VR_PROFILE_FUNCTION();
 
-        beginImGui();
+        m_imguiLayer->beginImGui();
 
         static bool dockSpaceOpen = true;
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
@@ -94,8 +95,8 @@ namespace Varak {
         ImGui::SetNextWindowViewport(viewport->ID);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-        windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
-                       ImGuiWindowFlags_NoMove;
+        windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
+                       ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
         windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
@@ -130,7 +131,8 @@ namespace Varak {
 
             // Play, pause, stop scene
             ImGuiHelper::pushDisabled(m_isPlaying);
-            ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x / 2.0f - ImGui::CalcTextSize(ICON_FA_PLAY).x * 2.0f);
+            ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x / 2.0f -
+                                 ImGui::CalcTextSize(ICON_FA_PLAY).x * 2.0f);
             if (ImGuiHelper::drawClickableText("##play", ICON_FA_PLAY))
             {
                 m_isPlaying = true;
@@ -172,20 +174,21 @@ namespace Varak {
 
         m_viewportFocused = ImGui::IsWindowFocused();
         m_viewportHovered = ImGui::IsWindowHovered();
-        blockEvents(!m_viewportHovered || !m_viewportFocused);
+        m_imguiLayer->blockEvents(!m_viewportHovered || !m_viewportFocused);
 
         ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
         m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, ImVec2(0.0f, 1.0f),
+                     ImVec2(1.0f, 0.0f));
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
 
         ImGui::End(); // Dockspace
 
-        endImGui();
+        m_imguiLayer->endImGui();
     }
 
     void EditorLayer::onEvent(Event& event)

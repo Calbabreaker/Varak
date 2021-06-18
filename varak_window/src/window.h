@@ -15,8 +15,8 @@ namespace Varak {
         uint32_t width;
         uint32_t height;
 
-        WindowProperties(const std::string& title = "Varak Engine", uint32_t width = 1280, uint32_t height = 720)
-            : title(title), width(width), height(height)
+        WindowProperties(const std::string& p_title = "Varak Engine", uint32_t p_width = 1280, uint32_t p_height = 720)
+            : title(p_title), width(p_width), height(p_height)
         {
         }
     };

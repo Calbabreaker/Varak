@@ -1,10 +1,7 @@
-#include "vrpch.h"
-
-#include "varak/core/application.h"
-#include "varak/imgui/fontawesome5_icons.h"
-#include "varak/imgui/imgui_impl_glfw.h"
-#include "varak/imgui/imgui_impl_opengl3.h"
-#include "varak/imgui/imgui_layer.h"
+#include "fontawesome5_icons.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_layer.h"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -42,7 +39,7 @@ namespace Varak {
 
         setDarkThemeColors();
 
-        GLFWwindow* nativeWindow = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+        GLFWwindow* nativeWindow = Application::get().getWindow().getNativeWindow();
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(nativeWindow, true);
@@ -112,7 +109,6 @@ namespace Varak {
         colors[ImGuiCol_TitleBg] = itemDefaultColor;
         colors[ImGuiCol_TitleBgCollapsed] = itemDefaultColor;
         colors[ImGuiCol_TitleBgActive] = itemDefaultColor;
-        colors[ImGuiCol_TabUnfocusedActive] = itemDefaultColor;
         colors[ImGuiCol_Button] = itemDefaultColor;
         colors[ImGuiCol_Header] = itemDefaultColor;
 
@@ -127,8 +123,10 @@ namespace Varak {
         // window
         colors[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.13f, 0.15f, 1.00f);
         colors[ImGuiCol_Tab] = itemDefaultColor;
+        colors[ImGuiCol_TabUnfocused] = itemDefaultColor;
         colors[ImGuiCol_TabHovered] = ImVec4(0.38f, 0.45f, 0.51f, 1.00f);
         colors[ImGuiCol_TabActive] = ImVec4(0.29f, 0.35f, 0.39f, 1.00f);
+        colors[ImGuiCol_TabUnfocusedActive] = colors[ImGuiCol_TabActive];
 
         // primary color
         ImVec4 primaryDefaultColor(0.26f, 0.59f, 0.98f, 1.00f);

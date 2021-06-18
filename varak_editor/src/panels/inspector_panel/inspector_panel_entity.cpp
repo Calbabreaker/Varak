@@ -10,9 +10,10 @@ namespace Varak {
     template <typename Component, typename UIFunc>
     static void drawComponent(const std::string& name, Entity entity, UIFunc uiFunc)
     {
-        ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap |
-                                           ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth |
-                                           ImGuiTreeNodeFlags_FramePadding;
+        ImGuiTreeNodeFlags treeNodeFlags =
+            ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap |
+            ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth |
+            ImGuiTreeNodeFlags_FramePadding;
         if (entity.hasComponent<Component>())
         {
             auto& component = entity.getComponent<Component>();
@@ -22,14 +23,15 @@ namespace Varak {
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
             float lineHeight = ImGui::GetFontSize() + style.FramePadding.y * 2;
             ImGui::Separator();
-            bool opened =
-                ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(Component).hash_code()), treeNodeFlags, name.c_str());
+            bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(Component).hash_code()),
+                                            treeNodeFlags, "%s", name.c_str());
             ImGui::PopStyleVar();
 
             ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right) ||
-                ImGuiHelper::drawClickableText("##extra", ICON_FA_ELLIPSIS_V, ImVec2(lineHeight, lineHeight)))
+                ImGuiHelper::drawClickableText("##extra", ICON_FA_ELLIPSIS_V,
+                                               ImVec2(lineHeight, lineHeight)))
                 ImGui::OpenPopup("ComponentSettings");
 
             bool removeComponent = false;
@@ -72,7 +74,8 @@ namespace Varak {
         drawComponent<CameraComponent>("Camera", entity, [](CameraComponent& camera) {
             ImGuiHelper::drawCheckbox("Primary", camera.primary);
             constexpr const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
-            const char* currentProjectionTypeString = projectionTypeStrings[static_cast<int>(camera.projectionType)];
+            const char* currentProjectionTypeString =
+                projectionTypeStrings[static_cast<int>(camera.projectionType)];
 
             if (ImGuiHelper::drawComboBegin("Projection", currentProjectionTypeString))
             {
@@ -110,9 +113,10 @@ namespace Varak {
             }
         });
 
-        drawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](SpriteRendererComponent& sprite) {
-            ImGuiHelper::drawColorEdit4("Color", sprite.color); //
-        });
+        drawComponent<SpriteRendererComponent>(
+            "Sprite Renderer", entity, [](SpriteRendererComponent& sprite) {
+                ImGuiHelper::drawColorEdit4("Color", sprite.color); //
+            });
     }
 
     template <typename Component>

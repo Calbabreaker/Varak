@@ -15,6 +15,7 @@ namespace Varak {
 
     public:
         Camera() = default;
+        virtual ~Camera() = default;
 
         virtual void setViewportSize(uint32_t width, uint32_t height);
 
