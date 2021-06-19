@@ -1,4 +1,5 @@
 #include "application.h"
+#include "src/core.h"
 #include "varak_renderer.h"
 
 #include <GLFW/glfw3.h>
@@ -123,6 +124,7 @@ namespace Varak {
 
     bool Application::onWindowClosed(WindowClosedEvent& event)
     {
+        VR_UNUSED(event);
         m_running = false;
         return true;
     }

@@ -49,15 +49,12 @@ namespace Varak {
 
         // resize
         FrameBufferProperties props = m_frameBuffer->getProperties();
-        if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f &&
+        if (m_viewportSize.x != 0 && m_viewportSize.y != 0 &&
             (props.width != m_viewportSize.x || props.height != m_viewportSize.y))
         {
-            uint32_t width = static_cast<uint32_t>(m_viewportSize.x);
-            uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
-
-            m_frameBuffer->resize(width, height);
-            m_editorCamera.setViewportSize(width, height);
-            m_scene->onViewportResize(width, height);
+            m_frameBuffer->resize(m_viewportSize.x, m_viewportSize.y);
+            m_editorCamera.setViewportSize(m_viewportSize.x, m_viewportSize.y);
+            m_scene->onViewportResize(m_viewportSize.x, m_viewportSize.y);
         }
 
         // update

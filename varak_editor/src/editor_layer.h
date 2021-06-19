@@ -4,8 +4,8 @@
 #include "varak_imgui.h"
 #include "varak_scene.h"
 
-#include "panels/scene_hierarchy_panel.h"
 #include "panels/inspector_panel/inspector_panel.h"
+#include "panels/scene_hierarchy_panel.h"
 
 namespace Varak {
 
@@ -33,7 +33,7 @@ namespace Varak {
         EditorCamera m_editorCamera;
         ImGuiLayer* m_imguiLayer;
 
-        glm::vec2 m_viewportSize;
+        glm::uvec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;
 
         bool m_isPlaying = false;
