@@ -122,9 +122,8 @@ namespace Varak {
         m_running = false; //
     }
 
-    bool Application::onWindowClosed(WindowClosedEvent& event)
+    bool Application::onWindowClosed(WindowClosedEvent& /*event*/)
     {
-        VR_UNUSED(event);
         m_running = false;
         return true;
     }

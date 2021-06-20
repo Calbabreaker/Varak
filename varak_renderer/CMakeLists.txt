@@ -20,7 +20,7 @@ add_library(VarakRenderer
     src/opengl/opengl_vertex_array.cpp
 )
 
-set_project_flags(VarakRenderer)
+set_project_warnings(VarakRenderer)
 target_include_directories(VarakRenderer PRIVATE "src/")
 target_include_directories(VarakRenderer INTERFACE "./")
 target_precompile_headers(VarakRenderer REUSE_FROM VarakCore)

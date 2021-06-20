@@ -33,7 +33,7 @@ namespace Varak {
         EditorCamera m_editorCamera;
         ImGuiLayer* m_imguiLayer;
 
-        glm::uvec2 m_viewportSize;
+        glm::vec2 m_viewportSize;
         bool m_viewportFocused = false, m_viewportHovered = false;
 
         bool m_isPlaying = false;

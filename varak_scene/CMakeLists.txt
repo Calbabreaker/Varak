@@ -4,7 +4,7 @@ add_library(VarakScene
     src/editor_camera.cpp
 )
 
-set_project_flags(VarakScene)
+set_project_warnings(VarakScene)
 target_include_directories(VarakScene PRIVATE "src/")
 target_include_directories(VarakScene INTERFACE "./")
 target_precompile_headers(VarakScene REUSE_FROM VarakCore)

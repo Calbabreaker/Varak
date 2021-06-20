@@ -63,10 +63,10 @@ namespace Varak {
         // set glfw callbacks
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
             WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-            data.width = width;
-            data.height = height;
+            data.width = static_cast<uint32_t>(width);
+            data.height = static_cast<uint32_t>(height);
 
-            WindowResizedEvent event(width, height);
+            WindowResizedEvent event(data.width, data.height);
             data.eventCallback(event);
         });
 
@@ -95,7 +95,7 @@ namespace Varak {
         // missing window move
 
         glfwSetKeyCallback(
-            m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+            m_window, [](GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
                 WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
                 switch (action)
@@ -131,7 +131,7 @@ namespace Varak {
         });
 
         glfwSetMouseButtonCallback(
-            m_window, [](GLFWwindow* window, int button, int action, int mods) {
+            m_window, [](GLFWwindow* window, int button, int action, int /*mods*/) {
                 WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
                 switch (action)

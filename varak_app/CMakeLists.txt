@@ -4,7 +4,7 @@ add_library(VarakApp
     src/input.cpp
 )
 
-set_project_flags(VarakApp)
+set_project_warnings(VarakApp)
 target_include_directories(VarakApp PRIVATE "src/")
 target_include_directories(VarakApp INTERFACE "./")
 target_precompile_headers(VarakApp REUSE_FROM VarakCore)

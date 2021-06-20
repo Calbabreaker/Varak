@@ -1,6 +1,4 @@
-function(set_project_flags project_name)
-    target_compile_features(${project_name} PRIVATE cxx_std_17)
-
+function(set_project_warnings project_name)
     set(MSVC_WARNINGS
         /W4 # Baseline reasonable warnings
         /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data

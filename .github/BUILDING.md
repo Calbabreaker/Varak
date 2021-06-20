@@ -15,4 +15,4 @@ conan install .. --build
 cmake .. -DCMAKE_BUILD_TYPE=DEBUG
 ```
 
-Then use your output buildset to compile everything. For example `make`.
+Then use your output buildset to compile everything. For example `make` or Visual Studio.

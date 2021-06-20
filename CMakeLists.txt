@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.16)
-project(Varak)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+project(Varak LANGUAGES CXX)
 
 # ---- Checks ----
 if (NOT CMAKE_BUILD_TYPE)
@@ -27,7 +27,7 @@ conan_basic_setup()
 
 # ---- Includes and Subdirectories ----
 
-include(cmake/project_flags.cmake)
+include(cmake/project_warnings.cmake)
 
 add_subdirectory(varak_core)
 add_subdirectory(varak_app)

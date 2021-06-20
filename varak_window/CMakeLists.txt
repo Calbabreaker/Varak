@@ -2,7 +2,7 @@ add_library(VarakWindow
     src/window.cpp
 )
 
-set_project_flags(VarakWindow)
+set_project_warnings(VarakWindow)
 target_include_directories(VarakWindow PRIVATE "src/")
 target_include_directories(VarakWindow INTERFACE "./")
 target_precompile_headers(VarakWindow REUSE_FROM VarakCore)

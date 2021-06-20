@@ -13,16 +13,18 @@ namespace Varak {
 
     Scene::~Scene() {}
 
-    void Scene::onUpdateEditor(Timestep ts, EditorCamera& camera)
+    void Scene::onUpdate(Timestep ts) {}
+
+    void Scene::onRenderEditor(EditorCamera& camera)
     {
-        // render 2d
         auto group = m_registry.group<TransformComponent, SpriteRendererComponent>();
 
         Renderer2D::beginScene(camera.getViewProjection());
 
         for (auto entity : group)
         {
-            auto [transformComponent, spriteComponent] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+            auto [transformComponent, spriteComponent] =
+                group.get<TransformComponent, SpriteRendererComponent>(entity);
             Renderer2D::drawRect(transformComponent.getMatrix(), spriteComponent.color);
         }
 
@@ -39,11 +41,8 @@ namespace Varak {
         VR_CORE_INFO("stoped"); //
     }
 
-    void Scene::onUpdateRuntime(Timestep ts)
+    void Scene::onRenderRuntime()
     {
-        // render 2d
-
-        // TODO: this should not be a loop but a pointer
         CameraComponent* mainCamera = nullptr;
         glm::mat4 cameraTransform;
         {
@@ -51,7 +50,8 @@ namespace Varak {
 
             for (auto entity : view)
             {
-                auto [transformComponent, cameraComponent] = view.get<TransformComponent, CameraComponent>(entity);
+                auto [transformComponent, cameraComponent] =
+                    view.get<TransformComponent, CameraComponent>(entity);
 
                 if (cameraComponent.primary)
                 {
@@ -83,7 +83,7 @@ namespace Varak {
     void Scene::onViewportResize(uint32_t width, uint32_t height)
     {
         m_viewportWidth = width;
-        m_viewportHeight = m_viewportHeight;
+        m_viewportHeight = height;
 
         // resize all non fixed aspect ratio
         auto view = m_registry.view<CameraComponent>();
@@ -132,7 +132,8 @@ namespace Varak {
     }
 
     template <>
-    void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+    void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity,
+                                                          SpriteRendererComponent& component)
     {
     }
 

@@ -47,39 +47,30 @@ namespace Varak {
     {
         VR_PROFILE_FUNCTION();
 
-        // resize
-        FrameBufferProperties props = m_frameBuffer->getProperties();
-        if (m_viewportSize.x != 0 && m_viewportSize.y != 0 &&
-            (props.width != m_viewportSize.x || props.height != m_viewportSize.y))
-        {
-            m_frameBuffer->resize(m_viewportSize.x, m_viewportSize.y);
-            m_editorCamera.setViewportSize(m_viewportSize.x, m_viewportSize.y);
-            m_scene->onViewportResize(m_viewportSize.x, m_viewportSize.y);
-        }
-
-        // update
         if (m_viewportFocused)
             m_editorCamera.onUpdate(ts);
 
-        // render
-        m_frameBuffer->bind();
-        RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-        RenderCommand::clear();
-
-        Renderer2D::resetStats();
-
-        if (m_isPlaying)
-            m_scene->onUpdateRuntime(ts);
-        else
-            m_scene->onUpdateEditor(ts, m_editorCamera);
-
-        m_frameBuffer->unbind();
+        m_scene->onUpdate(ts);
     }
 
     void EditorLayer::onRender()
     {
         VR_PROFILE_FUNCTION();
 
+        m_frameBuffer->bind();
+        RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        RenderCommand::clear();
+
+        if (m_isPlaying)
+            m_scene->onRenderRuntime();
+        else
+            m_scene->onRenderEditor(m_editorCamera);
+
+        Renderer2D::resetStats();
+
+        m_frameBuffer->unbind();
+
+        // imgui render stuff
         m_imguiLayer->beginImGui();
 
         static bool dockSpaceOpen = true;
@@ -175,6 +166,21 @@ namespace Varak {
 
         ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
         m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
+
+        // resize if viewport size changed
+        if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f)
+        {
+            FrameBufferProperties props = m_frameBuffer->getProperties();
+            uint32_t width = static_cast<uint32_t>(m_viewportSize.x);
+            uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
+
+            if (props.width != width || props.height != height)
+            {
+                m_frameBuffer->resize(width, height);
+                m_editorCamera.setViewportSize(width, height);
+                m_scene->onViewportResize(width, height);
+            }
+        }
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
         ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, ImVec2(0.0f, 1.0f),

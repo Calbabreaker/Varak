@@ -2,7 +2,8 @@ add_library(VarakCore
     src/log.cpp
 )
 
-set_project_flags(VarakCore)
+set_project_warnings(VarakCore)
+target_compile_features(VarakCore PUBLIC cxx_std_17)
 target_include_directories(VarakCore PRIVATE "src/")
 target_include_directories(VarakCore INTERFACE "./")
 target_precompile_headers(VarakCore PRIVATE "src/vrpch.h")
