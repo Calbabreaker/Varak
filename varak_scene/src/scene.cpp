@@ -1,7 +1,5 @@
 #include "scene.h"
-#include "components.h"
 #include "entity.h"
-
 #include "varak_renderer.h"
 
 namespace Varak {

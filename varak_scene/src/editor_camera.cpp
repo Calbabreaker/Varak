@@ -4,10 +4,7 @@
 
 namespace Varak {
 
-    EditorCamera::EditorCamera()
-    {
-        projectionType = Camera::ProjectionType::Perpective;
-    }
+    EditorCamera::EditorCamera() { projectionType = Camera::ProjectionType::Perpective; }
 
     void EditorCamera::onUpdate(Timestep ts) {}
 
@@ -21,10 +18,10 @@ namespace Varak {
     void EditorCamera::setViewportSize(uint32_t width, uint32_t height)
     {
         // calculate the pan speed
-        float x = glm::min(width / 1000.0f, 2.4f);
+        float x = glm::min(static_cast<float>(width) / 1000.0f, 2.4f);
         float xFactor = 0.0366f * glm::pow(x, 2.0f) - 0.1778f * x + 0.3021f;
 
-        float y = glm::min(height / 1000.0f, 2.4f);
+        float y = glm::min(static_cast<float>(height) / 1000.0f, 2.4f);
         float yFactor = 0.0366f * glm::pow(y, 2.0f) - 0.1778f * y + 0.3021f;
         m_panSpeed = { xFactor, yFactor };
 
@@ -33,7 +30,8 @@ namespace Varak {
 
     glm::mat4 EditorCamera::getViewProjection() const
     {
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), getPosition()) * glm::toMat4(getOrientation());
+        glm::mat4 transform =
+            glm::translate(glm::mat4(1.0f), getPosition()) * glm::toMat4(getOrientation());
         glm::mat4 view = glm::inverse(transform);
 
         return getProjection() * view;

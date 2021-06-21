@@ -79,7 +79,7 @@ namespace Varak {
 
             if (ImGuiHelper::drawComboBegin("Projection", currentProjectionTypeString))
             {
-                for (int i = 0; i < std::size(projectionTypeStrings); i++)
+                for (size_t i = 0; i < std::size(projectionTypeStrings); i++)
                 {
                     bool isSelected = currentProjectionTypeString == projectionTypeStrings[i];
                     if (ImGui::Selectable(projectionTypeStrings[i], isSelected))

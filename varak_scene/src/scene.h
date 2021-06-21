@@ -1,5 +1,8 @@
 #pragma once
 
+#include "components/camera_component.h"
+#include "components/sprite_renderer_component.h"
+#include "components/transform_component.h"
 #include "editor_camera.h"
 #include "varak_app.h"
 
