@@ -56,6 +56,8 @@ namespace Varak {
 
     static void drawComponents(Entity entity)
     {
+        ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 5.0f);
+
         if (entity.hasComponent<IdentifierComponent>())
         {
             ImGuiHelper::drawInputText("##name", entity.getComponent<IdentifierComponent>().name);
@@ -68,32 +70,16 @@ namespace Varak {
             if (ImGuiHelper::drawVec3Control("Rotation", rotation))
                 transform.rotation = glm::radians(rotation);
 
-            ImGuiHelper::drawVec3Control("Scale", transform.scale, 1.0f);
+            ImGuiHelper::drawVec3Control("Scale", transform.scale);
         });
 
         drawComponent<CameraComponent>("Camera", entity, [](CameraComponent& camera) {
             ImGuiHelper::drawCheckbox("Primary", camera.primary);
-            constexpr const char* projectionTypeStrings[] = { "Perpective", "Orthographic" };
-            const char* currentProjectionTypeString =
-                projectionTypeStrings[static_cast<int>(camera.projectionType)];
+            ImGuiHelper::drawCheckbox("Fixed Aspect Ratio", camera.fixedAspectRatio);
 
-            if (ImGuiHelper::drawComboBegin("Projection", currentProjectionTypeString))
-            {
-                for (size_t i = 0; i < std::size(projectionTypeStrings); i++)
-                {
-                    bool isSelected = currentProjectionTypeString == projectionTypeStrings[i];
-                    if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
-                    {
-                        camera.projectionType = static_cast<Camera::ProjectionType>(i);
-                        break;
-                    }
-
-                    if (isSelected)
-                        ImGui::SetItemDefaultFocus();
-                }
-
-                ImGui::EndCombo();
-            }
+            constexpr std::array<const char*, 2> projectionTypeStrings = { "Perpective",
+                                                                           "Orthographic" };
+            ImGuiHelper::drawEnumPicker("Projection", camera.projectionType, projectionTypeStrings);
 
             if (camera.projectionType == Camera::ProjectionType::Perpective)
             {
@@ -109,7 +95,6 @@ namespace Varak {
                 ImGuiHelper::drawDragFloat("Size", camera.orthographicSize);
                 ImGuiHelper::drawDragFloat("Near", camera.orthographicNear);
                 ImGuiHelper::drawDragFloat("Far", camera.orthographicFar);
-                ImGuiHelper::drawCheckbox("Fixed Aspect Ratio", camera.fixedAspectRatio);
             }
         });
 
@@ -117,6 +102,8 @@ namespace Varak {
             "Sprite Renderer", entity, [](SpriteRendererComponent& sprite) {
                 ImGuiHelper::drawColorEdit4("Color", sprite.color); //
             });
+
+        ImGui::PopStyleVar();
     }
 
     template <typename Component>

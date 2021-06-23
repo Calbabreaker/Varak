@@ -87,24 +87,24 @@ namespace Varak {
                        ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
         windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
         ImGui::Begin("DockSpace", &dockSpaceOpen, windowFlags);
         ImGui::PopStyleVar();
 
         ImGui::PopStyleVar(2);
 
         // DockSpace
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(300.0f, 50.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 300.0f, 50.0f });
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
             ImGuiID dockspaceId = ImGui::GetID("DockSpace");
-            ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
+            ImGui::DockSpace(dockspaceId, { 0.0f, 0.0f }, ImGuiDockNodeFlags_None);
         }
 
         ImGui::PopStyleVar();
 
         // Menu Bar
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f)); // for menubar
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 8.0f, 8.0f });
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
         if (ImGui::BeginMainMenuBar())
         {
@@ -157,7 +157,7 @@ namespace Varak {
 
         ImGui::End(); // Stats
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
         ImGui::Begin("Viewport");
 
         m_viewportFocused = ImGui::IsWindowFocused();
@@ -183,11 +183,13 @@ namespace Varak {
         }
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, ImVec2(0.0f, 1.0f),
-                     ImVec2(1.0f, 0.0f));
+        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, { 0.0f, 1.0f },
+                     { 1.0f, 0.0f });
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
+
+        ImGui::ShowDemoWindow();
 
         ImGui::End(); // Dockspace
 

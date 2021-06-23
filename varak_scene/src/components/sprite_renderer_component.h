@@ -15,3 +15,7 @@ namespace Varak {
     };
 
 } // namespace Varak
+
+REFL_TYPE(Varak::SpriteRendererComponent)
+REFL_FIELD(color)
+REFL_END

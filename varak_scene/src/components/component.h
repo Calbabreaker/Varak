@@ -1,5 +1,6 @@
 #pragma once
 
+#include "varak_core.h"
 #include <refl.hpp>
 
 namespace Varak {
