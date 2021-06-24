@@ -189,8 +189,6 @@ namespace Varak {
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();
 
-        ImGui::ShowDemoWindow();
-
         ImGui::End(); // Dockspace
 
         m_imguiLayer->endImGui();

@@ -89,9 +89,7 @@ namespace Varak {
         {
             auto& cameraComponent = view.get<CameraComponent>(entity);
             if (!cameraComponent.fixedAspectRatio)
-            {
                 cameraComponent.setViewportSize(width, height);
-            }
         }
     }
 
@@ -108,31 +106,10 @@ namespace Varak {
         m_registry.destroy(entity); //
     }
 
-    template <typename Component>
-    void Scene::onComponentAdded(Entity entity, Component& component)
-    {
-    }
-
     template <>
-    void Scene::onComponentAdded<IdentifierComponent>(Entity entity, IdentifierComponent& component)
-    {
-    }
-
-    template <>
-    void Scene::onComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
-    {
-    }
-
-    template <>
-    void Scene::onComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+    void Scene::onComponentAdded<CameraComponent>(CameraComponent& component)
     {
         component.setViewportSize(m_viewportWidth, m_viewportHeight);
-    }
-
-    template <>
-    void Scene::onComponentAdded<SpriteRendererComponent>(Entity entity,
-                                                          SpriteRendererComponent& component)
-    {
     }
 
 } // namespace Varak

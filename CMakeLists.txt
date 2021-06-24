@@ -29,12 +29,13 @@ conan_basic_setup()
 
 include(cmake/project_warnings.cmake)
 
-add_subdirectory(varak_core)
-add_subdirectory(varak_app)
-add_subdirectory(varak_event)
-add_subdirectory(varak_imgui)
-add_subdirectory(varak_renderer)
-add_subdirectory(varak_scene)
-add_subdirectory(varak_window)
+add_subdirectory(targets/varak_core)
 
-add_subdirectory(varak_editor)
+add_subdirectory(targets/varak_app)
+add_subdirectory(targets/varak_event)
+add_subdirectory(targets/varak_imgui)
+add_subdirectory(targets/varak_renderer)
+add_subdirectory(targets/varak_scene)
+add_subdirectory(targets/varak_window)
+
+add_subdirectory(targets/varak_editor)

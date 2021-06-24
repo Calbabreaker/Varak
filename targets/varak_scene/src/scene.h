@@ -31,7 +31,9 @@ namespace Varak {
 
     private:
         template <typename Component>
-        void onComponentAdded(Entity entity, Component& component);
+        void onComponentAdded(Component& /*component*/)
+        {
+        }
 
     private:
         entt::registry m_registry;

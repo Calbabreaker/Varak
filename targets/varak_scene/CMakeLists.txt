@@ -2,7 +2,7 @@ add_library(VarakScene
     src/entity.cpp
     src/scene.cpp
     src/editor_camera.cpp
-    src/components/transform_component.cpp
+    src/scene_serializer.cpp
 )
 
 set_project_warnings(VarakScene)
