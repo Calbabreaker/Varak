@@ -7,23 +7,22 @@
 
 namespace Varak {
 
-    template <typename Component, typename UIFunc>
+    template <typename T, typename UIFunc>
     static void drawComponent(const std::string& name, Entity entity, UIFunc uiFunc)
     {
         ImGuiTreeNodeFlags treeNodeFlags =
             ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap |
             ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth |
             ImGuiTreeNodeFlags_FramePadding;
-        if (entity.hasComponent<Component>())
+        if (entity.hasComponent<T>())
         {
-            auto& component = entity.getComponent<Component>();
+            T& component = entity.getComponent<T>();
             ImGuiStyle& style = ImGui::GetStyle();
             ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
             float lineHeight = ImGui::GetFontSize() + style.FramePadding.y * 2;
-            ImGui::Separator();
-            bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(Component).hash_code()),
+            bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(typeid(T).hash_code()),
                                             treeNodeFlags, "%s", name.c_str());
             ImGui::PopStyleVar();
 
@@ -50,18 +49,13 @@ namespace Varak {
             }
 
             if (removeComponent)
-                entity.removeComponent<Component>();
+                entity.removeComponent<T>();
         }
     }
 
     static void drawComponents(Entity entity)
     {
         ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 5.0f);
-
-        if (entity.hasComponent<IdentifierComponent>())
-        {
-            ImGuiHelper::drawInputText("##name", entity.getComponent<IdentifierComponent>().name);
-        }
 
         drawComponent<TransformComponent>("Transform", entity, [](TransformComponent& transform) {
             ImGuiHelper::drawVec3Control("Translation", transform.translation);
@@ -100,24 +94,39 @@ namespace Varak {
 
         drawComponent<SpriteRendererComponent>(
             "Sprite Renderer", entity, [](SpriteRendererComponent& sprite) {
-                ImGuiHelper::drawColorEdit4("Color", sprite.color); //
+                ImGuiHelper::drawColorEdit("Color", sprite.color); //
             });
 
         ImGui::PopStyleVar();
     }
 
-    template <typename Component>
-    static void addComponentMenuItem(Entity entity, const char* label)
+    // this will accept a list of templates
+    template <typename... ComponentType>
+    static void drawAddComponentMenuItem(Entity entity)
     {
-        if (!entity.hasComponent<Component>() && ImGui::MenuItem(label))
+        if constexpr (sizeof...(ComponentType) == 1)
         {
-            entity.addComponent<Component>();
-            ImGui::CloseCurrentPopup();
+            rttr::type type = rttr::type::get<ComponentType...>();
+            rttr::variant prettyNameVar = type.get_metadata(ReflectMetaData::PrettyName);
+            const char* name =
+                prettyNameVar ? prettyNameVar.get_value<const char*>() : type.get_name().data();
+
+            if (!entity.hasComponent<ComponentType...>() && ImGui::MenuItem(name))
+            {
+                entity.addComponent<ComponentType...>();
+                ImGui::CloseCurrentPopup();
+            }
         }
+        else
+            (drawAddComponentMenuItem<ComponentType>(entity), ...);
     }
 
     void InspectorPanel::drawProperties(Entity entity)
     {
+        IdentifierComponent& indentifier = entity.getComponent<IdentifierComponent>();
+        ImGuiHelper::drawInputTextBox("##name", indentifier.name);
+
+        ImGui::Separator();
         drawComponents(entity);
 
         // Add Component button
@@ -134,9 +143,7 @@ namespace Varak {
 
         if (ImGui::BeginPopup("AddComponent"))
         {
-            addComponentMenuItem<CameraComponent>(entity, "Camera");
-            addComponentMenuItem<SpriteRendererComponent>(entity, "Sprite Renderer");
-
+            drawAddComponentMenuItem VR_COMPONENT_TEMPLATE_LIST(entity);
             ImGui::EndPopup();
         }
     }

@@ -19,14 +19,13 @@ namespace Varak {
 
     enum EventCategory 
     {
-        EventCategoryNone =               0,
-        EventCategoryWindow =      VR_BIT(0),
-        EventCategoryInput =       VR_BIT(1),
-        EventCategoryKeyboard =    VR_BIT(2),
-        EventCategoryMouse =       VR_BIT(3),
-        EventCategoryMouseButton = VR_BIT(4)
+        EventCategoryNone =        0,
+        EventCategoryWindow =      1 << 0,
+        EventCategoryInput =       1 << 1,
+        EventCategoryKeyboard =    1 << 2,
+        EventCategoryMouse =       1 << 2,
+        EventCategoryMouseButton = 1 << 3
     };
-
     // clang-format on
 
 #define MAKE_EVENT_CLASS_TYPE(type)                                                                \
@@ -58,14 +57,10 @@ namespace Varak {
         EventDispatcher(Event& event) : m_event(event) {}
 
         template <typename T, typename EventFunc>
-        bool dispatch(const EventFunc& func)
+        void dispatch(const EventFunc& func)
         {
             if (m_event.getEventType() == T::getStaticType())
-            {
                 m_event.handled |= func(static_cast<T&>(m_event));
-                return true;
-            }
-            return false;
         }
 
     private:

@@ -22,12 +22,12 @@ namespace Varak {
         template <typename T, size_t C>
         extern bool drawEnumPicker(const char* label, T& currentValue,
                                    const std::array<const char*, C>& enumNames);
-        bool drawInputText(const char* label, std::string& text, ImGuiInputTextFlags flags = 0);
+        bool drawInputTextBox(const char* label, std::string& text, ImGuiInputTextFlags flags = 0);
         bool drawCheckbox(const char* label, bool& value);
         bool drawDragFloat(const char* label, float& value, float speed = 1.0f, float min = 0.0f,
                            float max = 0.0f, const char* format = "%.3f",
                            ImGuiSliderFlags flags = 0);
-        bool drawColorEdit4(const char* label, glm::vec4& values, ImGuiColorEditFlags flags = 0);
+        bool drawColorEdit(const char* label, glm::vec4& values, ImGuiColorEditFlags flags = 0);
         bool drawClickableText(const char* label, const char* text,
                                const ImVec2& sizeArg = ImVec2(0.0f, 0.0f),
                                ImGuiButtonFlags flags = 0);

@@ -74,7 +74,7 @@ namespace Varak {
             });
         }
 
-        bool drawInputText(const char* label, std::string& text, ImGuiInputTextFlags flags)
+        bool drawInputTextBox(const char* label, std::string& text, ImGuiInputTextFlags flags)
         {
             return inputWithLabel(label, [&]() {
                 char buffer[256];
@@ -114,7 +114,7 @@ namespace Varak {
             });
         }
 
-        bool drawColorEdit4(const char* label, glm::vec4& values, ImGuiColorEditFlags flags)
+        bool drawColorEdit(const char* label, glm::vec4& values, ImGuiColorEditFlags flags)
         {
             return ImGuiHelper::inputWithLabel(label, [&]() {
                 return ImGui::ColorEdit4("", glm::value_ptr(values), flags); //

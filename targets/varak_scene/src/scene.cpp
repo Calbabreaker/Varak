@@ -7,6 +7,7 @@ namespace Varak {
     Scene::Scene(uint32_t viewportWidth, uint32_t viewportHeight)
         : m_viewportWidth(viewportWidth), m_viewportHeight(viewportHeight)
     {
+        m_registry.on_construct<CameraComponent>().connect<&Scene::onCameraComponentAdded>(this);
     }
 
     Scene::~Scene() {}
@@ -106,10 +107,9 @@ namespace Varak {
         m_registry.destroy(entity); //
     }
 
-    template <>
-    void Scene::onComponentAdded<CameraComponent>(CameraComponent& component)
+    void Scene::onCameraComponentAdded(entt::registry& /*registry*/, entt::entity entity)
     {
-        component.setViewportSize(m_viewportWidth, m_viewportHeight);
+        m_registry.get<CameraComponent>(entity).setViewportSize(m_viewportWidth, m_viewportHeight);
     }
 
 } // namespace Varak

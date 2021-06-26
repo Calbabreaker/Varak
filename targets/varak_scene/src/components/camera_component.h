@@ -3,8 +3,6 @@
 #include "component.h"
 #include "varak_renderer.h"
 
-#include <glm/glm.hpp>
-
 namespace Varak {
 
     struct CameraComponent : public Camera
@@ -13,6 +11,8 @@ namespace Varak {
         bool primary = true; // TODO: move this into scene
 
         CameraComponent() = default;
+
+        void temp();
     };
 
 } // namespace Varak

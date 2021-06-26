@@ -8,14 +8,14 @@ namespace Varak {
 
     Application* Application::s_instance = nullptr;
 
-    Application::Application(const std::string& name)
+    Application::Application(const WindowProperties& windowProperties)
     {
         VR_PROFILE_FUNCTION();
 
         VR_CORE_ASSERT_MSG(!s_instance, "Aplication already exists!");
         s_instance = this;
 
-        m_window = createScope<Window>(WindowProperties(name));
+        m_window = createScope<Window>(windowProperties);
         m_window->setEventCallback(VR_BIND_FUNC(Application::onEvent));
 
         Renderer::init();

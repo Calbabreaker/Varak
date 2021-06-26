@@ -1,7 +1,7 @@
 #pragma once
 
 #include "layer_stack.h"
-#include "varak_window.h"
+#include "window.h"
 
 #include <string>
 
@@ -10,7 +10,7 @@ namespace Varak {
     class Application
     {
     public:
-        Application(const std::string& name = "Varak Engine");
+        Application(const WindowProperties& windowProperties = WindowProperties("Varak Engine"));
         virtual ~Application();
 
         void run();

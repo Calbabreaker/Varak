@@ -9,7 +9,7 @@ endif()
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
     message(
         FATAL_ERROR
-        "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there."
+        "In-source builds not allowed. Please make a 'build/' directory and run 'cmake ../' from there."
     )
 endif()
 
@@ -36,6 +36,5 @@ add_subdirectory(targets/varak_event)
 add_subdirectory(targets/varak_imgui)
 add_subdirectory(targets/varak_renderer)
 add_subdirectory(targets/varak_scene)
-add_subdirectory(targets/varak_window)
 
 add_subdirectory(targets/varak_editor)

@@ -52,19 +52,19 @@ namespace Varak {
 
         std::string& name = entity.getComponent<IdentifierComponent>().name;
 
-        if (m_isNameBeingEdited && m_inspectorPanel->getSelected() == entity)
+        if (m_nameBeingEdited && m_inspectorPanel->getSelected() == entity)
         {
             ImGuiInputTextFlags inputFlags =
                 ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
-            if (ImGuiHelper::drawInputText("##name", name, inputFlags))
-                m_isNameBeingEdited = false;
+            if (ImGuiHelper::drawInputTextBox("##name", name, inputFlags))
+                m_nameBeingEdited = false;
             ImGui::PopStyleVar(2);
 
             if (!ImGui::IsItemFocused())
                 ImGui::SetKeyboardFocusHere(0);
 
             if (!ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-                m_isNameBeingEdited = false;
+                m_nameBeingEdited = false;
         }
         else
         {
@@ -81,7 +81,7 @@ namespace Varak {
             if (m_inspectorPanel->getSelected() == entity)
             {
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-                    m_isNameBeingEdited = true;
+                    m_nameBeingEdited = true;
             }
             else
             {
@@ -92,7 +92,7 @@ namespace Varak {
             if (ImGui::BeginPopupContextItem())
             {
                 if (ImGui::MenuItem("Rename"))
-                    m_isNameBeingEdited = true;
+                    m_nameBeingEdited = true;
 
                 if (ImGui::MenuItem("Destroy Entity"))
                 {

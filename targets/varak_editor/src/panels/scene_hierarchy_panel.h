@@ -20,7 +20,7 @@ namespace Varak {
         Ref<Scene> m_scene;
         InspectorPanel* m_inspectorPanel;
 
-        bool m_isNameBeingEdited = false;
+        bool m_nameBeingEdited = false;
     };
 
 } // namespace Varak

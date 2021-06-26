@@ -6,6 +6,7 @@
 #include "editor_camera.h"
 #include "varak_app.h"
 
+#define ENTT_DISABLE_ASSERT
 #include <entt/entt.hpp>
 
 namespace Varak {
@@ -30,10 +31,7 @@ namespace Varak {
         void destroyEntity(Entity entity);
 
     private:
-        template <typename Component>
-        void onComponentAdded(Component& /*component*/)
-        {
-        }
+        void onCameraComponentAdded(entt::registry& registry, entt::entity entity);
 
     private:
         entt::registry m_registry;

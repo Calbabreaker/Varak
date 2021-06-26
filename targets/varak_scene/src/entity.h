@@ -8,36 +8,46 @@ namespace Varak {
     {
     public:
         Entity() = default;
-        Entity(entt::entity handle, Scene* scene);
+        Entity(entt::entity handle, Scene* scene) : m_handle(handle), m_scene(scene) {}
 
-        template <typename Component, typename... Args>
-        Component& addComponent(Args&&... args)
+        template <typename T, typename... Args>
+        T& addComponent(Args&&... args)
         {
-            VR_CORE_ASSERT_MSG(!hasComponent<Component>(), "Entity already has component!");
-            Component& component =
-                m_scene->m_registry.emplace<Component>(m_handle, std::forward<Args>(args)...);
-            m_scene->onComponentAdded<Component>(component);
+            VR_CORE_ASSERT_MSG(!hasComponent<T>(), "Entity already has component!");
+            T& component = m_scene->m_registry.emplace<T>(m_handle, std::forward<Args>(args)...);
             return component;
         }
 
-        template <typename Component>
-        Component& getComponent()
+        template <typename... T>
+        decltype(auto) getComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<Component>(), "Entity does not have component!");
-            return m_scene->m_registry.get<Component>(m_handle);
+            VR_CORE_ASSERT_MSG(hasAllComponents<T...>(), "Entity does not have the component!");
+            return m_scene->m_registry.get<T...>(m_handle);
         }
 
-        template <typename Component>
+        template <typename... T>
+        auto tryGetComponent()
+        {
+            return m_scene->m_registry.try_get<T...>(m_handle);
+        }
+
+        template <typename... T>
         void removeComponent()
         {
-            VR_CORE_ASSERT_MSG(hasComponent<Component>(), "Entity does not have component!");
-            return m_scene->m_registry.remove<Component>(m_handle);
+            VR_CORE_ASSERT_MSG(hasAllComponents<T...>(), "Entity does not have the component!");
+            return m_scene->m_registry.remove<T...>(m_handle);
         }
 
-        template <typename Component>
+        template <typename... T>
         bool hasComponent()
         {
-            return m_scene->m_registry.any_of<Component>(m_handle);
+            return m_scene->m_registry.any_of<T...>(m_handle);
+        }
+
+        template <typename... T>
+        bool hasAllComponents()
+        {
+            return m_scene->m_registry.all_of<T...>(m_handle);
         }
 
         operator entt::entity() { return m_handle; }
