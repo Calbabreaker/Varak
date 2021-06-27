@@ -19,9 +19,6 @@ namespace Varak {
 
         // functions here to make it easier draw stuff
         bool drawVec3Control(const char* label, glm::vec3& values);
-        template <typename T, size_t C>
-        extern bool drawEnumPicker(const char* label, T& currentValue,
-                                   const std::array<const char*, C>& enumNames);
         bool drawInputTextBox(const char* label, std::string& text, ImGuiInputTextFlags flags = 0);
         bool drawCheckbox(const char* label, bool& value);
         bool drawDragFloat(const char* label, float& value, float speed = 1.0f, float min = 0.0f,
@@ -91,7 +88,6 @@ namespace Varak {
             window->DC.ItemWidth = window->DC.ItemWidthStack.empty()
                                        ? window->ItemWidthDefault
                                        : window->DC.ItemWidthStack.back();
-            // pop id
             window->IDStack.pop_back();
 
             return hasInputed;

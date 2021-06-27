@@ -50,19 +50,16 @@ namespace Varak {
             return m_scene->m_registry.all_of<T...>(m_handle);
         }
 
+        uint32_t getID() { return static_cast<uint32_t>(m_handle); }
         operator entt::entity() { return m_handle; }
         operator bool() { return m_handle != entt::null; }
-        operator uint32_t() { return static_cast<uint32_t>(m_handle); }
 
-        bool operator==(const Entity& other)
+        bool operator==(const Entity& other) const
         {
-            return m_handle == other.m_handle && m_scene == other.m_scene; //
+            return m_handle == other.m_handle && m_scene == other.m_scene;
         }
 
-        bool operator!=(const Entity& other)
-        {
-            return !(*this == other); //
-        }
+        bool operator!=(const Entity& other) const { return !(*this == other); }
 
     private:
         entt::entity m_handle = entt::null;

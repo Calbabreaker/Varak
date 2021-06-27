@@ -4,14 +4,12 @@
 
 namespace Varak {
 
-    RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
-
-    Scope<RendererAPI> RendererAPI::create()
+    std::unique_ptr<RendererAPI> RendererAPI::create()
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createScope<OpenGLRendererAPI>();
+            return std::make_unique<OpenGLRendererAPI>();
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

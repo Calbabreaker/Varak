@@ -19,6 +19,7 @@ namespace Varak {
         case ShaderDataType::Int3: return GL_INT;
         case ShaderDataType::Int4: return GL_INT;
         case ShaderDataType::Bool: return GL_BOOL;
+        default: break;
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
@@ -39,12 +40,13 @@ namespace Varak {
         glDeleteVertexArrays(1, &m_rendererID);
     }
 
-    void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
+    void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
     {
         VR_PROFILE_FUNCTION();
 
         glBindVertexArray(m_rendererID);
-        VR_CORE_ASSERT_MSG(vertexBuffer->getLayout().getElements().size(), "BufferLayout can not be empty!");
+        VR_CORE_ASSERT_MSG(vertexBuffer->getLayout().getElements().size(),
+                           "BufferLayout can not be empty!");
         vertexBuffer->bind();
         m_vertexBuffers.push_back(vertexBuffer);
 
@@ -52,14 +54,15 @@ namespace Varak {
         for (auto& element : vertexBuffer->getLayout())
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, element.getComponentCount(), shaderTypeOpenGL(element.type),
-                                  element.normalized, vertexBuffer->getLayout().getStride(),
+            glVertexAttribPointer(index, element.getComponentCount(),
+                                  shaderTypeOpenGL(element.type), element.normalized,
+                                  vertexBuffer->getLayout().getStride(),
                                   reinterpret_cast<const void*>(element.offset));
             index++;
         }
     }
 
-    void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
+    void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
     {
         VR_PROFILE_FUNCTION();
 

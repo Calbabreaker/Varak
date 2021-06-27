@@ -121,7 +121,8 @@ namespace Varak {
             (drawAddComponentMenuItem<ComponentType>(entity), ...);
     }
 
-    void InspectorPanel::drawProperties(Entity entity)
+    template <>
+    void InspectorPanel::inspectItem<Entity>(Entity& entity)
     {
         IdentifierComponent& indentifier = entity.getComponent<IdentifierComponent>();
         ImGuiHelper::drawInputTextBox("##name", indentifier.name);

@@ -12,7 +12,6 @@ namespace Varak {
 
         SpriteRendererComponent() = default;
         SpriteRendererComponent(const glm::vec4& p_color) : color(p_color) {}
-        void temp();
     };
 
 } // namespace Varak

@@ -3,8 +3,6 @@
 
 namespace Varak {
 
-    Scope<SceneData> Renderer::s_sceneData = createScope<SceneData>();
-
     void Renderer::init()
     {
         VR_PROFILE_FUNCTION();
@@ -32,7 +30,8 @@ namespace Varak {
 
     void Renderer::endScene() {}
 
-    void Renderer::submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform)
+    void Renderer::submit(const std::shared_ptr<VertexArray>& vertexArray,
+                          const std::shared_ptr<Shader>& shader, const glm::mat4& transform)
     {
         vertexArray->bind();
         shader->bind();

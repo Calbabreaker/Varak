@@ -2,6 +2,7 @@
 
 #include "core.h"
 
+#include <memory>
 #include <spdlog/spdlog.h>
 
 #include <spdlog/fmt/ostr.h>
@@ -13,12 +14,12 @@ namespace Varak {
     public:
         static void init();
 
-        static Ref<spdlog::logger>& getCoreLogger() { return s_coreLogger; }
-        static Ref<spdlog::logger>& getClientLogger() { return s_clientLogger; }
+        static std::shared_ptr<spdlog::logger>& getCoreLogger() { return s_coreLogger; }
+        static std::shared_ptr<spdlog::logger>& getClientLogger() { return s_clientLogger; }
 
     private:
-        static Ref<spdlog::logger> s_coreLogger;
-        static Ref<spdlog::logger> s_clientLogger;
+        static std::shared_ptr<spdlog::logger> s_coreLogger;
+        static std::shared_ptr<spdlog::logger> s_clientLogger;
     };
 
 } // namespace Varak

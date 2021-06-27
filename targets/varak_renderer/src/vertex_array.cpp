@@ -5,12 +5,12 @@
 
 namespace Varak {
 
-    Ref<VertexArray> VertexArray::create()
+    std::shared_ptr<VertexArray> VertexArray::create()
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLVertexArray>();
+            return std::make_shared<OpenGLVertexArray>();
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

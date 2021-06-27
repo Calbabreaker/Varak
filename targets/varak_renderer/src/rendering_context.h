@@ -7,7 +7,7 @@ namespace Varak {
     class RenderingContext
     {
     public:
-        static Scope<RenderingContext> create(void* window);
+        static std::unique_ptr<RenderingContext> create(void* window);
 
         virtual ~RenderingContext() = default;
 

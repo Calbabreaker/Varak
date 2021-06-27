@@ -49,7 +49,8 @@ namespace Varak {
 
     void OpenGLRendererAPI::setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
     {
-        glViewport(x, y, width, height);
+        glViewport(static_cast<int>(x), static_cast<int>(y), static_cast<int>(width),
+                   static_cast<int>(height));
     }
 
     void OpenGLRendererAPI::clear()
@@ -57,11 +58,12 @@ namespace Varak {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //
     }
 
-    void OpenGLRendererAPI::drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
+    void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
+                                        uint32_t indexCount)
     {
         uint32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
 
-        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_INT, nullptr);
     }
 
 } // namespace Varak

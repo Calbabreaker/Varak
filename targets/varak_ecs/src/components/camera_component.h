@@ -11,8 +11,6 @@ namespace Varak {
         bool primary = true; // TODO: move this into scene
 
         CameraComponent() = default;
-
-        void temp();
     };
 
 } // namespace Varak

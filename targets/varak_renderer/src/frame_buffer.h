@@ -15,7 +15,7 @@ namespace Varak {
     class FrameBuffer
     {
     public:
-        static Ref<FrameBuffer> create(const FrameBufferProperties& props);
+        static std::shared_ptr<FrameBuffer> create(const FrameBufferProperties& props);
 
         virtual ~FrameBuffer() = default;
 

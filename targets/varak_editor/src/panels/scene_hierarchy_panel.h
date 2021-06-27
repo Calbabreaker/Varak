@@ -9,7 +9,7 @@ namespace Varak {
     public:
         SceneHierarchyPanel(InspectorPanel* panel);
 
-        void setScene(const Ref<Scene>& scene);
+        void setScene(const std::shared_ptr<Scene>& scene);
 
         void onImGuiRender();
 
@@ -17,7 +17,7 @@ namespace Varak {
         void drawEntityNode(Entity entity);
 
     private:
-        Ref<Scene> m_scene;
+        std::shared_ptr<Scene> m_scene;
         InspectorPanel* m_inspectorPanel;
 
         bool m_nameBeingEdited = false;

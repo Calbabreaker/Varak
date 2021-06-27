@@ -2,32 +2,20 @@
 
 #include "assert.h"
 
-#include <memory>
+#include <rttr/registration.h>
 
-#define VR_BIT(x) (1 << x)
 #define VR_BIND_FUNC(func)                                                                         \
     [this](auto&&... args) -> decltype(auto) {                                                     \
         return this->func(std::forward<decltype(args)>(args)...);                                  \
     }
 
+#define VR_REFLECT RTTR_REGISTRATION
+
 namespace Varak {
 
-    template <typename T>
-    using Scope = std::unique_ptr<T>;
-
-    template <typename T, typename... Args>
-    constexpr Scope<T> createScope(Args&&... args)
+    enum class ReflectMetaData
     {
-        return std::make_unique<T>(std::forward<Args>(args)...);
-    }
-
-    template <typename T>
-    using Ref = std::shared_ptr<T>;
-
-    template <typename T, typename... Args>
-    constexpr Ref<T> createRef(Args&&... args)
-    {
-        return std::make_shared<T>(std::forward<Args>(args)...);
-    }
+        PrettyName
+    };
 
 } // namespace Varak

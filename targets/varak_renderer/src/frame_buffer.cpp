@@ -5,12 +5,12 @@
 
 namespace Varak {
 
-    Ref<FrameBuffer> FrameBuffer::create(const FrameBufferProperties& props)
+    std::shared_ptr<FrameBuffer> FrameBuffer::create(const FrameBufferProperties& props)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLFrameBuffer>(props);
+            return std::make_shared<OpenGLFrameBuffer>(props);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

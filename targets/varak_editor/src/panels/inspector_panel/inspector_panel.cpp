@@ -8,9 +8,9 @@ namespace Varak {
     {
         ImGui::Begin("Inspector");
 
-        if (auto entity = static_cast<Entity>(m_selectedInspectable))
+        if (m_selectedItem.is_type<Entity>())
         {
-            drawProperties(entity);
+            inspectItem(getSelected<Entity>());
         }
 
         ImGui::End();

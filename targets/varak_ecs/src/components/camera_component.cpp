@@ -2,9 +2,7 @@
 
 namespace Varak {
 
-    void CameraComponent::temp() { void(); };
-
-    RTTR_REGISTRATION
+    VR_REFLECT
     {
         rttr::registration::class_<CameraComponent>("CameraComponent")(
             rttr::metadata(ReflectMetaData::PrettyName, "Camera"))

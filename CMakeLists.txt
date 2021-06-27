@@ -35,6 +35,6 @@ add_subdirectory(targets/varak_app)
 add_subdirectory(targets/varak_event)
 add_subdirectory(targets/varak_imgui)
 add_subdirectory(targets/varak_renderer)
-add_subdirectory(targets/varak_scene)
+add_subdirectory(targets/varak_ecs)
 
 add_subdirectory(targets/varak_editor)

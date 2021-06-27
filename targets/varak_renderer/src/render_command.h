@@ -27,13 +27,14 @@ namespace Varak {
             s_rendererAPI->clear(); //
         };
 
-        static void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+        static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
+                                uint32_t indexCount = 0)
         {
             s_rendererAPI->drawIndexed(vertexArray, indexCount);
         };
 
     private:
-        static Scope<RendererAPI> s_rendererAPI;
+        inline static std::unique_ptr<RendererAPI> s_rendererAPI = RendererAPI::create();
     };
 
 } // namespace Varak

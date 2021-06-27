@@ -11,9 +11,9 @@ namespace Varak {
     class Shader
     {
     public:
-        static Ref<Shader> create(const std::string& name, const std::string& vertexSrc,
+        static std::shared_ptr<Shader> create(const std::string& name, const std::string& vertexSrc,
                                   const std::string& fragmentSrc);
-        static Ref<Shader> create(const std::string& filepath);
+        static std::shared_ptr<Shader> create(const std::string& filepath);
 
         virtual ~Shader() = default;
 
@@ -33,16 +33,16 @@ namespace Varak {
     class ShaderLibrary
     {
     public:
-        void add(const Ref<Shader>& shader);
-        void add(const std::string& name, const Ref<Shader>& shader);
-        Ref<Shader> load(const std::string& name, const std::string& filepath);
-        Ref<Shader> load(const std::string& filepath);
+        void add(const std::shared_ptr<Shader>& shader);
+        void add(const std::string& name, const std::shared_ptr<Shader>& shader);
+        std::shared_ptr<Shader> load(const std::string& name, const std::string& filepath);
+        std::shared_ptr<Shader> load(const std::string& filepath);
 
-        Ref<Shader> get(const std::string& name);
+        std::shared_ptr<Shader> get(const std::string& name);
         bool exists(const std::string& name);
 
     private:
-        std::unordered_map<std::string, Ref<Shader>> m_shaders;
+        std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;
     };
 
 } // namespace Varak

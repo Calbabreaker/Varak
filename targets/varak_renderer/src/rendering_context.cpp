@@ -5,12 +5,12 @@
 
 namespace Varak {
 
-    Scope<RenderingContext> RenderingContext::create(void* window)
+    std::unique_ptr<RenderingContext> RenderingContext::create(void* window)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createScope<OpenGLContext>(static_cast<GLFWwindow*>(window));
+            return std::make_unique<OpenGLContext>(static_cast<GLFWwindow*>(window));
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

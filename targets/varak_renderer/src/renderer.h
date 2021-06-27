@@ -22,13 +22,14 @@ namespace Varak {
         static void beginScene(const glm::mat4& viewProj);
         static void endScene();
 
-        static void submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader,
+        static void submit(const std::shared_ptr<VertexArray>& vertexArray,
+                           const std::shared_ptr<Shader>& shader,
                            const glm::mat4& transform = glm::mat4(1.0f));
 
         static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
 
     private:
-        static Scope<SceneData> s_sceneData;
+        inline static std::unique_ptr<SceneData> s_sceneData = std::make_unique<SceneData>();
     };
 
 } // namespace Varak

@@ -7,24 +7,24 @@
 
 namespace Varak {
 
-    Ref<Texture2D> Texture2D::create(const std::string& filepath)
+    std::shared_ptr<Texture2D> Texture2D::create(const std::string& filepath)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLTexture2D>(filepath);
+            return std::make_shared<OpenGLTexture2D>(filepath);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    Ref<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
+    std::shared_ptr<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLTexture2D>(width, height);
+            return std::make_shared<OpenGLTexture2D>(width, height);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");

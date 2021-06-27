@@ -9,7 +9,7 @@ namespace Varak {
 
     SceneHierarchyPanel::SceneHierarchyPanel(InspectorPanel* panel) : m_inspectorPanel(panel) {}
 
-    void SceneHierarchyPanel::setScene(const Ref<Scene>& scene)
+    void SceneHierarchyPanel::setScene(const std::shared_ptr<Scene>& scene)
     {
         m_scene = scene; //
     }
@@ -28,9 +28,7 @@ namespace Varak {
         });
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowHovered())
-        {
-            m_inspectorPanel->setSelected({});
-        }
+            m_inspectorPanel->clearSelected();
 
         ImGuiPopupFlags popupFlags =
             ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems;
@@ -52,7 +50,7 @@ namespace Varak {
 
         std::string& name = entity.getComponent<IdentifierComponent>().name;
 
-        if (m_nameBeingEdited && m_inspectorPanel->getSelected() == entity)
+        if (m_nameBeingEdited && m_inspectorPanel->matchesSelected(entity))
         {
             ImGuiInputTextFlags inputFlags =
                 ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll;
@@ -71,14 +69,16 @@ namespace Varak {
             ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_OpenOnArrow |
                                                ImGuiTreeNodeFlags_SpanAvailWidth |
                                                ImGuiTreeNodeFlags_FramePadding;
-            if (m_inspectorPanel->getSelected() == entity)
+            if (m_inspectorPanel->matchesSelected(entity))
                 treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
 
-            bool opened =
-                ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeNodeFlags, name.c_str());
+            uint64_t entityID = static_cast<uint64_t>(entity.getID());
+            bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(entityID), treeNodeFlags, "%s",
+                                            name.c_str());
+
             ImGui::PopStyleVar(2);
 
-            if (m_inspectorPanel->getSelected() == entity)
+            if (m_inspectorPanel->matchesSelected(entity))
             {
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
                     m_nameBeingEdited = true;
@@ -86,7 +86,7 @@ namespace Varak {
             else
             {
                 if (ImGui::IsItemClicked())
-                    m_inspectorPanel->setSelected({ entity });
+                    m_inspectorPanel->setSelected<Entity>(entity);
             }
 
             if (ImGui::BeginPopupContextItem())
@@ -96,9 +96,10 @@ namespace Varak {
 
                 if (ImGui::MenuItem("Destroy Entity"))
                 {
+                    if (m_inspectorPanel->matchesSelected(entity))
+                        m_inspectorPanel->clearSelected();
+
                     m_scene->destroyEntity(entity);
-                    if (entity == m_inspectorPanel->getSelected())
-                        m_inspectorPanel->setSelected({});
                 }
 
                 ImGui::EndPopup();

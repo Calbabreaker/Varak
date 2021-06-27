@@ -28,7 +28,7 @@ namespace Varak {
         props.height = height;
         m_frameBuffer = FrameBuffer::create(props);
 
-        m_scene = createRef<Scene>(width, height);
+        m_scene = std::make_shared<Scene>(width, height);
         m_sceneHierarchyPanel.setScene(m_scene);
 
         m_squareEntity = m_scene->createEntity();
@@ -65,8 +65,6 @@ namespace Varak {
             m_scene->onRenderRuntime();
         else
             m_scene->onRenderEditor(m_editorCamera);
-
-        Renderer2D::resetStats();
 
         m_frameBuffer->unbind();
 
@@ -148,7 +146,7 @@ namespace Varak {
 
         ImGui::Begin("Stats");
 
-        auto stats = Renderer2D::getStats();
+        const Renderer2D::Statistics& stats = Renderer2D::getStats();
         ImGui::Text("Renderer2D Stats:");
         ImGui::Text("Draw Calls: %d", stats.drawCalls);
         ImGui::Text("Quads: %d", stats.quadCount);
@@ -164,15 +162,14 @@ namespace Varak {
         m_viewportHovered = ImGui::IsWindowHovered();
         m_imguiLayer->blockEvents(!m_viewportHovered || !m_viewportFocused);
 
-        ImVec2 viewPortPanelSize = ImGui::GetContentRegionAvail();
-        m_viewportSize = { viewPortPanelSize.x, viewPortPanelSize.y };
+        ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
         // resize if viewport size changed
-        if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f)
+        if (viewportSize.x > 0.0f && viewportSize.y > 0.0f)
         {
             FrameBufferProperties props = m_frameBuffer->getProperties();
-            uint32_t width = static_cast<uint32_t>(m_viewportSize.x);
-            uint32_t height = static_cast<uint32_t>(m_viewportSize.y);
+            uint32_t width = static_cast<uint32_t>(viewportSize.x);
+            uint32_t height = static_cast<uint32_t>(viewportSize.y);
 
             if (props.width != width || props.height != height)
             {
@@ -183,7 +180,7 @@ namespace Varak {
         }
 
         uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID), viewPortPanelSize, { 0.0f, 1.0f },
+        ImGui::Image(reinterpret_cast<void*>(rendererID), viewportSize, { 0.0f, 1.0f },
                      { 1.0f, 0.0f });
 
         ImGui::End(); // Viewport
@@ -192,6 +189,7 @@ namespace Varak {
         ImGui::End(); // Dockspace
 
         m_imguiLayer->endImGui();
+        Renderer2D::resetStats();
     }
 
     void EditorLayer::onEvent(Event& event)

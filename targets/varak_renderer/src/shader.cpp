@@ -5,56 +5,58 @@
 
 namespace Varak {
 
-    Ref<Shader> Shader::create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+    std::shared_ptr<Shader> Shader::create(const std::string& name, const std::string& vertexSrc,
+                                           const std::string& fragmentSrc)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
+            return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    Ref<Shader> Shader::create(const std::string& filepath)
+    std::shared_ptr<Shader> Shader::create(const std::string& filepath)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLShader>(filepath);
+            return std::make_shared<OpenGLShader>(filepath);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    void ShaderLibrary::add(const Ref<Shader>& shader)
+    void ShaderLibrary::add(const std::shared_ptr<Shader>& shader)
     {
         add(shader->getName(), shader); //
     }
 
-    void ShaderLibrary::add(const std::string& name, const Ref<Shader>& shader)
+    void ShaderLibrary::add(const std::string& name, const std::shared_ptr<Shader>& shader)
     {
         VR_CORE_ASSERT_MSG(!exists(name), "Shader '{0}' already exists!", name);
         m_shaders[name] = shader;
     }
 
-    Ref<Shader> ShaderLibrary::load(const std::string& name, const std::string& filepath)
+    std::shared_ptr<Shader> ShaderLibrary::load(const std::string& name,
+                                                const std::string& filepath)
     {
         auto shader = Shader::create(filepath);
         add(name, shader);
         return shader;
     }
 
-    Ref<Shader> ShaderLibrary::load(const std::string& filepath)
+    std::shared_ptr<Shader> ShaderLibrary::load(const std::string& filepath)
     {
         auto shader = Shader::create(filepath);
         add(shader);
         return shader;
     }
 
-    Ref<Shader> ShaderLibrary::get(const std::string& name)
+    std::shared_ptr<Shader> ShaderLibrary::get(const std::string& name)
     {
         VR_CORE_ASSERT_MSG(exists(name), "Shader '{0}' does not exist!", name);
         return m_shaders[name];

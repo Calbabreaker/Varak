@@ -25,8 +25,8 @@ namespace Varak {
     class Texture2D : public Texture
     {
     public:
-        static Ref<Texture2D> create(const std::string& filepath);
-        static Ref<Texture2D> create(uint32_t width, uint32_t height);
+        static std::shared_ptr<Texture2D> create(const std::string& filepath);
+        static std::shared_ptr<Texture2D> create(uint32_t width, uint32_t height);
     };
 
 } // namespace Varak

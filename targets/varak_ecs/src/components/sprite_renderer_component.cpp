@@ -2,7 +2,7 @@
 
 namespace Varak {
 
-    RTTR_REGISTRATION
+    VR_REFLECT
     {
         rttr::registration::class_<SpriteRendererComponent>("SpriteRendererComponent")(
             rttr::metadata(ReflectMetaData::PrettyName, "Sprite Renderer"))

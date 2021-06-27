@@ -32,7 +32,7 @@ namespace Varak {
         bool onWindowResized(WindowResizedEvent& event);
 
     private:
-        Scope<Window> m_window;
+        std::unique_ptr<Window> m_window;
         LayerStack m_layerStack;
         static Application* s_instance;
 

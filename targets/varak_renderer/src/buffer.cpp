@@ -5,43 +5,43 @@
 
 namespace Varak {
 
-    Ref<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
+    std::shared_ptr<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLVertexBuffer>(vertices, size);
+            return std::make_shared<OpenGLVertexBuffer>(vertices, size);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    Ref<VertexBuffer> VertexBuffer::create(uint32_t size)
+    std::shared_ptr<VertexBuffer> VertexBuffer::create(uint32_t size)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLVertexBuffer>(size);
+            return std::make_shared<OpenGLVertexBuffer>(size);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    Ref<IndexBuffer> IndexBuffer::create(uint32_t* indicies, uint32_t count)
+    std::shared_ptr<IndexBuffer> IndexBuffer::create(uint32_t* indicies, uint32_t count)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return createRef<OpenGLIndexBuffer>(indicies, count);
+            return std::make_shared<OpenGLIndexBuffer>(indicies, count);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    uint32_t shaderTypeSize(ShaderDataType type)
+    int32_t shaderTypeSize(ShaderDataType type)
     {
         switch (type)
         {
@@ -59,21 +59,21 @@ namespace Varak {
         default: break;
         }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown shader type!"); 
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
         return 0;
     }
 
-    void BufferLayout::calculateOffsetsAndStride()
+    BufferLayout::BufferLayout(std::initializer_list<BufferElement> elements) : m_elements(elements)
     {
         m_stride = 0;
-        for (auto& element : m_elements)
+        for (BufferElement& element : m_elements)
         {
             element.offset = m_stride;
             m_stride += element.size;
         }
     }
 
-    uint32_t BufferElement::getComponentCount() const
+    int32_t BufferElement::getComponentCount() const
     {
         switch (type)
         {
@@ -91,7 +91,7 @@ namespace Varak {
         default: break;
         }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown shader type!"); 
+        VR_CORE_ASSERT_MSG(false, "Unknown shader type!");
         return 0;
     }
 

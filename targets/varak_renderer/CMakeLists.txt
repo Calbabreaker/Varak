@@ -2,7 +2,6 @@ add_library(VarakRenderer
     src/buffer.cpp
     src/camera.cpp
     src/frame_buffer.cpp
-    src/render_command.cpp
     src/renderer2d.cpp
     src/renderer_api.cpp
     src/renderer.cpp

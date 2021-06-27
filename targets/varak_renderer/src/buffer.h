@@ -23,35 +23,32 @@ namespace Varak {
         Bool
     };
 
-    uint32_t shaderTypeSize(ShaderDataType type);
+    int32_t shaderTypeSize(ShaderDataType type);
 
     struct BufferElement
     {
         ShaderDataType type;
-        std::string name;
+        const char* name;
         bool normalized;
-        uint32_t size;
-        size_t offset;
+        int32_t size;
+        int32_t offset;
 
-        BufferElement(ShaderDataType p_type, const std::string& p_name, bool p_normalized = false)
+        BufferElement(ShaderDataType p_type, const char* p_name, bool p_normalized = false)
             : type(p_type), name(p_name), normalized(p_normalized), size(shaderTypeSize(p_type)),
               offset(0)
         {
         }
 
-        uint32_t getComponentCount() const;
+        int32_t getComponentCount() const;
     };
 
     class BufferLayout
     {
     public:
-        BufferLayout() {}
-        BufferLayout(std::initializer_list<BufferElement> elements) : m_elements(elements)
-        {
-            calculateOffsetsAndStride();
-        }
+        BufferLayout() = default;
+        BufferLayout(std::initializer_list<BufferElement> elements);
 
-        uint32_t getStride() const { return m_stride; }
+        int32_t getStride() const { return m_stride; }
         const std::vector<BufferElement>& getElements() const { return m_elements; }
 
         std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
@@ -60,18 +57,15 @@ namespace Varak {
         std::vector<BufferElement>::const_iterator end() const { return m_elements.end(); }
 
     private:
-        void calculateOffsetsAndStride();
-
-    private:
         std::vector<BufferElement> m_elements;
-        uint32_t m_stride = 0;
+        int32_t m_stride = 0;
     };
 
     class VertexBuffer
     {
     public:
-        static Ref<VertexBuffer> create(float* vertices, uint32_t size);
-        static Ref<VertexBuffer> create(uint32_t size);
+        static std::shared_ptr<VertexBuffer> create(float* vertices, uint32_t size);
+        static std::shared_ptr<VertexBuffer> create(uint32_t size);
 
         virtual ~VertexBuffer() = default;
 
@@ -87,7 +81,7 @@ namespace Varak {
     class IndexBuffer
     {
     public:
-        static Ref<IndexBuffer> create(uint32_t* indicies, uint32_t count);
+        static std::shared_ptr<IndexBuffer> create(uint32_t* indicies, uint32_t count);
 
         virtual ~IndexBuffer() = default;
 
