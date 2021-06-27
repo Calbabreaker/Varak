@@ -13,22 +13,22 @@ namespace Varak {
 
     OpenGLFrameBuffer::~OpenGLFrameBuffer()
     {
-        glDeleteFramebuffers(1, &m_rendererID);
+        glDeleteFramebuffers(1, &m_handle);
         glDeleteTextures(1, &m_colorAttachment);
         glDeleteTextures(1, &m_depthAttachment);
     }
 
     void OpenGLFrameBuffer::invalidate()
     {
-        if (m_rendererID)
+        if (m_handle)
         {
-            glDeleteFramebuffers(1, &m_rendererID);
+            glDeleteFramebuffers(1, &m_handle);
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
         }
 
-        glCreateFramebuffers(1, &m_rendererID);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
+        glCreateFramebuffers(1, &m_handle);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_handle);
 
         glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
         glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
@@ -54,7 +54,7 @@ namespace Varak {
 
     void OpenGLFrameBuffer::bind()
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_handle);
         glViewport(0, 0, m_properties.width, m_properties.height);
     }
 

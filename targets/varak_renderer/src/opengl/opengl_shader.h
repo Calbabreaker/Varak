@@ -32,7 +32,7 @@ namespace Varak {
         int getUniformLocation(const std::string& name);
 
     private:
-        uint32_t m_rendererID;
+        uint32_t m_handle;
         std::string m_name;
 
         std::unordered_map<std::string, int> m_uniformLocationCache;

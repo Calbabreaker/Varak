@@ -19,5 +19,4 @@
 
 // -- Varak Engine --
 #include "core.h"
-#include "instrumentor.h"
 #include "log.h"

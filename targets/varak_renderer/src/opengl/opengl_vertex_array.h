@@ -27,7 +27,7 @@ namespace Varak {
         };
 
     private:
-        uint32_t m_rendererID;
+        uint32_t m_handle;
         std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
         std::shared_ptr<IndexBuffer> m_indexBuffer;
     };

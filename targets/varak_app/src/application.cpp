@@ -10,8 +10,6 @@ namespace Varak {
 
     Application::Application(const WindowProperties& windowProperties)
     {
-        VR_PROFILE_FUNCTION();
-
         VR_CORE_ASSERT_MSG(!s_instance, "Aplication already exists!");
         s_instance = this;
 
@@ -23,8 +21,6 @@ namespace Varak {
 
     Application::~Application()
     {
-        VR_PROFILE_FUNCTION();
-
         for (Layer* layer : m_layerStack)
         {
             layer->onDetach();
@@ -36,12 +32,8 @@ namespace Varak {
 
     void Application::run()
     {
-        VR_PROFILE_FUNCTION();
-
         while (m_running)
         {
-            VR_PROFILE_SCOPE("Application update loop");
-
             float now = static_cast<float>(glfwGetTime());
             Timestep ts = now - m_lastFrameTime;
             m_lastFrameTime = now;
@@ -49,13 +41,11 @@ namespace Varak {
             if (!m_minimized)
             {
                 {
-                    VR_PROFILE_SCOPE("layerStack onUpdate - Application::run");
                     for (Layer* layer : m_layerStack)
                         layer->onUpdate(ts);
                 }
 
                 {
-                    VR_PROFILE_SCOPE("layerStack onRender - Application::run");
                     for (Layer* layer : m_layerStack)
                         layer->onRender();
                 }
@@ -67,8 +57,6 @@ namespace Varak {
 
     void Application::onEvent(Event& event)
     {
-        VR_PROFILE_FUNCTION();
-
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<WindowClosedEvent>(VR_BIND_FUNC(Application::onWindowClosed));
         dispatcher.dispatch<WindowResizedEvent>(VR_BIND_FUNC(Application::onWindowResized));
@@ -83,24 +71,18 @@ namespace Varak {
 
     void Application::pushLayer(Layer* layer)
     {
-        VR_PROFILE_FUNCTION();
-
         m_layerStack.pushLayer(layer);
         layer->onAttach();
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
-        VR_PROFILE_FUNCTION();
-
         m_layerStack.pushOverlay(overlay);
         overlay->onAttach();
     }
 
     void Application::popLayer(Layer* layer)
     {
-        VR_PROFILE_FUNCTION();
-
         if (m_layerStack.popLayer(layer))
             layer->onDetach();
         else
@@ -109,8 +91,6 @@ namespace Varak {
 
     void Application::popOverlay(Layer* overlay)
     {
-        VR_PROFILE_FUNCTION();
-
         if (m_layerStack.popLayer(overlay))
             overlay->onDetach();
         else
@@ -130,8 +110,6 @@ namespace Varak {
 
     bool Application::onWindowResized(WindowResizedEvent& event)
     {
-        VR_PROFILE_FUNCTION();
-
         if (event.getWidth() == 0 || event.getHeight() == 0)
         {
             m_minimized = true;

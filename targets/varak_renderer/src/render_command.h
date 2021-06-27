@@ -28,9 +28,9 @@ namespace Varak {
         };
 
         static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
-                                uint32_t indexCount = 0)
+                                uint32_t indicesCount = 0)
         {
-            s_rendererAPI->drawIndexed(vertexArray, indexCount);
+            s_rendererAPI->drawIndexed(vertexArray, indicesCount);
         };
 
     private:

@@ -13,7 +13,7 @@ namespace Varak {
         void clear() override;
 
         void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
-                         uint32_t indexCount = 0) override;
+                         uint32_t indicesCount = 0) override;
     };
 
 } // namespace Varak

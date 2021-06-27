@@ -14,8 +14,6 @@ namespace Varak {
 
     Window::Window(const WindowProperties& props)
     {
-        VR_PROFILE_FUNCTION();
-
         m_data.title = props.title;
         m_data.width = props.width;
         m_data.height = props.height;
@@ -25,16 +23,12 @@ namespace Varak {
 
         if (s_glfwWindowCount == 0)
         {
-            VR_PROFILE_SCOPE("glfwInit - Window::Window");
-
             int success = glfwInit();
             VR_CORE_ASSERT_MSG(success, "Could not initialize GLFW!");
             glfwSetErrorCallback(GLFWErrorCallback);
         }
 
         {
-            VR_PROFILE_SCOPE("glfwCreateWindow - Window::Window");
-
             if (Renderer::getAPI() == RendererAPI::API::OpenGL)
             {
                 // make glfw use OpenGL 4.5
@@ -174,8 +168,6 @@ namespace Varak {
 
     Window::~Window()
     {
-        VR_PROFILE_FUNCTION();
-
         glfwDestroyWindow(m_window);
         s_glfwWindowCount--;
 
@@ -187,16 +179,12 @@ namespace Varak {
 
     void Window::onUpdate()
     {
-        VR_PROFILE_FUNCTION();
-
         glfwPollEvents();
         m_context->swapBuffers();
     }
 
     void Window::setVSync(bool enabled)
     {
-        VR_PROFILE_FUNCTION();
-
         glfwSwapInterval(enabled);
         m_data.vSyncEnabled = enabled;
     }

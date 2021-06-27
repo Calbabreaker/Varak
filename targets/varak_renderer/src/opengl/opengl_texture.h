@@ -15,7 +15,7 @@ namespace Varak {
 
         uint32_t getWidth() const override { return m_width; };
         uint32_t getHeight() const override { return m_height; };
-        uint32_t getRendererID() const override { return m_rendererID; };
+        uint32_t getHandle() const override { return m_handle; };
 
         void setData(void* data, uint32_t size) override;
 
@@ -23,12 +23,12 @@ namespace Varak {
 
         bool operator==(const Texture& other) const override
         {
-            return m_rendererID == reinterpret_cast<const OpenGLTexture2D&>(other).m_rendererID;
+            return m_handle == reinterpret_cast<const OpenGLTexture2D&>(other).m_handle;
         }
 
     private:
         uint32_t m_width, m_height;
-        uint32_t m_rendererID;
+        uint32_t m_handle;
         GLenum m_internalFormat, m_dataFormat;
     };
 

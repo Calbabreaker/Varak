@@ -24,7 +24,7 @@ namespace Varak {
 
         virtual void resize(uint32_t width, uint32_t height) = 0;
 
-        virtual uint32_t getColorAttachmentRendererID() = 0;
+        virtual uint32_t getColorAttachmentHandle() = 0;
         virtual const FrameBufferProperties& getProperties() const = 0;
     };
 

@@ -12,8 +12,6 @@ namespace Varak {
 
     void OpenGLContext::init()
     {
-        VR_PROFILE_FUNCTION();
-
         glfwMakeContextCurrent(m_windowHandle);
         int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
         VR_CORE_ASSERT_MSG(status, "Failed to initialize glad!");
@@ -27,11 +25,6 @@ namespace Varak {
                            "Varak requires at least OpenGL version 4.5!");
     }
 
-    void OpenGLContext::swapBuffers()
-    {
-        VR_PROFILE_FUNCTION();
-
-        glfwSwapBuffers(m_windowHandle);
-    }
+    void OpenGLContext::swapBuffers() { glfwSwapBuffers(m_windowHandle); }
 
 } // namespace Varak

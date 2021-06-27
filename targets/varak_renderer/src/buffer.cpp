@@ -5,31 +5,20 @@
 
 namespace Varak {
 
-    std::shared_ptr<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
+    std::shared_ptr<VertexBuffer> VertexBuffer::create(const void* data, uint32_t size,
+                                                       bool isStatic)
     {
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+            return std::make_shared<OpenGLVertexBuffer>(data, size, isStatic);
         }
 
         VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    std::shared_ptr<VertexBuffer> VertexBuffer::create(uint32_t size)
-    {
-        switch (Renderer::getAPI())
-        {
-        case RendererAPI::API::OpenGL: //
-            return std::make_shared<OpenGLVertexBuffer>(size);
-        }
-
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
-    }
-
-    std::shared_ptr<IndexBuffer> IndexBuffer::create(uint32_t* indicies, uint32_t count)
+    std::shared_ptr<IndexBuffer> IndexBuffer::create(const uint16_t* indicies, uint32_t count)
     {
         switch (Renderer::getAPI())
         {

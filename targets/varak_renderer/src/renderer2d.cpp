@@ -44,38 +44,31 @@ namespace Varak {
 
     void Renderer2D::init()
     {
-        VR_PROFILE_FUNCTION();
-
         s_data.quadVertexArray = VertexArray::create();
 
         s_data.quadVertexBufer =
-            VertexBuffer::create(sizeof(QuadVertex) * Renderer2DData::maxVertices);
+            VertexBuffer::create(nullptr, sizeof(QuadVertex) * Renderer2DData::maxVertices, false);
 
-        s_data.quadVertexBufer->setLayout({
+        s_data.quadVertexBufer->setLayout(std::make_shared<BufferLayout>(BufferLayout({
             { ShaderDataType::Float3, "a_position" },    //
             { ShaderDataType::Float2, "a_texCoord" },    //
             { ShaderDataType::Float4, "a_color" },       //
             { ShaderDataType::Float1, "a_texIndex" },    //
             { ShaderDataType::Float1, "a_tilingFactor" } //
-        });
+        })));
         s_data.quadVertexArray->addVertexBuffer(s_data.quadVertexBufer);
 
         s_data.quadVertexBufferBase = new QuadVertex[Renderer2DData::maxVertices];
 
-        uint32_t* quadIndices = new uint32_t[Renderer2DData::maxIndices];
-        uint32_t offset = 0;
-
-        for (uint32_t i = 0; i < Renderer2DData::maxIndices; i += 6)
+        uint16_t* quadIndices = new uint16_t[Renderer2DData::maxIndices];
+        for (uint16_t i = 0, offset = 0; i < Renderer2DData::maxIndices; i += 6, offset += 4)
         {
             quadIndices[i + 0] = offset;
             quadIndices[i + 1] = offset + 1;
             quadIndices[i + 2] = offset + 2;
-
             quadIndices[i + 3] = offset + 2;
             quadIndices[i + 4] = offset + 3;
             quadIndices[i + 5] = offset + 0;
-
-            offset += 4;
         }
 
         std::shared_ptr<IndexBuffer> indexBuffer =
@@ -110,29 +103,17 @@ namespace Varak {
         s_data.quadVertexTexCoords[3] = { 0.0f, 1.0f };
     }
 
-    void Renderer2D::shutdown()
-    {
-        VR_PROFILE_FUNCTION();
-
-        delete[] s_data.quadVertexBufferBase;
-    }
+    void Renderer2D::shutdown() { delete[] s_data.quadVertexBufferBase; }
 
     void Renderer2D::beginScene(const glm::mat4& viewProj)
     {
-        VR_PROFILE_FUNCTION();
-
         s_data.textureShader->bind();
         s_data.textureShader->setMat4("u_viewProjection", viewProj);
 
         startBatch();
     }
 
-    void Renderer2D::endScene()
-    {
-        VR_PROFILE_FUNCTION();
-
-        flush();
-    }
+    void Renderer2D::endScene() { flush(); }
 
     void Renderer2D::startBatch()
     {
@@ -156,7 +137,7 @@ namespace Varak {
             static_cast<uint32_t>(reinterpret_cast<uint8_t*>(s_data.quadVertexBufferPtr) -
                                   reinterpret_cast<uint8_t*>(s_data.quadVertexBufferBase));
 
-        s_data.quadVertexBufer->setData(s_data.quadVertexBufferBase, size);
+        s_data.quadVertexBufer->setSubData(s_data.quadVertexBufferBase, size);
 
         // bind textures
         for (uint32_t i = 0; i < s_data.textureSlotIndex; i++)
@@ -169,8 +150,6 @@ namespace Varak {
 
     void Renderer2D::drawRect(const glm::mat4& transform, const glm::vec4& color)
     {
-        VR_PROFILE_FUNCTION();
-
         if (s_data.quadIndicesCount >= Renderer2DData::maxIndices)
             nextBatch();
 
@@ -194,8 +173,6 @@ namespace Varak {
                                  const glm::mat4& transform, float tilingFactor,
                                  const glm::vec4& tint)
     {
-        VR_PROFILE_FUNCTION();
-
         if (s_data.quadIndicesCount >= Renderer2DData::maxIndices)
             nextBatch();
 

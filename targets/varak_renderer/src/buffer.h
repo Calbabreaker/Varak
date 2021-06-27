@@ -45,16 +45,11 @@ namespace Varak {
     class BufferLayout
     {
     public:
-        BufferLayout() = default;
         BufferLayout(std::initializer_list<BufferElement> elements);
 
         int32_t getStride() const { return m_stride; }
+        size_t getCount() const { return m_elements.size(); }
         const std::vector<BufferElement>& getElements() const { return m_elements; }
-
-        std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
-        std::vector<BufferElement>::iterator end() { return m_elements.end(); }
-        std::vector<BufferElement>::const_iterator begin() const { return m_elements.begin(); }
-        std::vector<BufferElement>::const_iterator end() const { return m_elements.end(); }
 
     private:
         std::vector<BufferElement> m_elements;
@@ -64,25 +59,23 @@ namespace Varak {
     class VertexBuffer
     {
     public:
-        static std::shared_ptr<VertexBuffer> create(float* vertices, uint32_t size);
-        static std::shared_ptr<VertexBuffer> create(uint32_t size);
-
+        static std::shared_ptr<VertexBuffer> create(const void* data, uint32_t size,
+                                                    bool isStatic = true);
         virtual ~VertexBuffer() = default;
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
 
-        virtual void setData(const void* data, uint32_t size) = 0;
+        virtual void setSubData(const void* data, uint32_t size) = 0;
 
-        virtual const BufferLayout& getLayout() const = 0;
-        virtual void setLayout(const BufferLayout& layout) = 0;
+        virtual const std::shared_ptr<BufferLayout>& getLayout() const = 0;
+        virtual void setLayout(const std::shared_ptr<BufferLayout>& layout) = 0;
     };
 
     class IndexBuffer
     {
     public:
-        static std::shared_ptr<IndexBuffer> create(uint32_t* indicies, uint32_t count);
-
+        static std::shared_ptr<IndexBuffer> create(const uint16_t* indices, uint32_t count);
         virtual ~IndexBuffer() = default;
 
         virtual void bind() const = 0;

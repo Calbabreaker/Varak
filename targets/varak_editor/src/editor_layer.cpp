@@ -15,8 +15,6 @@ namespace Varak {
 
     void EditorLayer::onAttach()
     {
-        VR_PROFILE_FUNCTION();
-
         Window& window = Application::get().getWindow();
         uint32_t width = window.getWidth();
         uint32_t height = window.getHeight();
@@ -38,15 +36,10 @@ namespace Varak {
         m_cameraEntity.addComponent<CameraComponent>();
     }
 
-    void EditorLayer::onDetach()
-    {
-        VR_PROFILE_FUNCTION(); //
-    }
+    void EditorLayer::onDetach() {}
 
     void EditorLayer::onUpdate(Timestep ts)
     {
-        VR_PROFILE_FUNCTION();
-
         if (m_viewportFocused)
             m_editorCamera.onUpdate(ts);
 
@@ -55,8 +48,6 @@ namespace Varak {
 
     void EditorLayer::onRender()
     {
-        VR_PROFILE_FUNCTION();
-
         m_frameBuffer->bind();
         RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         RenderCommand::clear();
@@ -179,9 +170,8 @@ namespace Varak {
             }
         }
 
-        uint64_t rendererID = m_frameBuffer->getColorAttachmentRendererID();
-        ImGui::Image(reinterpret_cast<void*>(rendererID), viewportSize, { 0.0f, 1.0f },
-                     { 1.0f, 0.0f });
+        uint64_t handle = m_frameBuffer->getColorAttachmentHandle();
+        ImGui::Image(reinterpret_cast<void*>(handle), viewportSize, { 0.0f, 1.0f }, { 1.0f, 0.0f });
 
         ImGui::End(); // Viewport
         ImGui::PopStyleVar();

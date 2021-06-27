@@ -28,35 +28,28 @@ namespace Varak {
 
     OpenGLVertexArray::OpenGLVertexArray()
     {
-        VR_PROFILE_FUNCTION();
-
-        glCreateVertexArrays(1, &m_rendererID);
+        glCreateVertexArrays(1, &m_handle); //
     }
 
     OpenGLVertexArray::~OpenGLVertexArray()
     {
-        VR_PROFILE_FUNCTION();
-
-        glDeleteVertexArrays(1, &m_rendererID);
+        glDeleteVertexArrays(1, &m_handle); //
     }
 
     void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
     {
-        VR_PROFILE_FUNCTION();
-
-        glBindVertexArray(m_rendererID);
-        VR_CORE_ASSERT_MSG(vertexBuffer->getLayout().getElements().size(),
-                           "BufferLayout can not be empty!");
+        glBindVertexArray(m_handle);
+        VR_CORE_ASSERT_MSG(vertexBuffer->getLayout()->getCount(), "BufferLayout can not be empty!");
         vertexBuffer->bind();
         m_vertexBuffers.push_back(vertexBuffer);
 
         uint32_t index = 0;
-        for (auto& element : vertexBuffer->getLayout())
+        for (const BufferElement& element : vertexBuffer->getLayout()->getElements())
         {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index, element.getComponentCount(),
                                   shaderTypeOpenGL(element.type), element.normalized,
-                                  vertexBuffer->getLayout().getStride(),
+                                  vertexBuffer->getLayout()->getStride(),
                                   reinterpret_cast<const void*>(element.offset));
             index++;
         }
@@ -64,25 +57,19 @@ namespace Varak {
 
     void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
     {
-        VR_PROFILE_FUNCTION();
-
-        glBindVertexArray(m_rendererID);
+        glBindVertexArray(m_handle);
         indexBuffer->bind();
         m_indexBuffer = indexBuffer;
     }
 
     void OpenGLVertexArray::bind() const
     {
-        VR_PROFILE_FUNCTION();
-
-        glBindVertexArray(m_rendererID);
+        glBindVertexArray(m_handle); //
     }
 
     void OpenGLVertexArray::unbind() const
     {
-        VR_PROFILE_FUNCTION();
-
-        glBindVertexArray(GL_NONE);
+        glBindVertexArray(GL_NONE); //
     }
 
 } // namespace Varak

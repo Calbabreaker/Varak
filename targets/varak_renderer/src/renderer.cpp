@@ -5,17 +5,13 @@ namespace Varak {
 
     void Renderer::init()
     {
-        VR_PROFILE_FUNCTION();
-
         RenderCommand::init();
         Renderer2D::init();
     }
 
     void Renderer::shutdown()
     {
-        VR_PROFILE_FUNCTION();
-
-        Renderer2D::shutdown();
+        Renderer2D::shutdown(); //
     }
 
     void Renderer::onWindowResized(uint32_t width, uint32_t height)

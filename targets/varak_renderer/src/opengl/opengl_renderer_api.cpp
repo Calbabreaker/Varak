@@ -12,21 +12,18 @@ namespace Varak {
         {
             switch (severity)
             {
-            case GL_DEBUG_SEVERITY_LOW: VR_CORE_WARN(message); return;
-            case GL_DEBUG_SEVERITY_MEDIUM: VR_CORE_ERROR(message); return;
-            case GL_DEBUG_SEVERITY_HIGH: VR_CORE_CRITICAL(message); return;
-            case GL_DEBUG_SEVERITY_NOTIFICATION: VR_CORE_TRACE(message); return;
+            case GL_DEBUG_SEVERITY_LOW: VR_CORE_INFO(message); break;
+            case GL_DEBUG_SEVERITY_MEDIUM: VR_CORE_WARN(message); break;
+            case GL_DEBUG_SEVERITY_HIGH: VR_CORE_ERROR(message); break;
+            case GL_DEBUG_SEVERITY_NOTIFICATION: VR_CORE_TRACE(message); break;
+            default: VR_CORE_ASSERT_MSG(false, "Unknown severity level!"); break;
             }
-
-            VR_CORE_ASSERT_MSG(false, "Unknown severity level!");
         }
 
     } // namespace
 
     void OpenGLRendererAPI::init()
     {
-        VR_PROFILE_FUNCTION();
-
 #if VR_DEBUG
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -59,9 +56,9 @@ namespace Varak {
     }
 
     void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
-                                        uint32_t indexCount)
+                                        uint32_t indicesCount)
     {
-        uint32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
+        uint32_t count = indicesCount ? indicesCount : vertexArray->getIndexBuffer()->getCount();
 
         glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_INT, nullptr);
     }
