@@ -60,7 +60,7 @@ namespace Varak {
     {
         uint32_t count = indicesCount ? indicesCount : vertexArray->getIndexBuffer()->getCount();
 
-        glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_SHORT, nullptr);
     }
 
 } // namespace Varak
