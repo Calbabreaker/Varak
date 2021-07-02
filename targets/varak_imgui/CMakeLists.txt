@@ -5,7 +5,7 @@ add_library(ImGuiBackend
 
 target_compile_definitions(ImGuiBackend PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_link_libraries(ImGuiBackend
-    VarakCore glad imgui
+    CONAN_PKG::glad CONAN_PKG::glfw imgui
 )
 
 add_library(VarakImGui
@@ -13,7 +13,6 @@ add_library(VarakImGui
     src/imgui_layer.cpp
 )
 
-set_project_warnings(VarakImGui)
 target_include_directories(VarakImGui PRIVATE "src/")
 target_include_directories(VarakImGui INTERFACE "./")
 target_precompile_headers(VarakImGui REUSE_FROM VarakCore)

@@ -2,7 +2,7 @@
 
 Varak is a powerful cross-platform engine that can make applications such as games.  
 
-Note: Varak is currently in development and not much is done right now.
+Note: Varak is very much work in progess and not much is done right now.
 
 ## Getting Started
 
@@ -20,9 +20,7 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 ## Features to come
 
 - Fully functional editor
-- c# scripting
-- Cross-platform support (linux, macos, ios, android)
-- Support for more rendering APIs (DirextX, Metal, Vulkan)
-- 3D rendering
+- Scripting with c++ and other scripting languages
+- Full 3D rendering (PBR pipeline)
 - Audio
 - Physics

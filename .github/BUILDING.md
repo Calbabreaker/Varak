@@ -1,18 +1,20 @@
 # Building Varak!
 
-First make sure you have a compiler `cmake` and `conan` (can be installed
-through pip) installed. Make sure conan uses the new ABI or else it will fail:
+First make sure you have a compiler (`gcc`, `clang`, `mscv`, etc), `cmake` and
+`conan` (can be installed using `pip install --user conan`) installed. Also
+install `ccache` for faster build times.
+
+
+Now make a build folder, cd into it then run cmake to get the build files:
 
 ```sh
-conan profile update settings.compiler.libcxx=libstdc++11 default
+cmake .. 
 ```
 
-Now then make a build folder and cd into it and do these commands to get the
-build files.
+You could also use cmake-gui or ccmake.
 
-```sh
-conan install .. --build
-cmake .. -DCMAKE_BUILD_TYPE=DEBUG
-```
+Then use your output buildset to compile Varak. For example `make` or Visual Studio.
 
-Then use your output buildset to compile everything. For example `make` or Visual Studio.
+Make sure to run Varak executables like VarakEditor (at
+`build/target/varak_editor/VarakEditor`) from the root directory of the
+project.

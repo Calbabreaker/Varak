@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "log.h"
+
 #ifdef VR_DEBUG
     #if defined(__has_builtin) && !defined(__ibmxl__)
         #if __has_builtin(__builtin_debugtrap)

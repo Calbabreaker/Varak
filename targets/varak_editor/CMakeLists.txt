@@ -6,7 +6,6 @@ add_executable(VarakEditor
     src/panels/inspector_panel/inspector_panel.cpp
 )
 
-set_project_warnings(VarakEditor)
 target_include_directories(VarakEditor PRIVATE "src/")
 target_precompile_headers(VarakEditor REUSE_FROM VarakCore)
 target_link_libraries(VarakEditor 

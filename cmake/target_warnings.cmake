@@ -1,4 +1,4 @@
-function(set_project_warnings project_name)
+function(target_warnings TARGET VISIBILITY)
     set(MSVC_WARNINGS
         /W4 # Baseline reasonable warnings
         /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data
@@ -62,5 +62,5 @@ function(set_project_warnings project_name)
         message(AUTHOR_WARNING "No compiler warnings set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
     endif()
 
-    target_compile_options(${project_name} PRIVATE ${PROJECT_WARNINGS})
+    target_compile_options(${TARGET} ${VISIBILITY} ${PROJECT_WARNINGS})
 endfunction()

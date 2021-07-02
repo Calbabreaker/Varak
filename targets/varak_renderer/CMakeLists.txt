@@ -19,10 +19,9 @@ add_library(VarakRenderer
     src/opengl/opengl_vertex_array.cpp
 )
 
-set_project_warnings(VarakRenderer)
 target_include_directories(VarakRenderer PRIVATE "src/")
 target_include_directories(VarakRenderer INTERFACE "./")
 target_precompile_headers(VarakRenderer REUSE_FROM VarakCore)
 target_link_libraries(VarakRenderer 
-    VarakCore 
+    VarakCore CONAN_PKG::glad CONAN_PKG::stb CONAN_PKG::glm CONAN_PKG::glfw
 )

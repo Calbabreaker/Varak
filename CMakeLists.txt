@@ -1,33 +1,20 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 project(Varak LANGUAGES CXX)
 
-# ---- Checks ----
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose debug or release" FORCE)
-endif()
+include(cmake/conan.cmake)
+include(cmake/project_settings.cmake)
+include(cmake/target_warnings.cmake)
 
-if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
-    message(
-        FATAL_ERROR
-        "In-source builds not allowed. Please make a 'build/' directory and run 'cmake ../' from there."
-    )
-endif()
+run_conan()
+message(STATUS packages: ${CONAN_PKGS})
 
-# ---- Conan Setup ----
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+# ---- Subdirectories ----
 
-# do some hacking with imgui until docking gets merched into main
+# these definitions prevent pch to be used so we undefine them
+add_compile_options(-U_BSD_SOURCE -U_DEFAULT_SOURCE)
+
 add_subdirectory(cmake/imgui)
-set(CONAN_INCLUDE_DIRS ${CONAN_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/cmake/imgui/src)
-set(CONAN_LIBS ${CONAN_LIBS} imgui)
-
-set(CONAN_SYSTEM_INCLUDES "On")
-conan_basic_setup()
-
-# ---- Includes and Subdirectories ----
-
-include(cmake/project_warnings.cmake)
 
 add_subdirectory(targets/varak_core)
 
