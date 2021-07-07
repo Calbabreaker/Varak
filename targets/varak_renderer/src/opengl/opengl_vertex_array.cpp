@@ -47,9 +47,9 @@ namespace Varak {
         for (const BufferElement& element : vertexBuffer->getLayout()->getElements())
         {
             glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index, element.getComponentCount(),
+            glVertexAttribPointer(index, static_cast<int>(element.getComponentCount()),
                                   shaderTypeOpenGL(element.type), element.normalized,
-                                  vertexBuffer->getLayout()->getStride(),
+                                  static_cast<int>(vertexBuffer->getLayout()->getStride()),
                                   reinterpret_cast<const void*>(element.offset));
             index++;
         }

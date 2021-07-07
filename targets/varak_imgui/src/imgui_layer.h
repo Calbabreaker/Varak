@@ -1,7 +1,6 @@
 #pragma once
 
 #include "varak_app.h"
-#include "varak_event.h"
 
 namespace Varak {
 

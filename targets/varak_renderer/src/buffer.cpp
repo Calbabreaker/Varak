@@ -30,7 +30,7 @@ namespace Varak {
         return nullptr;
     }
 
-    int32_t shaderTypeSize(ShaderDataType type)
+    uint32_t shaderTypeSize(ShaderDataType type)
     {
         switch (type)
         {
@@ -62,7 +62,7 @@ namespace Varak {
         }
     }
 
-    int32_t BufferElement::getComponentCount() const
+    uint32_t BufferElement::getComponentCount() const
     {
         switch (type)
         {

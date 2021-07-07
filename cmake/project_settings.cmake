@@ -1,5 +1,6 @@
-# ---- Config ----
-if (NOT CMAKE_BUILD_TYPE)
+if(CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_CONFIGURATION_TYPES Debug Release)
+elseif(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose debug or release" FORCE)
 endif()
 
@@ -12,8 +13,6 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# enable Enable Interprocedural Optimization aka Link Time Optimization
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   add_compile_options(-fcolor-diagnostics)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

@@ -1,5 +1,4 @@
 #include "window.h"
-#include "varak_core.h"
 
 namespace Varak {
 

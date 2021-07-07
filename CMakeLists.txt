@@ -6,8 +6,6 @@ include(cmake/project_settings.cmake)
 include(cmake/target_warnings.cmake)
 
 run_conan()
-message(STATUS packages: ${CONAN_PKGS})
-
 
 # ---- Subdirectories ----
 
@@ -19,9 +17,10 @@ add_subdirectory(cmake/imgui)
 add_subdirectory(targets/varak_core)
 
 add_subdirectory(targets/varak_app)
+add_subdirectory(targets/varak_ecs)
 add_subdirectory(targets/varak_event)
 add_subdirectory(targets/varak_imgui)
+add_subdirectory(targets/varak_math)
 add_subdirectory(targets/varak_renderer)
-add_subdirectory(targets/varak_ecs)
 
 add_subdirectory(targets/varak_editor)

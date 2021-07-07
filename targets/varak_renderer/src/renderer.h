@@ -1,8 +1,8 @@
 #pragma once
 
-#include "camera.h"
 #include "render_command.h"
 #include "shader.h"
+#include "varak_math.h"
 
 namespace Varak {
 

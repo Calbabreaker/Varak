@@ -1,6 +1,5 @@
 add_library(VarakRenderer
     src/buffer.cpp
-    src/camera.cpp
     src/frame_buffer.cpp
     src/renderer2d.cpp
     src/renderer_api.cpp
@@ -23,5 +22,5 @@ target_include_directories(VarakRenderer PRIVATE "src/")
 target_include_directories(VarakRenderer INTERFACE "./")
 target_precompile_headers(VarakRenderer REUSE_FROM VarakCore)
 target_link_libraries(VarakRenderer 
-    VarakCore CONAN_PKG::glad CONAN_PKG::stb CONAN_PKG::glm CONAN_PKG::glfw
+    VarakMath CONAN_PKG::glad CONAN_PKG::stb CONAN_PKG::glfw
 )

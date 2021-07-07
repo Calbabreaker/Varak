@@ -23,15 +23,15 @@ namespace Varak {
         Bool
     };
 
-    int32_t shaderTypeSize(ShaderDataType type);
+    uint32_t shaderTypeSize(ShaderDataType type);
 
     struct BufferElement
     {
         ShaderDataType type;
         const char* name;
         bool normalized;
-        int32_t size;
-        int32_t offset;
+        uint32_t size;
+        uint32_t offset;
 
         BufferElement(ShaderDataType p_type, const char* p_name, bool p_normalized = false)
             : type(p_type), name(p_name), normalized(p_normalized), size(shaderTypeSize(p_type)),
@@ -39,7 +39,7 @@ namespace Varak {
         {
         }
 
-        int32_t getComponentCount() const;
+        uint32_t getComponentCount() const;
     };
 
     class BufferLayout
@@ -47,13 +47,13 @@ namespace Varak {
     public:
         BufferLayout(std::initializer_list<BufferElement> elements);
 
-        int32_t getStride() const { return m_stride; }
+        uint32_t getStride() const { return m_stride; }
         size_t getCount() const { return m_elements.size(); }
         const std::vector<BufferElement>& getElements() const { return m_elements; }
 
     private:
         std::vector<BufferElement> m_elements;
-        int32_t m_stride = 0;
+        uint32_t m_stride = 0;
     };
 
     class VertexBuffer

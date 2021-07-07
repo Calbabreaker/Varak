@@ -17,6 +17,6 @@ target_include_directories(VarakImGui PRIVATE "src/")
 target_include_directories(VarakImGui INTERFACE "./")
 target_precompile_headers(VarakImGui REUSE_FROM VarakCore)
 target_link_libraries(VarakImGui 
-    VarakApp ImGuiBackend VarakEvent 
+    VarakApp ImGuiBackend 
 )
 
