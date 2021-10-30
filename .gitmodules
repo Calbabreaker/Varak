@@ -1,6 +1,0 @@
-[submodule "cmake/imgui/src"]
-	path = cmake/imgui/src
-	url = https://github.com/ocornut/imgui
-    branch = docking
-[submodule "cmake/imgui/src"]
-	shallow = true
