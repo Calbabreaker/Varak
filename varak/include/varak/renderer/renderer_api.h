@@ -28,6 +28,8 @@ namespace Varak {
         virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray,
                                  uint32_t indexCount = 0) = 0;
 
+        static inline int maxTextureSlots = 0;
+
     private:
         inline static API s_API = API::OpenGL;
     };

@@ -7,7 +7,7 @@ namespace Varak {
 
     bool Input::isKeyPressed(KeyCode key)
     {
-        GLFWwindow* window = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* window = Application::get().getWindow().getHandle();
 
         int state = glfwGetKey(window, static_cast<int>(key));
         return state == GLFW_PRESS || state == GLFW_REPEAT;
@@ -15,7 +15,7 @@ namespace Varak {
 
     bool Input::isMouseButtonPressed(MouseCode button)
     {
-        GLFWwindow* window = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* window = Application::get().getWindow().getHandle();
 
         int state = glfwGetMouseButton(window, static_cast<int>(button));
         return state == GLFW_PRESS;
@@ -23,7 +23,7 @@ namespace Varak {
 
     glm::vec2 Input::getMousePosition()
     {
-        GLFWwindow* window = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* window = Application::get().getWindow().getHandle();
 
         double xPos, yPos;
         glfwGetCursorPos(window, &xPos, &yPos);
@@ -32,7 +32,7 @@ namespace Varak {
 
     float Input::getMouseX()
     {
-        GLFWwindow* window = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* window = Application::get().getWindow().getHandle();
 
         double xPos;
         glfwGetCursorPos(window, &xPos, nullptr);
@@ -41,7 +41,7 @@ namespace Varak {
 
     float Input::getMouseY()
     {
-        GLFWwindow* window = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* window = Application::get().getWindow().getHandle();
 
         double yPos;
         glfwGetCursorPos(window, nullptr, &yPos);

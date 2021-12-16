@@ -15,12 +15,8 @@ namespace Varak {
 
         void setSubData(const void* data, uint32_t size) override;
 
-        const std::shared_ptr<BufferLayout>& getLayout() const override { return m_layout; }
-        void setLayout(const std::shared_ptr<BufferLayout>& layout) override { m_layout = layout; }
-
     private:
         uint32_t m_handle;
-        std::shared_ptr<BufferLayout> m_layout;
     };
 
     class OpenGLIndexBuffer : public IndexBuffer

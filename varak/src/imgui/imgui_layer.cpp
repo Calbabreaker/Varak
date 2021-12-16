@@ -43,7 +43,7 @@ namespace Varak {
 
         setDarkThemeColors();
 
-        GLFWwindow* nativeWindow = Application::get().getWindow().getNativeWindow();
+        GLFWwindow* nativeWindow = Application::get().getWindow().getHandle();
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(nativeWindow, true);

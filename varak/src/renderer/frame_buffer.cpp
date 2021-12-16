@@ -11,10 +11,9 @@ namespace Varak {
         {
         case RendererAPI::API::OpenGL: //
             return std::make_shared<OpenGLFrameBuffer>(props);
-        }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+        default: VR_CORE_ASSERT_MSG(false, "FrameBuffer unimplented for api!"); return nullptr;
+        }
     }
 
 } // namespace Varak

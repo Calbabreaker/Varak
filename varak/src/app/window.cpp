@@ -13,7 +13,7 @@ namespace Varak {
     {
         VR_CORE_ASSERT_RELEASE(error != GLFW_VERSION_UNAVAILABLE,
                                "OpenGL version must be at least 4.5!");
-        VR_CORE_ASSERT_RELEASE(false, "GLFW Error ({0}): {1}", error, description);
+        VR_CORE_ASSERT_RELEASE(false, "GLFW Error ({}): {}", error, description);
     }
 
     Window::Window(const WindowProperties& props)
@@ -22,7 +22,7 @@ namespace Varak {
         m_data.width = props.width;
         m_data.height = props.height;
 
-        VR_CORE_INFO("Creating window: {0} ({1} by {2}). Count: {3}", m_data.title, m_data.width,
+        VR_CORE_INFO("Creating window: '{}' ({} by {}). Count: {}", m_data.title, m_data.width,
                      m_data.height, s_glfwWindowCount + 1);
 
         if (s_glfwWindowCount == 0)
@@ -32,35 +32,30 @@ namespace Varak {
             glfwSetErrorCallback(GLFWErrorCallback);
         }
 
+        if (Renderer::getAPI() == RendererAPI::API::OpenGL)
         {
-            if (Renderer::getAPI() == RendererAPI::API::OpenGL)
-            {
-                // make glfw use OpenGL 4.5
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef VR_DEBUG
-                glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+            // make glfw use OpenGL 4.5
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#if VR_DEBUG
+            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-            }
-
-            m_window =
-                glfwCreateWindow(static_cast<int>(m_data.width), static_cast<int>(m_data.height),
-                                 m_data.title.c_str(), nullptr, nullptr);
-
-            VR_CORE_ASSERT_MSG(m_window, "Could not create Window!");
-            s_glfwWindowCount++;
         }
 
-        m_context = RenderingContext::create(m_window);
-        m_context->init();
+        m_handle = glfwCreateWindow(static_cast<int>(m_data.width), static_cast<int>(m_data.height),
+                                    m_data.title.c_str(), nullptr, nullptr);
+        glfwMakeContextCurrent(m_handle);
 
-        glfwSetWindowUserPointer(m_window, &m_data);
+        VR_CORE_ASSERT_MSG(m_handle, "Could not create Window!");
+        s_glfwWindowCount++;
+
+        glfwSetWindowUserPointer(m_handle, &m_data);
         setVSync(true);
 
         // set glfw callbacks
-        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetWindowSizeCallback(m_handle, [](GLFWwindow* handle, int width, int height) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
             data.width = static_cast<uint32_t>(width);
             data.height = static_cast<uint32_t>(height);
 
@@ -68,15 +63,15 @@ namespace Varak {
             data.eventCallback(event);
         });
 
-        glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetWindowCloseCallback(m_handle, [](GLFWwindow* handle) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
             WindowClosedEvent event;
             data.eventCallback(event);
         });
 
-        glfwSetWindowFocusCallback(m_window, [](GLFWwindow* window, int focus) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetWindowFocusCallback(m_handle, [](GLFWwindow* handle, int focus) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
             if (focus)
             {
@@ -93,8 +88,8 @@ namespace Varak {
         // missing window move
 
         glfwSetKeyCallback(
-            m_window, [](GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
-                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            m_handle, [](GLFWwindow* handle, int key, int /*scancode*/, int action, int /*mods*/) {
+                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
                 switch (action)
                 {
@@ -121,16 +116,16 @@ namespace Varak {
                 }
             });
 
-        glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int keycode) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetCharCallback(m_handle, [](GLFWwindow* handle, unsigned int keycode) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
             KeyTypedEvent event(static_cast<KeyCode>(keycode));
             data.eventCallback(event);
         });
 
         glfwSetMouseButtonCallback(
-            m_window, [](GLFWwindow* window, int button, int action, int /*mods*/) {
-                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            m_handle, [](GLFWwindow* handle, int button, int action, int /*mods*/) {
+                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
                 switch (action)
                 {
@@ -150,15 +145,15 @@ namespace Varak {
                 }
             });
 
-        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetScrollCallback(m_handle, [](GLFWwindow* handle, double xOffset, double yOffset) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
             MouseScrolledEvent event({ static_cast<float>(xOffset), static_cast<float>(yOffset) });
             data.eventCallback(event);
         });
 
-        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
-            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        glfwSetCursorPosCallback(m_handle, [](GLFWwindow* handle, double xPos, double yPos) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(handle));
 
             glm::vec2 position = { static_cast<float>(xPos), static_cast<float>(yPos) };
             static glm::vec2 lastMousePos = position;
@@ -172,19 +167,18 @@ namespace Varak {
 
     Window::~Window()
     {
-        glfwDestroyWindow(m_window);
+        VR_CORE_INFO("Destroying window '{}'...", m_data.title);
+        glfwDestroyWindow(m_handle);
         s_glfwWindowCount--;
 
         if (s_glfwWindowCount == 0)
-        {
             glfwTerminate();
-        }
     }
 
     void Window::onUpdate()
     {
         glfwPollEvents();
-        m_context->swapBuffers();
+        glfwSwapBuffers(m_handle);
     }
 
     void Window::setVSync(bool enabled)

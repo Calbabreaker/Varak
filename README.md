@@ -1,26 +1,28 @@
 # Varak Engine
 
-Varak is a powerful cross-platform engine that can make applications such as games.  
+Varak is a powerful cross-platform engine that can make applications such as games.
 
 Note: Varak is very much work in progess and not much is done right now.
 
-## Getting Started
+## Building
 
-Start by cloning Varak: `git clone --recursive https://github.com/Calbabreaker/Varak`.
+Requirements:
 
-Make sure to use `--recursive` to clone the submodules. If it wasn't used, then
-do `git submodule update --init` to get the submodules.
+-   Git >= 2.27
+-   Python >= 3.6
+-   CMake >= 3.16
+-   Any cpp compiler
 
-Then read [BUILDING.md](.github/BUILDING.md) for build instructions.
+Start by cloning Varak: `git clone https://github.com/Calbabreaker/Varak --depth 1`.
 
-## Contributing
-
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+Then make a build folder and run `cmake ..` then use the output buildset to
+compile it (eg. `make`). Then make sure to the output Varak Editor executable
+(located at build/bin/varak_editor) from the project folder.
 
 ## Features to come
 
-- Fully functional editor
-- Scripting with c++ and other scripting languages
-- Full 3D rendering (PBR pipeline)
-- Audio
-- Physics
+-   Fully functional editor
+-   Scripting with c++ and other scripting languages
+-   Full 3D rendering (PBR pipeline)
+-   Audio
+-   Physics

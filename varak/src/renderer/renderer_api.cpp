@@ -10,10 +10,9 @@ namespace Varak {
         {
         case RendererAPI::API::OpenGL: //
             return std::make_unique<OpenGLRendererAPI>();
-        }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+        default: VR_CORE_ASSERT_MSG(false, "RendererAPI unimplemented for api!"); return nullptr;
+        }
     }
 
 } // namespace Varak

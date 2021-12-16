@@ -3,31 +3,67 @@
 
 #include "opengl/opengl_shader.h"
 
+#include <filesystem>
+#include <fstream>
+
 namespace Varak {
 
-    std::shared_ptr<Shader> Shader::create(const std::string& name, const std::string& vertexSrc,
-                                           const std::string& fragmentSrc)
+    const char* shaderTypeName(ShaderType shaderType)
     {
-        switch (Renderer::getAPI())
+        switch (shaderType)
         {
-        case RendererAPI::API::OpenGL: //
-            return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+        case ShaderType::Vertex: return "vertex";
+        case ShaderType::Fragment: return "fragment";
+        case ShaderType::None: return "none";
+        default: VR_CORE_ASSERT_MSG(false, "Unknown shader type!"); return "";
         }
+    }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+    static void parseShaderFile(const std::string& filepath, ShaderSourcesMap& outShaderSources)
+    {
+        std::ifstream inFile(filepath);
+        VR_CORE_ASSERT_RELEASE(inFile, "File does not exist at {0}!", filepath);
+
+        std::string line;
+        ShaderType currentType = ShaderType::None;
+
+        while (std::getline(inFile, line))
+        {
+            // is a shader type declaration
+            if (line.find("#type") != std::string::npos)
+            {
+                // get the type
+                if (line.find("vertex") != std::string::npos)
+                    currentType = ShaderType::Vertex;
+                else if (line.find("fragment") != std::string::npos)
+                    currentType = ShaderType::Fragment;
+                else
+                    VR_CORE_ASSERT_MSG(false, "Invalid shader type specified!");
+            }
+            else if (currentType != ShaderType::None)
+            {
+                std::string& source = outShaderSources[currentType];
+                source += line;
+                source += '\n';
+            }
+        }
     }
 
     std::shared_ptr<Shader> Shader::create(const std::string& filepath)
     {
+        ShaderSourcesMap shaderSources;
+        parseShaderFile(filepath, shaderSources);
+
+        std::filesystem::path path = filepath;
+        std::string name = path.stem().string();
+
         switch (Renderer::getAPI())
         {
         case RendererAPI::API::OpenGL: //
-            return std::make_shared<OpenGLShader>(filepath);
-        }
+            return std::make_shared<OpenGLShader>(name, shaderSources);
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+        default: VR_CORE_ASSERT_MSG(false, "Shader unimplemented for api!"); return nullptr;
+        }
     }
 
     void ShaderLibrary::add(const std::shared_ptr<Shader>& shader)
@@ -37,7 +73,7 @@ namespace Varak {
 
     void ShaderLibrary::add(const std::string& name, const std::shared_ptr<Shader>& shader)
     {
-        VR_CORE_ASSERT_MSG(!exists(name), "Shader '{0}' already exists!", name);
+        VR_CORE_ASSERT_MSG(!exists(name), "Shader '{}' already exists!", name);
         m_shaders[name] = shader;
     }
 
@@ -58,7 +94,7 @@ namespace Varak {
 
     std::shared_ptr<Shader> ShaderLibrary::get(const std::string& name)
     {
-        VR_CORE_ASSERT_MSG(exists(name), "Shader '{0}' does not exist!", name);
+        VR_CORE_ASSERT_MSG(exists(name), "Shader '{}' does not exist!", name);
         return m_shaders[name];
     }
 

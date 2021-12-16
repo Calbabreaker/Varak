@@ -9,9 +9,7 @@ namespace Varak {
     class OpenGLShader : public Shader
     {
     public:
-        OpenGLShader(const std::string& name, const std::string& vertexSrc,
-                     const std::string& fragmentSrc);
-        OpenGLShader(const std::string& filepath);
+        OpenGLShader(const std::string& name, const ShaderSourcesMap& sources);
         ~OpenGLShader();
 
         void bind() const override;

@@ -8,6 +8,7 @@ namespace Varak {
 
     Application::Application(const WindowProperties& windowProperties)
     {
+        VR_CORE_INFO("Initializing application...");
         VR_CORE_ASSERT_MSG(!s_instance, "Aplication already exists!");
         s_instance = this;
 
@@ -19,6 +20,7 @@ namespace Varak {
 
     Application::~Application()
     {
+        VR_CORE_INFO("Shutting down application...");
         for (Layer* layer : m_layerStack)
         {
             layer->onDetach();
@@ -38,15 +40,11 @@ namespace Varak {
 
             if (!m_minimized)
             {
-                {
-                    for (Layer* layer : m_layerStack)
-                        layer->onUpdate(ts);
-                }
+                for (Layer* layer : m_layerStack)
+                    layer->onUpdate(ts);
 
-                {
-                    for (Layer* layer : m_layerStack)
-                        layer->onRender();
-                }
+                for (Layer* layer : m_layerStack)
+                    layer->onRender();
             }
 
             m_window->onUpdate();

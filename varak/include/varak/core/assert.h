@@ -4,7 +4,7 @@
 
 #include "varak/core/log.h"
 
-#ifdef VR_DEBUG
+#if VR_DEBUG
     #if defined(__has_builtin) && !defined(__ibmxl__)
         #if __has_builtin(__builtin_debugtrap)
             #define VR_DEBUGBREAK() __builtin_debugtrap()
@@ -87,7 +87,7 @@ static inline void VR_DEBUGBREAK(void)
     // assertion macros.
     #define VR_INTERNAL_ASSERT(type, expr, ...)                                                    \
         if (!(expr))                                                                               \
-        VR##type##ERROR(__VA_ARGS__), VR_DEBUGBREAK()
+        VR##type##CRITICAL(__VA_ARGS__), VR_DEBUGBREAK()
 
     #define VR_INTERNAL_ASSERT_MSG(type, expr, msg, ...)                                           \
         VR_INTERNAL_ASSERT(type, expr, "Assertion failed: " msg, ##__VA_ARGS__)
@@ -117,7 +117,7 @@ static inline void VR_DEBUGBREAK(void)
 // TODO: make this use a popup error message box
 #define VR_INTERNAL_ASSERT_RELEASE(type, expr, msg, ...)                                           \
     if (!(expr))                                                                                   \
-    VR##type##ERROR("ERROR: " msg, ##__VA_ARGS__), exit(-1)
+    VR##type##CRITICAL("ERROR: " msg, ##__VA_ARGS__), exit(-1)
 
 #define VR_CORE_ASSERT_RELEASE(expr, msg, ...)                                                     \
     VR_INTERNAL_ASSERT_RELEASE(_CORE_, expr, msg, ##__VA_ARGS__)

@@ -19,19 +19,17 @@ namespace Varak {
         static const uint32_t maxQuads = 10000;
         static const uint32_t maxVertices = maxQuads * 4;
         static const uint32_t maxIndices = maxQuads * 6;
-        // TODO: figure out max for device
-        static const uint32_t maxTextureSlots = 32;
 
         std::shared_ptr<Shader> textureShader;
-        std::shared_ptr<VertexArray> quadVertexArray;
-        std::shared_ptr<VertexBuffer> quadVertexBufer;
+        std::shared_ptr<VertexArray> renderVertexArray;
+        std::shared_ptr<VertexBuffer> renderVertexBuffer;
         std::shared_ptr<Texture2D> whiteTexture;
 
-        QuadVertex* quadVertexBufferBase;
+        std::vector<QuadVertex> quadVertexBufferArray;
         QuadVertex* quadVertexBufferPtr;
         uint32_t quadIndicesCount;
 
-        std::array<std::shared_ptr<Texture>, maxTextureSlots> textureSlots;
+        std::vector<std::shared_ptr<Texture>> textureSlots;
         uint32_t textureSlotIndex = 1; // 0 = white texture
 
         std::array<glm::vec4, 4> quadVertexPositions;
@@ -44,21 +42,23 @@ namespace Varak {
 
     void Renderer2D::init()
     {
-        s_data.quadVertexArray = VertexArray::create();
+        s_data.renderVertexArray = VertexArray::create();
 
-        s_data.quadVertexBufer =
+        s_data.renderVertexBuffer =
             VertexBuffer::create(nullptr, sizeof(QuadVertex) * Renderer2DData::maxVertices, false);
 
-        s_data.quadVertexBufer->setLayout(std::make_shared<BufferLayout>(BufferLayout({
-            { ShaderDataType::Float3, "a_position" },    //
-            { ShaderDataType::Float2, "a_texCoord" },    //
-            { ShaderDataType::Float4, "a_color" },       //
-            { ShaderDataType::Float1, "a_texIndex" },    //
-            { ShaderDataType::Float1, "a_tilingFactor" } //
-        })));
-        s_data.quadVertexArray->addVertexBuffer(s_data.quadVertexBufer);
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "a_position" },     //
+            { ShaderDataType::Float2, "a_textureCoord" }, //
+            { ShaderDataType::Float4, "a_color" },        //
+            { ShaderDataType::Float1, "a_textureIndex" }, //
+            { ShaderDataType::Float1, "a_tilingFactor" }  //
+        };
 
-        s_data.quadVertexBufferBase = new QuadVertex[Renderer2DData::maxVertices];
+        s_data.renderVertexBuffer->setLayout(&layout);
+        s_data.renderVertexArray->addVertexBuffer(s_data.renderVertexBuffer);
+
+        s_data.quadVertexBufferArray.reserve(Renderer2DData::maxVertices);
 
         uint16_t* quadIndices = new uint16_t[Renderer2DData::maxIndices];
         for (uint16_t i = 0, offset = 0; i < Renderer2DData::maxIndices; i += 6, offset += 4)
@@ -73,21 +73,23 @@ namespace Varak {
 
         std::shared_ptr<IndexBuffer> indexBuffer =
             IndexBuffer::create(quadIndices, Renderer2DData::maxIndices);
-        s_data.quadVertexArray->setIndexBuffer(indexBuffer);
+        s_data.renderVertexArray->setIndexBuffer(indexBuffer);
         delete[] quadIndices;
 
         s_data.whiteTexture = Texture2D::create(1, 1);
         uint32_t whiteTextureData = 0xffffffff;
-        s_data.whiteTexture->setData(&whiteTextureData, sizeof(uint32_t));
+        s_data.whiteTexture->setData(&whiteTextureData);
 
         s_data.textureShader = Shader::create("assets/shaders/texture.glsl");
         s_data.textureShader->bind();
 
-        int32_t samplers[s_data.maxTextureSlots];
-        for (uint32_t i = 0; i < s_data.maxTextureSlots; i++)
+        int maxTextureSlots = RendererAPI::maxTextureSlots;
+        s_data.textureSlots.reserve(maxTextureSlots);
+        int32_t samplers[maxTextureSlots];
+        for (uint32_t i = 0; i < maxTextureSlots; i++)
             samplers[i] = static_cast<int32_t>(i);
 
-        s_data.textureShader->setIntArray("u_textures", samplers, s_data.maxTextureSlots);
+        s_data.textureShader->setIntArray("u_textures", samplers, maxTextureSlots);
 
         // white texture
         s_data.textureSlots[0] = s_data.whiteTexture;
@@ -103,7 +105,14 @@ namespace Varak {
         s_data.quadVertexTexCoords[3] = { 0.0f, 1.0f };
     }
 
-    void Renderer2D::shutdown() { delete[] s_data.quadVertexBufferBase; }
+    void Renderer2D::shutdown()
+    {
+        // set to nullptr to lower refcount and destroy
+        s_data.textureShader = nullptr;
+        s_data.renderVertexBuffer = nullptr;
+        s_data.renderVertexArray = nullptr;
+        s_data.whiteTexture = nullptr;
+    }
 
     void Renderer2D::beginScene(const glm::mat4& viewProj)
     {
@@ -118,7 +127,7 @@ namespace Varak {
     void Renderer2D::startBatch()
     {
         s_data.quadIndicesCount = 0;
-        s_data.quadVertexBufferPtr = s_data.quadVertexBufferBase;
+        s_data.quadVertexBufferPtr = s_data.quadVertexBufferArray.data();
         s_data.textureSlotIndex = 1;
     }
 
@@ -133,17 +142,17 @@ namespace Varak {
         if (s_data.quadIndicesCount == 0)
             return;
 
+        QuadVertex* arrayPtr = s_data.quadVertexBufferArray.data();
         uint32_t size =
             static_cast<uint32_t>(reinterpret_cast<uint8_t*>(s_data.quadVertexBufferPtr) -
-                                  reinterpret_cast<uint8_t*>(s_data.quadVertexBufferBase));
-
-        s_data.quadVertexBufer->setSubData(s_data.quadVertexBufferBase, size);
+                                  reinterpret_cast<uint8_t*>(arrayPtr));
+        s_data.renderVertexBuffer->setSubData(arrayPtr, size);
 
         // bind textures
         for (uint32_t i = 0; i < s_data.textureSlotIndex; i++)
             s_data.textureSlots[i]->bind(i);
 
-        RenderCommand::drawIndexed(s_data.quadVertexArray, s_data.quadIndicesCount);
+        RenderCommand::drawIndexed(s_data.renderVertexArray, s_data.quadIndicesCount);
 
         s_data.stats.drawCalls++;
     }
@@ -177,20 +186,20 @@ namespace Varak {
             nextBatch();
 
         // find texture slot
-        float textureIndex = 0.0f;
-        for (uint32_t i = 1; i < s_data.textureSlotIndex; i++)
+        uint8_t textureIndex = 0;
+        for (uint8_t i = 1; i < s_data.textureSlotIndex; i++)
         {
             if (*texture == *s_data.textureSlots[i])
             {
-                textureIndex = static_cast<float>(i);
+                textureIndex = i;
                 break;
             }
         }
 
         // if not found then put into array
-        if (textureIndex == 0.0f)
+        if (textureIndex == 0)
         {
-            if (s_data.textureSlotIndex >= Renderer2DData::maxTextureSlots)
+            if (s_data.textureSlotIndex >= s_data.textureSlots.capacity())
                 nextBatch();
 
             textureIndex = static_cast<float>(s_data.textureSlotIndex);
@@ -203,7 +212,7 @@ namespace Varak {
             s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
             s_data.quadVertexBufferPtr->color = tint;
             s_data.quadVertexBufferPtr->texCoord = s_data.quadVertexTexCoords[i];
-            s_data.quadVertexBufferPtr->texIndex = textureIndex;
+            s_data.quadVertexBufferPtr->texIndex = static_cast<float>(textureIndex);
             s_data.quadVertexBufferPtr->tilingFactor = tilingFactor;
 
             s_data.quadVertexBufferPtr++;

@@ -5,12 +5,14 @@ namespace Varak {
 
     void Renderer::init()
     {
+        VR_CORE_INFO("Initializing renderer...");
         RenderCommand::init();
         Renderer2D::init();
     }
 
     void Renderer::shutdown()
     {
+        VR_CORE_INFO("Shutting down renderer...");
         Renderer2D::shutdown(); //
     }
 

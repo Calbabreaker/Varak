@@ -1,7 +1,6 @@
 #pragma once
 
 #include "varak/event/event.h"
-#include "varak/renderer/rendering_context.h"
 
 #include <GLFW/glfw3.h>
 #include <functional>
@@ -42,10 +41,10 @@ namespace Varak {
         void setVSync(bool enabled);
         bool isVSync() const;
 
-        GLFWwindow* getNativeWindow() const { return m_window; }
+        GLFWwindow* getHandle() const { return m_handle; }
 
     private:
-        GLFWwindow* m_window;
+        GLFWwindow* m_handle;
 
         struct WindowData
         {
@@ -57,7 +56,6 @@ namespace Varak {
         };
 
         WindowData m_data;
-        std::unique_ptr<RenderingContext> m_context;
     };
 
 } // namespace Varak

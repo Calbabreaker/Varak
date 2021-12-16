@@ -5,20 +5,8 @@
 
 namespace Varak {
 
-    OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
+    OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, int channels)
     {
-        stbi_set_flip_vertically_on_load(1);
-
-        int width, height, channels;
-        stbi_uc* data = nullptr;
-        {
-            data = stbi_load(filepath.c_str(), &width, &height, &channels, 4);
-        }
-
-        VR_CORE_ASSERT_MSG(data, "Failed to load image at {0}!", filepath);
-        m_width = static_cast<uint32_t>(width);
-        m_height = static_cast<uint32_t>(height);
-
         GLenum internalFormat = GL_NONE, dataFormat = GL_NONE;
         if (channels == 4)
         {
@@ -31,20 +19,7 @@ namespace Varak {
             dataFormat = GL_RGB;
         }
 
-        VR_CORE_ASSERT_MSG(internalFormat & dataFormat, "Format not supported with image at {0}!",
-                           filepath);
-
-        glCreateTextures(GL_TEXTURE_2D, 1, &m_handle);
-        glTextureStorage2D(m_handle, 1, internalFormat, width, height);
-
-        glTextureParameteri(m_handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_handle, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTextureParameteri(m_handle, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTextureParameteri(m_handle, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glTextureSubImage2D(m_handle, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
-
-        stbi_image_free(data);
+        createTexture();
     }
 
     OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
@@ -52,12 +27,13 @@ namespace Varak {
     {
         m_internalFormat = GL_RGBA8;
         m_dataFormat = GL_RGBA;
+        createTexture();
+    }
 
-        int widthInt = static_cast<int>(m_width);
-        int heightInt = static_cast<int>(m_height);
-
+    void OpenGLTexture2D::createTexture()
+    {
         glCreateTextures(GL_TEXTURE_2D, 1, &m_handle);
-        glTextureStorage2D(m_handle, 1, m_internalFormat, widthInt, heightInt);
+        glTextureStorage2D(m_handle, 1, m_internalFormat, int(m_width), int(m_height));
 
         glTextureParameteri(m_handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(m_handle, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -70,15 +46,10 @@ namespace Varak {
         glDeleteTextures(1, &m_handle); //
     }
 
-    void OpenGLTexture2D::setData(void* data, uint32_t size)
+    void OpenGLTexture2D::setData(const void* data)
     {
-        uint32_t bpp = m_dataFormat == GL_RGBA ? 4 : 3;
-        int widthInt = static_cast<int>(m_width);
-        int heightInt = static_cast<int>(m_height);
-
-        VR_CORE_ASSERT_MSG(size == m_width * m_height * bpp, "Data must be entire texture!");
-        glTextureSubImage2D(m_handle, 0, 0, 0, widthInt, heightInt, m_dataFormat, GL_UNSIGNED_BYTE,
-                            data);
+        glTextureSubImage2D(m_handle, 0, 0, 0, int(m_width), int(m_height), m_dataFormat,
+                            GL_UNSIGNED_BYTE, data);
     }
 
     void OpenGLTexture2D::bind(uint32_t slot) const

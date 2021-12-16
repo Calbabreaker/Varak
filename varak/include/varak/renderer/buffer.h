@@ -68,8 +68,11 @@ namespace Varak {
 
         virtual void setSubData(const void* data, uint32_t size) = 0;
 
-        virtual const std::shared_ptr<BufferLayout>& getLayout() const = 0;
-        virtual void setLayout(const std::shared_ptr<BufferLayout>& layout) = 0;
+        const BufferLayout* getLayout() const { return m_layout; }
+        void setLayout(const BufferLayout* layout) { m_layout = layout; }
+
+    private:
+        const BufferLayout* m_layout;
     };
 
     class IndexBuffer

@@ -8,11 +8,20 @@
 
 namespace Varak {
 
+    enum class ShaderType
+    {
+        Vertex,
+        Fragment,
+        None,
+    };
+
+    const char* shaderTypeName(ShaderType shaderType);
+
+    using ShaderSourcesMap = std::unordered_map<ShaderType, std::string>;
+
     class Shader
     {
     public:
-        static std::shared_ptr<Shader> create(const std::string& name, const std::string& vertexSrc,
-                                              const std::string& fragmentSrc);
         static std::shared_ptr<Shader> create(const std::string& filepath);
 
         virtual ~Shader() = default;

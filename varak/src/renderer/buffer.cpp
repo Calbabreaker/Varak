@@ -12,10 +12,9 @@ namespace Varak {
         {
         case RendererAPI::API::OpenGL: //
             return std::make_shared<OpenGLVertexBuffer>(data, size, isStatic);
-        }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+        default: VR_CORE_ASSERT_MSG(false, "VertexBuffer unimplemented for api!"); return nullptr;
+        }
     }
 
     std::shared_ptr<IndexBuffer> IndexBuffer::create(const uint16_t* indicies, uint32_t count)
@@ -24,10 +23,9 @@ namespace Varak {
         {
         case RendererAPI::API::OpenGL: //
             return std::make_shared<OpenGLIndexBuffer>(indicies, count);
-        }
 
-        VR_CORE_ASSERT_MSG(false, "Unknown RendererAPI!");
-        return nullptr;
+        default: VR_CORE_ASSERT_MSG(false, "IndexBuffer unimplemented for api!"); return nullptr;
+        }
     }
 
     uint32_t shaderTypeSize(ShaderDataType type)

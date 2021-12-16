@@ -1,5 +1,6 @@
 #include "opengl_renderer_api.h"
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace Varak {
@@ -24,7 +25,17 @@ namespace Varak {
 
     void OpenGLRendererAPI::init()
     {
+        VR_CORE_INFO("Initializing OpenGL graphics api...");
+        int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+        VR_CORE_ASSERT_MSG(status, "Failed to initialize glad!");
+
+        VR_CORE_INFO("OpenGL Info: ");
+        VR_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+        VR_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+        VR_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+
 #if VR_DEBUG
+        VR_CORE_INFO("Enabling OpenGL debug messages...");
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(OpenGLMessageCallback, nullptr);
@@ -37,6 +48,8 @@ namespace Varak {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glEnable(GL_DEPTH_TEST);
+
+        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &RendererAPI::maxTextureSlots);
     }
 
     void OpenGLRendererAPI::setClearColor(const glm::vec4& color)
